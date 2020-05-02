@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+
 import uuid from "uuid/v4";
 import Card from '@material-ui/core/Card';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import classes from "./Todolist.module.css"
+import ItemModal from './ItemModal';
 
 const itemsFromBackend = [
   {id: uuid(), content: "First task"},
@@ -93,9 +95,8 @@ const Todolist = () => {
         items: copiedItems
       }
     });
-  };
+  }; 
   
-
   return (
     <div className={classes.outerDragdropCon}>
       <DragDropContext onDragEnd={(result) => onDragEnd(result, columns, setColumns)} >
@@ -137,7 +138,8 @@ const Todolist = () => {
                       );
                     }}
                   </Droppable>
-                  <Button onClick={() => addTask(id)}>add</Button>
+                  <ItemModal />
+                  {/* <Button onClick={() => addTask(id)}>add</Button> */}
                   </div>
                   </div>
                 )}
