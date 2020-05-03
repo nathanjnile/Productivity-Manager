@@ -35,3 +35,9 @@ export const columnMoved = (source, destination) => {
     }
         
 }
+
+export const addBoard = () => {
+    return {
+        type: actionTypes.ADD_BOARD
+    }
+}

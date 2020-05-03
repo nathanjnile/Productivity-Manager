@@ -109,12 +109,29 @@ const columnMoved = (state, action) => {
   };
 }
 
+const addBoard = (state, action) => {
+  // const {task, id} = action;
+  const { columns } = state;
+  // console.log(columns[id]);
+  // const column = columns[id];
+  // const copiedColumns = [...columns];
+  // copiedColumns.push({[uuid()]: {name: "New Board", items: []}});
+    return {
+      ...state,
+      columns : {
+        ...columns,
+        [uuid()]: {name: "New Board", items: []}
+        }
+      }
+    };
+
 const reducer =(state = initialState, action) => {
     switch (action.type) {
         case actionType.ADD_TASK: return addTask(state, action);
         case actionType.TASK_MOVED: return taskMoved(state, action);
         case actionType.TASK_MOVED_COLUMN: return taskMovedColumn(state, action);
         case actionType.COLUMN_MOVED: return columnMoved(state, action);
+        case actionType.ADD_BOARD: return addBoard(state, action);
         default:
             return state;
     }

@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 
 // import uuid from "uuid/v4";
 import Card from '@material-ui/core/Card';
-// import Button from '@material-ui/core/Button';
+import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import classes from "./Todolist.module.css"
 import ItemModal from './ItemModal';
@@ -31,21 +31,6 @@ const Todolist = (props) => {
     
   }
 
-  // const addTask = (id) => {
-  //   console.log(id);
-  //   console.log(columns[id]);
-  //   const column = columns[id];
-  //   const copiedItems = [...column.items];
-  //   copiedItems.push({id: uuid(), content: "Added task"});
-  //   setColumns({
-  //     ...columns,
-  //     [id]: {
-  //       ...column, 
-  //       items: copiedItems
-  //     }
-  //   });
-  // }; 
-  
   return (
     <div className={classes.outerDragdropCon}>
       <DragDropContext onDragEnd={(result) => onDragEnd(result)} >
@@ -88,7 +73,6 @@ const Todolist = (props) => {
                     }}
                   </Droppable>
                   <ItemModal columnId={id} />
-                  {/* <Button onClick={() => addTask(id)}>add</Button> */}
                   </div>
                   </div>
                 )}
@@ -99,6 +83,7 @@ const Todolist = (props) => {
           </div>
         )}
         </Droppable>
+        <Button onClick={props.onAddBoard} style={{height: 40, width: 200 ,backgroundColor: "#3F51B5", color:"#FFFFFF"}}>Add board</Button>
       </DragDropContext>
     </div>
   );
@@ -115,7 +100,8 @@ const mapDispatchToProps = dispatch => {
       onTaskAdded: () => dispatch(actions.addTask()),
       onTaskMoved: (source, destination) => dispatch(actions.taskMoved(source, destination)),
       onTaskMovedColumn: (source, destination) => dispatch(actions.taskMovedColumn(source, destination)),
-      onColumnMoved: (source, destination) => dispatch(actions.columnMoved(source, destination))
+      onColumnMoved: (source, destination) => dispatch(actions.columnMoved(source, destination)),
+      onAddBoard: () => dispatch(actions.addBoard())
   }
 }
 
