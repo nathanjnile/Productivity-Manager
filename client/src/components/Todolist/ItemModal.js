@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-// import { connect } from "react-redux";
+import { connect } from "react-redux";
 
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
@@ -7,7 +7,8 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 
-  
+import * as actions from "../../store/actions/index";
+
   function getModalStyle() {
     const top = 25;
     // const left = 50;
@@ -37,10 +38,11 @@ const ItemModal = (props) => {
     // getModalStyle is not a pure function, we roll the style only on the first render
     const [modalStyle] = useState(getModalStyle);
     const [open, setOpen] = useState(false);
-    const [itemInput, setItemInput] = useState("");
+    const [taskInput, setTaskInput] = useState("");
   
     const handleOpen = () => {
       setOpen(true);
+      console.log(props.columnId);
     };
   
     const handleClose = () => {
@@ -49,11 +51,11 @@ const ItemModal = (props) => {
 
     const submitForm = (event) => {
         event.preventDefault();
-        if (itemInput !== "") {
-        // props.onItemAdded(itemInput);
+        if (taskInput !== "") {
+        props.onTaskAdded(taskInput, props.columnId);
         }
         handleClose();
-        setItemInput("");
+        setTaskInput("");
     }
   
     const body = (
@@ -66,8 +68,8 @@ const ItemModal = (props) => {
             id="Item-field"
             label="Item"
             size="small"
-            value={itemInput}
-            onChange={(event) => setItemInput(event.target.value)}
+            value={taskInput}
+            onChange={(event) => setTaskInput(event.target.value)}
             variant="filled" 
             style={{width: "100%"}}
              />
@@ -95,4 +97,16 @@ const ItemModal = (props) => {
       );
 }
 
-export default ItemModal;
+const mapStateToProps = state => {
+  return {
+      columns: state.tasks.columns,
+  };
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+      onTaskAdded: (task, columnId) => dispatch(actions.addTask(task, columnId)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ItemModal);
