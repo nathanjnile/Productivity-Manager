@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 
-import * as actions from "../../store/actions/index";
+import * as actions from "../../../store/actions/index";
 
   function getModalStyle() {
     const top = 25;

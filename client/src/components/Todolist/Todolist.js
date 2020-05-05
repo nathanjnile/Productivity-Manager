@@ -6,8 +6,11 @@ import Card from '@material-ui/core/Card';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import classes from "./Todolist.module.css"
-import ItemModal from './ItemModal';
+import ItemModal from './Modals/ItemModal';
 import TextField from '@material-ui/core/TextField';
+import CancelIcon from '@material-ui/icons/Cancel';
+import CheckIcon from '@material-ui/icons/Check';
+import EditDeleteModal from "./Modals/EditDeleteModal";
 
 import * as actions from "../../store/actions/index";
 
@@ -18,10 +21,16 @@ const Todolist = (props) => {
 
   const submitForm = (event) => {
     event.preventDefault();
-    props.onAddList(listFieldInput);
+    if(listFieldInput !== "") {
+      props.onAddList(listFieldInput);
+    }
+    clearAddList();
+  } 
+
+  const clearAddList = () => {
     setEnterAddList(true);
     setListFieldInput("");
-  } 
+  }
 
   const listField = (
     <form onSubmit={(event) => submitForm(event)} style={{width: 200}}>
@@ -32,9 +41,13 @@ const Todolist = (props) => {
     value={listFieldInput}
     onChange={(event) => setListFieldInput(event.target.value)}
     variant="outlined" 
-    style={{width: "100%"}}
+    style={{width: "100%", userSelect: "none"}}
     autoFocus
      />
+     <div className={classes.addListIcons}>
+     <CheckIcon type="submit" onClick={(event) => submitForm(event)} fontSize="large" className={classes.addListIconCheck} />
+     <CancelIcon onClick={() => clearAddList()} fontSize="large" className={classes.addListIconCancel} />
+     </div>
      </form>
   );
 
@@ -78,10 +91,13 @@ const Todolist = (props) => {
                                   <Card {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}
                                   className={classes.cardMain}
                                   style={{backgroundColor: snapshot.isDragging ? "#263B4A" : "#3F51B5",
-                                      ...provided.draggableProps.style}} >
+                                      ...provided.draggableProps.style}}
+                                      >
                                     <Typography style={{color: "white"}}>
                                     {item.content} 
                                     </Typography>
+                                    
+                                    <EditDeleteModal columnId={id} itemId={item.id} itemIndex={index}/>
                                   </Card>
                                   );
                                 }}

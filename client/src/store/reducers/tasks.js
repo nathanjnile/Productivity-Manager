@@ -35,7 +35,6 @@ const initialState = {
 const addTask = (state, action) => {
   const {task, id} = action;
   const { columns } = state;
-  console.log(columns[id]);
   const column = columns[id];
   const copiedItems = [...column.items];
   copiedItems.push({id: uuid(), content: task});
@@ -120,6 +119,25 @@ const addList = (state, action) => {
       }
     };
 
+const editTask = (state, action) => {
+  const { columns } = state;
+  const { newTaskName, columnId, itemId, itemIndex } = action;
+  const sourceColumn = columns[columnId];
+  const sourceItems = [...sourceColumn.items];
+  sourceItems.splice(itemIndex, 1);
+  sourceItems.splice(itemIndex, 0, {id: itemId, content: newTaskName});
+  return {
+    ...state,
+    columns : {
+      ...columns,
+      [columnId] : {
+        ...sourceColumn,
+        items: sourceItems
+      }
+  }
+}
+} 
+
 const reducer =(state = initialState, action) => {
     switch (action.type) {
         case actionType.ADD_TASK: return addTask(state, action);
@@ -127,6 +145,7 @@ const reducer =(state = initialState, action) => {
         case actionType.TASK_MOVED_COLUMN: return taskMovedColumn(state, action);
         case actionType.COLUMN_MOVED: return columnMoved(state, action);
         case actionType.ADD_LIST: return addList(state, action);
+        case actionType.EDIT_TASK: return editTask(state, action);
         default:
             return state;
     }

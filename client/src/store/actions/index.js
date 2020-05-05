@@ -1,4 +1,4 @@
-export { addTask, taskMoved, taskMovedColumn, columnMoved, addList } from "./tasks";
+export { addTask, taskMoved, taskMovedColumn, columnMoved, addList, editTask } from "./tasks";
 
 
 

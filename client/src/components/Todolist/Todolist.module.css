@@ -30,8 +30,10 @@
     user-select: none;
     padding: 16px;
     margin: 0 0 8px 0;
-    min-height: 30px;
+    min-height: 20px;
     color: #ffffff;
+    display: grid;
+    grid-template-columns: 5fr 1fr;
 }
 
 .columnDrop {
@@ -45,4 +47,19 @@
     border-radius: 5px 5px 5px 5px;
     /* background-color: #3F51B5; 
     color: #ffffff; */
+}
+
+.addListIcons {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.addListIconCancel {
+    grid-column: 5/6;
+    cursor: pointer;
+}
+
+.addListIconCheck {
+    grid-column: 2/3;
+    cursor: pointer;
 }

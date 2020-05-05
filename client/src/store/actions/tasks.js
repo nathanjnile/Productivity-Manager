@@ -42,3 +42,13 @@ export const addList = (newList) => {
         newList: newList
     }
 }
+
+export const editTask = (newTaskName, columnId, itemId, itemIndex) => {
+    return {
+        type: actionTypes.EDIT_TASK,
+        newTaskName: newTaskName,
+        columnId: columnId,
+        itemId: itemId,
+        itemIndex: itemIndex
+    }
+}
