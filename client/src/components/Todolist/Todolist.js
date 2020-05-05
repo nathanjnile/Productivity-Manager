@@ -96,7 +96,6 @@ const Todolist = (props) => {
                                     <Typography style={{color: "white"}}>
                                     {item.content} 
                                     </Typography>
-                                    
                                     <EditDeleteModal columnId={id} itemId={item.id} itemIndex={index}/>
                                   </Card>
                                   );

@@ -83,7 +83,7 @@ const EditDeleteModal = (props) => {
              <div >
              <Button type="submit" style={{backgroundColor: "#3F51B5", color:"#FFFFFF"}}>Change Task</Button>
              </div>
-            <Button style={{backgroundColor: "#3F51B5", color:"#FFFFFF", alignItems: "end"}}>Delete Task</Button>
+            <Button onClick={() => props.onDeleteTask(taskInput, columnId, itemId, itemIndex)}  style={{backgroundColor: "#3F51B5", color:"#FFFFFF", alignItems: "end"}}>Delete Task</Button>
             </form>
       </div>
     );
@@ -113,6 +113,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
       onEditTask: (newTaskName, columnId, itemId, itemIndex) => dispatch(actions.editTask(newTaskName, columnId, itemId, itemIndex)),
+      onDeleteTask: (newTaskName, columnId, itemId, itemIndex) => dispatch(actions.deleteTask(newTaskName, columnId, itemId, itemIndex)),
+
   }
 }
 

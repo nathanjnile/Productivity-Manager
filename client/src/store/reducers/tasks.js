@@ -136,7 +136,26 @@ const editTask = (state, action) => {
       }
   }
 }
-} 
+}
+
+const deleteTask = (state, action) => {
+  const { columns } = state;
+  const { newTaskName, columnId, itemId, itemIndex } = action;
+  const sourceColumn = columns[columnId];
+  const sourceItems = [...sourceColumn.items];
+  sourceItems.splice(itemIndex, 1);
+  console.log(sourceItems);
+  return {
+    ...state,
+    columns : {
+      ...columns,
+      [columnId] : {
+        ...sourceColumn,
+        items: sourceItems
+      }
+  }
+}
+}
 
 const reducer =(state = initialState, action) => {
     switch (action.type) {
@@ -146,6 +165,7 @@ const reducer =(state = initialState, action) => {
         case actionType.COLUMN_MOVED: return columnMoved(state, action);
         case actionType.ADD_LIST: return addList(state, action);
         case actionType.EDIT_TASK: return editTask(state, action);
+        case actionType.DELETE_TASK: return deleteTask(state, action);
         default:
             return state;
     }
