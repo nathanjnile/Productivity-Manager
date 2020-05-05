@@ -36,8 +36,9 @@ export const columnMoved = (source, destination) => {
         
 }
 
-export const addBoard = () => {
+export const addList = (newList) => {
     return {
-        type: actionTypes.ADD_BOARD
+        type: actionTypes.ADD_LIST,
+        newList: newList
     }
 }

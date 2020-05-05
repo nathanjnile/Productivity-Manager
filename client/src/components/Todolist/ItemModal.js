@@ -61,20 +61,21 @@ const ItemModal = (props) => {
     const body = (
       <div style={modalStyle} className={classes.paper}>
             <Typography variant="h5" gutterBottom style={{color: "#2c2f35"}}>
-                Enter item name:
+                Enter task name:
             </Typography>
             <form onSubmit={(event) => submitForm(event)}>
             <TextField 
-            id="Item-field"
-            label="Item"
+            id="Task-field"
+            label="Task"
             size="small"
             value={taskInput}
             onChange={(event) => setTaskInput(event.target.value)}
             variant="filled" 
             style={{width: "100%"}}
+            autoFocus
              />
              <br/><br/>
-             <Button type="submit" style={{backgroundColor: "#3F51B5", color:"#FFFFFF"}}>Add Item</Button>
+             <Button type="submit" style={{backgroundColor: "#3F51B5", color:"#FFFFFF"}}>Add Task</Button>
             </form>
       </div>
     );
@@ -82,7 +83,7 @@ const ItemModal = (props) => {
     return (
       <div>
         <div style={{padding: 4, display:'flex',alignItems:'center',justifyContent:'center'}}>
-        <Button onClick={handleOpen} style={{backgroundColor: "#3F51B5", color:"#FFFFFF", width: 100}}>Add Item</Button> 
+        <Button onClick={handleOpen} style={{backgroundColor: "#3F51B5", color:"#FFFFFF", width: 100}}>Add Task</Button> 
         </div>
         <Modal
           open={open}

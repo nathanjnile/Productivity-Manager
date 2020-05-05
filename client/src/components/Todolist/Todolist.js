@@ -1,18 +1,42 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { connect } from "react-redux";
 
-// import uuid from "uuid/v4";
 import Card from '@material-ui/core/Card';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import classes from "./Todolist.module.css"
 import ItemModal from './ItemModal';
+import TextField from '@material-ui/core/TextField';
 
 import * as actions from "../../store/actions/index";
 
 const Todolist = (props) => {
+  const [enterAddList, setEnterAddList] = useState(true);
+  const [listFieldInput, setListFieldInput] = useState("");
   const columns = props.columns;
+
+  const submitForm = (event) => {
+    event.preventDefault();
+    props.onAddList(listFieldInput);
+    setEnterAddList(true);
+    setListFieldInput("");
+  } 
+
+  const listField = (
+    <form onSubmit={(event) => submitForm(event)} style={{width: 200}}>
+    <TextField 
+    id="Task-field"
+    label="Add List"
+    size="small"
+    value={listFieldInput}
+    onChange={(event) => setListFieldInput(event.target.value)}
+    variant="outlined" 
+    style={{width: "100%"}}
+    autoFocus
+     />
+     </form>
+  );
 
   const onDragEnd = (result) => {
     if(!result.destination) return;
@@ -25,10 +49,7 @@ const Todolist = (props) => {
       } else {
         props.onTaskMoved(source, destination);
       }
-    }
-
-  
-    
+    }  
   }
 
   return (
@@ -83,8 +104,10 @@ const Todolist = (props) => {
           </div>
         )}
         </Droppable>
-        <Button onClick={props.onAddBoard} style={{height: 40, width: 200 ,backgroundColor: "#3F51B5", color:"#FFFFFF"}}>Add board</Button>
       </DragDropContext>
+      <div style={{width: 200}}>
+      {enterAddList ? <Button onClick={() => setEnterAddList(false)} className={classes.addListButton} style={{backgroundColor: "#3F51B5", color: "#ffffff"}}>Add List</Button> : listField}
+      </div>
     </div>
   );
 }
@@ -101,7 +124,7 @@ const mapDispatchToProps = dispatch => {
       onTaskMoved: (source, destination) => dispatch(actions.taskMoved(source, destination)),
       onTaskMovedColumn: (source, destination) => dispatch(actions.taskMovedColumn(source, destination)),
       onColumnMoved: (source, destination) => dispatch(actions.columnMoved(source, destination)),
-      onAddBoard: () => dispatch(actions.addBoard())
+      onAddList: (newList) => dispatch(actions.addList(newList))
   }
 }
 
