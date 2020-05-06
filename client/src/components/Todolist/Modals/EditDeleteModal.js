@@ -79,7 +79,7 @@ const EditDeleteModal = (props) => {
             style={{width: "100%"}}
             // autoFocus
              />
-             <div style={{marginTop: 10, display: "flex", alignItems: "end", justifyContent:"end"}}>
+             <div style={{marginTop: 10, display: "flex", alignItems: "center", justifyContent:"center"}}>
              <Button type="submit" style={{backgroundColor: "#3F51B5", color:"#FFFFFF"}}>Change Task</Button>
              <Button onClick={() => props.onDeleteTask(columnId, itemIndex)}  style={{backgroundColor: "red", color:"#FFFFFF", marginLeft: "auto"}}>Delete Task</Button>
             </div>
