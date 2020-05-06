@@ -79,11 +79,10 @@ const EditDeleteModal = (props) => {
             style={{width: "100%"}}
             // autoFocus
              />
-             <br/><br/>
-             <div >
+             <div style={{marginTop: 10, display: "flex", alignItems: "end", justifyContent:"end"}}>
              <Button type="submit" style={{backgroundColor: "#3F51B5", color:"#FFFFFF"}}>Change Task</Button>
-             </div>
-            <Button onClick={() => props.onDeleteTask(taskInput, columnId, itemId, itemIndex)}  style={{backgroundColor: "#3F51B5", color:"#FFFFFF", alignItems: "end"}}>Delete Task</Button>
+             <Button onClick={() => props.onDeleteTask(columnId, itemIndex)}  style={{backgroundColor: "red", color:"#FFFFFF", marginLeft: "auto"}}>Delete Task</Button>
+            </div>
             </form>
       </div>
     );
@@ -113,7 +112,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
       onEditTask: (newTaskName, columnId, itemId, itemIndex) => dispatch(actions.editTask(newTaskName, columnId, itemId, itemIndex)),
-      onDeleteTask: (newTaskName, columnId, itemId, itemIndex) => dispatch(actions.deleteTask(newTaskName, columnId, itemId, itemIndex)),
+      onDeleteTask: (columnId, itemIndex) => dispatch(actions.deleteTask(columnId, itemIndex)),
 
   }
 }

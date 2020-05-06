@@ -140,7 +140,7 @@ const editTask = (state, action) => {
 
 const deleteTask = (state, action) => {
   const { columns } = state;
-  const { newTaskName, columnId, itemId, itemIndex } = action;
+  const { columnId, itemIndex } = action;
   const sourceColumn = columns[columnId];
   const sourceItems = [...sourceColumn.items];
   sourceItems.splice(itemIndex, 1);

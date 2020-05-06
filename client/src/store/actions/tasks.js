@@ -53,12 +53,10 @@ export const editTask = (newTaskName, columnId, itemId, itemIndex) => {
     }
 }
 
-export const deleteTask = (newTaskName, columnId, itemId, itemIndex) => {
+export const deleteTask = (columnId, itemIndex) => {
     return {
         type: actionTypes.DELETE_TASK,
-        newTaskName: newTaskName,
         columnId: columnId,
-        itemId: itemId,
         itemIndex: itemIndex
     }
 }
