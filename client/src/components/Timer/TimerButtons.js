@@ -1,22 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 
+import classes from "./TimerButtons.module.css";
 import Button from '@material-ui/core/Button';
 
 
 const TimerButtons = (props) => {
-    const {setDisplayTime} = props;
+    const {setDisplayTime, setTimerOn} = props;
+    const [timerType, setTimerType] = useState("25work");
 
-    const addTime = (time) => {
+    const addTime = (time, lengthType) => {
+        // setTimerOn(true);
         setDisplayTime(time);
+        setTimerType(lengthType);
+    }
+
+    const resetTime = () => {
+        setTimerOn(false);
+        if (timerType ===  "25work") {
+            setDisplayTime(25*60);
+        } else if (timerType === "5break") {
+            setDisplayTime(5*60);
+        }
     }
 
     return(
         <React.Fragment>
-            <div style={{marginTop: 10, display: "flex", alignItems: "center", justifyContent:"center"}}>
-                <Button onClick={() => addTime(25*60)} style={{backgroundColor: "#3F51B5", color:"#FFFFFF"}}>25 minutes work</Button>
+            <div className={classes.Button}>
+                <Button onClick={() => addTime(25*60, "25work")} style={{backgroundColor: "#3F51B5", color:"#FFFFFF"}}>25 minutes work</Button>
             </div>
-            <div style={{marginTop: 10, display: "flex", alignItems: "center", justifyContent:"center"}}>
-                <Button onClick={() => addTime(5*60)} style={{backgroundColor: "#3F51B5", color:"#FFFFFF"}}>5 minutes break</Button>
+            <div className={classes.Button}>
+                <Button onClick={() => addTime(5*60, "5break")} style={{backgroundColor: "#3F51B5", color:"#FFFFFF"}}>5 minutes break</Button>
+            </div>
+            <div className={classes.Button}>
+            <div className={classes.Button}>
+                <Button onClick={() => setTimerOn(true)} style={{backgroundColor: "green", color:"#FFFFFF"}}>Start</Button>
+            </div>
+            <div className={classes.Button}>
+                <Button onClick={() => setTimerOn(false)} style={{backgroundColor: "red", color:"#FFFFFF"}}>Stop</Button>
+            </div>
+            <div className={classes.Button}>
+                <Button onClick={() => resetTime()} style={{backgroundColor: "#3F51B5", color:"#FFFFFF"}}>Reset</Button>
+            </div>
             </div>
         </React.Fragment>
     );

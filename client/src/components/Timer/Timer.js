@@ -7,12 +7,14 @@ import Typography from '@material-ui/core/Typography';
 
 
 const Timer = () => {
-    const [displayTime, setDisplayTime] = useState(20); // in seconds
-    
+    const [displayTime, setDisplayTime] = useState(60*25); // in seconds
+    const [timerOn, setTimerOn] = useState(false);
     useEffect(() => {
+        if (timerOn) {
         const timer = displayTime > 0 && setInterval(() => setDisplayTime(displayTime - 1), 1000);
         return () => clearInterval(timer);
-    }, [displayTime]);
+        }
+    }, [displayTime, timerOn]);
     
     
     let mins = Math.floor(displayTime/60);
@@ -26,11 +28,11 @@ const Timer = () => {
 
     return(
         <div>
-          <Typography variant="h6" style={{userSelect: "none", display: "flex", alignItems: "center", justifyContent:"center"}}>
+          <Typography variant="h5" style={{userSelect: "none", display: "flex", alignItems: "center", justifyContent:"center"}}>
               Productivity Timer
           </Typography>
           <LiveTimer mins={mins} seconds={seconds} />
-          <TimerButtons setDisplayTime={setDisplayTime} />
+          <TimerButtons setDisplayTime={setDisplayTime} setTimerOn={setTimerOn} />
         </div>
     );
 }
