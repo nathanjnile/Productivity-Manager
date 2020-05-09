@@ -1,6 +1,6 @@
 .outerDragdropCon {
     display: flex;
-    justify-content: left;
+    justify-content: center;
     height: 90%;
 }
 
@@ -21,9 +21,9 @@
 
 .columnMain {
     padding: 4px;
-    width: 200px;
-    min-height: 500px;  
-    border-radius: 5px 5px 5px 5px; 
+    width: 300px;
+    min-height: 350px;  
+    border-radius: 5px 5px 5px 5px;
 }
 
 .cardMain {
@@ -32,8 +32,6 @@
     margin: 0 0 8px 0;
     min-height: 10px;
     color: #ffffff;
-    display: grid;
-    grid-template-columns: 5fr 1fr;
 }
 
 .columnDrop {

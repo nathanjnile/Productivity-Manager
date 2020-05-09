@@ -66,6 +66,10 @@ const Todolist = (props) => {
   }
 
   return (
+    <React.Fragment>
+    <Typography variant="h5" style={{userSelect: "none", display: "flex", alignItems: "left", justifyContent:"left", marginBottom: 10, marginLeft: 10}}>
+    Task Tracker
+    </Typography>
     <div className={classes.outerDragdropCon}>
       <DragDropContext onDragEnd={(result) => onDragEnd(result)} >
         <Droppable droppableId="all-column" direction="horizontal" type="column">
@@ -124,6 +128,7 @@ const Todolist = (props) => {
       {enterAddList ? <Button onClick={() => setEnterAddList(false)} className={classes.addListButton} style={{backgroundColor: "#3F51B5", color: "#ffffff"}}>Add List</Button> : listField}
       </div>
     </div>
+    </React.Fragment>
   );
 }
 

@@ -3,7 +3,7 @@ import classes from "./MainApp.module.css";
 
 import Todolist from "../Todolist/Todolist";
 import Timer from "../Timer/Timer";
-import MealPlan from "../MealPlan/MealPlan";
+import LongTermGoals from "../LongTermGoals/LongTermGoals";
 
 
 const MainApp = () => {
@@ -17,7 +17,7 @@ const MainApp = () => {
                 <Timer/>
             </div>
             <div className={classes.divStyle2}>
-                <MealPlan/>
+                <LongTermGoals/>
             </div>
         </div>
     );

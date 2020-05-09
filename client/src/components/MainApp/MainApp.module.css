@@ -29,4 +29,5 @@
     background-color: #eee;
     grid-column: 3/4;
     grid-row: 4/8;
+    overflow-x: scroll;
 }     

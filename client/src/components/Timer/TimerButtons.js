@@ -25,21 +25,21 @@ const TimerButtons = (props) => {
 
     return(
         <React.Fragment>
-            <div className={classes.Button}>
-                <Button onClick={() => addTime(25*60, "25work")} style={{backgroundColor: "#3F51B5", color:"#FFFFFF"}}>25 minutes work</Button>
+            <div className={classes.ButtonWorkBreak}>
+                <Button onClick={() => addTime(25*60, "25work")} style={{backgroundColor: "#3F51B5", color:"#FFFFFF", width: 180}}>25 minutes work</Button>
+            </div>
+            <div className={classes.ButtonWorkBreak}>
+                <Button onClick={() => addTime(5*60, "5break")} style={{backgroundColor: "#3F51B5", color:"#FFFFFF", width: 180}}>5 minutes break</Button>
             </div>
             <div className={classes.Button}>
-                <Button onClick={() => addTime(5*60, "5break")} style={{backgroundColor: "#3F51B5", color:"#FFFFFF"}}>5 minutes break</Button>
+            <div className={classes.Button}>
+                <Button onClick={() => setTimerOn(true)} style={{backgroundColor: "green", color:"#FFFFFF", width: 70}}>Start</Button>
             </div>
             <div className={classes.Button}>
-            <div className={classes.Button}>
-                <Button onClick={() => setTimerOn(true)} style={{backgroundColor: "green", color:"#FFFFFF"}}>Start</Button>
+                <Button onClick={() => setTimerOn(false)} style={{backgroundColor: "red", color:"#FFFFFF", width: 70}}>Stop</Button>
             </div>
             <div className={classes.Button}>
-                <Button onClick={() => setTimerOn(false)} style={{backgroundColor: "red", color:"#FFFFFF"}}>Stop</Button>
-            </div>
-            <div className={classes.Button}>
-                <Button onClick={() => resetTime()} style={{backgroundColor: "#3F51B5", color:"#FFFFFF"}}>Reset</Button>
+                <Button onClick={() => resetTime()} style={{backgroundColor: "#3F51B5", color:"#FFFFFF", width: 70}}>Reset</Button>
             </div>
             </div>
         </React.Fragment>

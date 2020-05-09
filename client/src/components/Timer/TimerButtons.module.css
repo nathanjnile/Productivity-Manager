@@ -4,3 +4,10 @@
     align-items: center;
     justify-content: center;
 }
+
+.ButtonWorkBreak {
+    margin: 10px 10px 10px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
