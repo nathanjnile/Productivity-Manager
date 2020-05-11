@@ -15,7 +15,7 @@ const LongTermGoals = (props) => {
         if(!result.destination) return;
         const { source, destination } = result;
         props.onGoalMoved(source, destination);
-      }
+    }
 
     const {items} = props;
 
@@ -46,10 +46,10 @@ const LongTermGoals = (props) => {
                                      style={{backgroundColor: snapshot.isDragging ? "#263B4A" : "#3F51B5",
                                      ...provided.draggableProps.style}}
                                      >
-                                     <Typography style={{color: "white"}}>
+                                     <Typography variant="subtitle2" align="left" style={{color: "white"}}>
                                      {item.content} 
                                      </Typography>
-                                     <Typography style={{color: "white"}}>
+                                     <Typography variant="subtitle2" align="right" style={{color: "white"}}>
                                      {item.dateToComplete} 
                                      </Typography>
                                      </Card>

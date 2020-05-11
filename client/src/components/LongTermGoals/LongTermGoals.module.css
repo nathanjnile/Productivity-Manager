@@ -10,18 +10,9 @@
     align-items: center;
 }
 
-.columnHeader {
-    user-select: none;
-    background-color: lightgrey;
-    width: 200px;
-    padding: 4px;
-    text-align: center;
-    border-radius: 5px 5px 5px 5px;
-}
-
 .columnMain {
     padding: 4px;
-    width: 300px;
+    width: 320px;
     min-height: 350px;  
     border-radius: 5px 5px 5px 5px;
 }
@@ -32,32 +23,6 @@
     margin: 0 0 8px 0;
     min-height: 10px;
     color: #ffffff;
-}
-
-.columnDrop {
-    display: flex;
-}
-
-.addListButton {
-    padding: 4px;
-    width: 200px;
-    height: 40px; 
-    border-radius: 5px 5px 5px 5px;
-    /* background-color: #3F51B5; 
-    color: #ffffff; */
-}
-
-.addListIcons {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-}
-
-.addListIconCancel {
-    grid-column: 5/6;
-    cursor: pointer;
-}
-
-.addListIconCheck {
-    grid-column: 2/3;
-    cursor: pointer;
+    grid-template-columns: 10fr 3fr;
 }

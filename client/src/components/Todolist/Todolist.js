@@ -80,7 +80,7 @@ const Todolist = (props) => {
               <Draggable key={id} draggableId={id} index={index}>
                 {(provided) => (
                   <div className={classes.columnDiv} {...provided.draggableProps} ref={provided.innerRef}>
-                  <Typography variant="h5" className={classes.columnHeader} {...provided.dragHandleProps}> {column.name} </Typography>
+                  <Typography variant="h6" className={classes.columnHeader} {...provided.dragHandleProps}> {column.name} </Typography>
                   <div style={{margin: 8}}>
                   <Droppable droppableId={id} key={id} type="task">
                     {(provided, snapshot) => {

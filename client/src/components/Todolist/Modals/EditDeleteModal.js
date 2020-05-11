@@ -89,7 +89,7 @@ const EditDeleteModal = (props) => {
   
     return (
       <div>
-        <EditIcon onClick={handleOpen} style={{alignItems: "right", color: "white", cursor: "pointer"}}/>
+        <EditIcon onClick={handleOpen} style={{color: "white", cursor: "pointer"}}/>
         <Modal
           open={open}
           onClose={handleClose}

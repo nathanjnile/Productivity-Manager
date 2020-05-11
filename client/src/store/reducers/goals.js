@@ -4,7 +4,7 @@ import uuid from "uuid/v4";
 
 const initialState = {
     items : [
-        {id: uuid(), content: "First Goal", dateToComplete: "March 2020"},
+        {id: uuid(), content: "To get a job is software development", dateToComplete: "Sept 2020"},
         {id: uuid(), content: "Second Goal", dateToComplete: "April 2020"},
         {id: uuid(), content: "Third Goal", dateToComplete: "June 2020"}
       ]
