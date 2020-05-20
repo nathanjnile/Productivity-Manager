@@ -3,13 +3,10 @@ import * as actionType from "../actions/actionTypes";
 import uuid from "uuid/v4";
 
 const itemsFromBackend = [
-    {id: uuid(), content: "First task"},
-    {id: uuid(), content: "Second task"},
-    {id: uuid(), content: "Third task"},
-    {id: uuid(), content: "Fourth task"},
-    {id: uuid(), content: "Fifth task"},
-    {id: uuid(), content: "Sixth task"},
-    {id: uuid(), content: "Seventh task"}
+    {id: uuid(), content: "Go for a run"},
+    {id: uuid(), content: "Take the bins out"},
+    {id: uuid(), content: "Cook meals for the week"},
+    {id: uuid(), content: "Complete next section of node course"}
   ]
   
   const columns = 

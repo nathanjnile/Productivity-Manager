@@ -2,7 +2,6 @@ import React from "react";
 
 import Typography from '@material-ui/core/Typography';
 
-
 const LiveTimer = (props) => {
     const {mins, seconds} = props;
 
@@ -14,7 +13,5 @@ const LiveTimer = (props) => {
         </div>
     );
 }
-
-// test git push
 
 export default LiveTimer;

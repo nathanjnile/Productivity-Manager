@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 
 
 const TimerButtons = (props) => {
-    const {setDisplayTime, setTimerOn} = props;
+    const {setDisplayTime, setTimerOn, setSound} = props;
     const [timerType, setTimerType] = useState("25work");
 
     const addTime = (time, lengthType) => {
@@ -23,6 +23,11 @@ const TimerButtons = (props) => {
         }
     }
 
+    const handleStop = () => {
+        setTimerOn(false);
+        setSound(false);
+    }
+
     return(
         <React.Fragment>
             <div className={classes.ButtonWorkBreak}>
@@ -33,10 +38,10 @@ const TimerButtons = (props) => {
             </div>
             <div className={classes.Button}>
             <div className={classes.Button}>
-                <Button onClick={() => setTimerOn(true)} style={{backgroundColor: "green", color:"#FFFFFF", width: 70}}>Start</Button>
+                <Button onClick={() => setTimerOn(true)} style={{backgroundColor: "green", color:"#FFFFFF", width: 70, opacity: 0.8}}>Start</Button>
             </div>
             <div className={classes.Button}>
-                <Button onClick={() => setTimerOn(false)} style={{backgroundColor: "red", color:"#FFFFFF", width: 70}}>Stop</Button>
+                <Button onClick={() => handleStop()} style={{backgroundColor: "red", color:"#FFFFFF", width: 70, opacity: 0.8}}>Stop</Button>
             </div>
             <div className={classes.Button}>
                 <Button onClick={() => resetTime()} style={{backgroundColor: "#3F51B5", color:"#FFFFFF", width: 70}}>Reset</Button>
