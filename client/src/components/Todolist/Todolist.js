@@ -97,7 +97,7 @@ const Todolist = (props) => {
                                   style={{backgroundColor: snapshot.isDragging ? "#263B4A" : "#3F51B5",
                                       ...provided.draggableProps.style}}
                                       >
-                                    <Typography style={{color: "white"}}>
+                                    <Typography variant="subtitle2" style={{color: "white"}}>
                                     {item.content} 
                                     </Typography>
                                     <EditDeleteModal columnId={id} itemId={item.id} itemIndex={index}/>

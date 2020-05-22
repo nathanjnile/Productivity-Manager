@@ -1,4 +1,5 @@
 import * as actionTypes from "./actionTypes";
+import axios from "axios";
 
 export const addGoal = () => {
     return {
@@ -24,4 +25,17 @@ export const deleteGoal = () => {
     return {
         type: actionTypes.DELETE_GOAL
     }  
+}
+
+export const getGoals = () => {
+    return dispatch => {
+                // dispatch(setItemsLoading);
+                axios.get("/api/goals")
+                .then(response => {
+                    dispatch({
+                        type: actionTypes.GET_GOALS,
+                        payload: response.data
+                    })
+                }).catch(err => console.log(err));
+            };
 }

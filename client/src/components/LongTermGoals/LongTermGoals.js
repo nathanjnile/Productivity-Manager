@@ -17,11 +17,12 @@ const LongTermGoals = (props) => {
         props.onGoalMoved(source, destination);
     }
 
-    const {items} = props;
+    const {items, onGetGoals } = props;
 
     useEffect(() => {
-        console.log(items);
-    }, [items])
+        onGetGoals();
+        // console.log(items);
+    }, [onGetGoals])
 
     return(
         <div>
@@ -38,7 +39,7 @@ const LongTermGoals = (props) => {
                      style={{background: snapshot.isDraggingOver ? "lightblue" : "lightgrey"}}>
                         {items.map((item, index) => {
                             return(
-                             <Draggable key={item.id} draggableId={item.id} index={index}>
+                             <Draggable key={item._id} draggableId={item._id} index={index}>
                                 {(provided, snapshot) => {
                                     return(
                                      <Card {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}
@@ -50,7 +51,7 @@ const LongTermGoals = (props) => {
                                      {item.content} 
                                      </Typography>
                                      <Typography variant="subtitle2" align="right" style={{color: "white"}}>
-                                     {item.dateToComplete} 
+                                     {item.date} 
                                      </Typography>
                                      </Card>
                                      );
@@ -81,7 +82,8 @@ const mapDispatchToProps = dispatch => {
         onGoalAdded: () => dispatch(actions.addGoal()),
         onGoalMoved: (source, destination) => dispatch(actions.goalMoved(source, destination)),
         onEditGoal: (source, destination) => dispatch(actions.editGoal(source, destination)),
-        onDeleteGoal: (newList) => dispatch(actions.deleteGoal(newList))
+        onDeleteGoal: (newList) => dispatch(actions.deleteGoal(newList)),
+        onGetGoals: () => dispatch(actions.getGoals())
     }
   }
 

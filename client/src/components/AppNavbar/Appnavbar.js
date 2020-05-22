@@ -13,7 +13,7 @@ const Appnavbar = () => {
         <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" style={{flexGrow : 1, userSelect: "none"}}>
-            Day Manager
+            Productivity Tracker
           </Typography>
           <Button href="https://github.com/nn5g14" color="inherit">Github</Button>
         </Toolbar>
