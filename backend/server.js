@@ -20,9 +20,9 @@ connection.once("open", () => {
 });
 
 // const tasksRouter = require("./routes/api/items");
-const goalsRouter = require("./routes/api/goals");
+const goalRouter = require("./routes/api/goal");
 
-app.use("/api/goals", goalsRouter);
+app.use("/api/goal", goalRouter);
 // app.use("/api/users", usersRouter);
 
 // Serve static assets if in production

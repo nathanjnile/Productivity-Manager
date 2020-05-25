@@ -30,7 +30,7 @@ export const deleteGoal = () => {
 export const getGoals = () => {
     return dispatch => {
                 // dispatch(setItemsLoading);
-                axios.get("/api/goals")
+                axios.get("/api/goal")
                 .then(response => {
                     dispatch({
                         type: actionTypes.GET_GOALS,

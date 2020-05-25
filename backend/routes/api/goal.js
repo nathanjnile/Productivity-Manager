@@ -1,13 +1,12 @@
 const router = require("express").Router();
-const Goals = require("../../models/Goals");
+const Goal = require("../../models/Goal");
 // const auth = require("../../middleware/auth");
 
-// @route GET api/items
+// @route GET api/goals
 // @desc get All Items
 // @access Public
 router.route("/").get((req, res) => {
-    Goals.find()
-    .sort({date: -1 }) 
+    Goal.find()
     .then(goals => res.json(goals))
     .catch(err => res.status(400).json("Error: " + err));
 });
@@ -19,13 +18,13 @@ router.route("/add").post((req, res) => {
     const content = req.body.content;
     const date = req.body.date;
 
-    const newGoal = new Goals({
+    const newGoal = new Goal({
         content,
         date   
     });
 
     newGoal.save()
-        .then((goals) => res.json(goals))
+        .then((goal) => res.json(goal))
         .catch(err => res.status(400).json("2Error: " + err));
 });
 
@@ -61,6 +60,29 @@ router.route("/add").post((req, res) => {
 //     })
 //     .catch(err => res.status(400).json("Error: " + err));
 // });
+
+// @route POST api/items/update/:id
+// @desc Update single item
+// @access Private
+router.route("/update").post((req, res) => {
+    Goals.findAndModify().then(goals => {
+        console.log(goals[0].content);
+        // return(res.json(goals))
+
+        goals.save().then(() => res.json("Goals updated!"))
+        .catch(err => res.status(400).json("Error: " + err))
+    }
+        ).catch(err => res.status(400).json("Error: " + err));
+    // Item.findById(req.params.id)
+    // .then(item => {
+    //     item.name = req.body.name;
+
+    //     item.save()
+    //     .then(() => res.json("Item updated!"))
+    //     .catch(err => res.status(400).json("Error: " + err))
+    // })
+    // .catch(err => res.status(400).json("Error: " + err));
+});
 
 
 module.exports = router;
