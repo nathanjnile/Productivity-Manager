@@ -46,34 +46,35 @@ router.route("/add").post((req, res) => {
 //     .catch(err => res.status(400).json("Error: " + err));
 // });
 
-// // @route POST api/items/update/:id
-// // @desc Update single item
-// // @access Private
-// router.route("/update/:id").post((req, res) => {
-//     Item.findById(req.params.id)
-//     .then(item => {
-//         item.name = req.body.name;
-
-//         item.save()
-//         .then(() => res.json("Item updated!"))
-//         .catch(err => res.status(400).json("Error: " + err))
-//     })
-//     .catch(err => res.status(400).json("Error: " + err));
-// });
-
 // @route POST api/items/update/:id
 // @desc Update single item
 // @access Private
-router.route("/update").post((req, res) => {
-    Goals.findAndModify().then(goals => {
-        console.log(goals[0].content);
-        // return(res.json(goals))
+router.route("/update/:id").patch((req, res) => {
+    Goal.findByIdAndUpdate(req.params.id)
+    .then(goal => {
+        goal.content = req.body.content;
+        goal.date = req.body.date;
 
-        goals.save().then(() => res.json("Goals updated!"))
+        goal.save()
+        .then(() => res.json("Goal updated!"))
         .catch(err => res.status(400).json("Error: " + err))
-    }
-        ).catch(err => res.status(400).json("Error: " + err));
-    // Item.findById(req.params.id)
+    })
+    .catch(err => res.status(400).json("Error: " + err));
+});
+
+// // @route POST api/items/update/:id
+// // @desc Update single item
+// // @access Private
+// router.route("/update").post((req, res) => {
+//     Goals.findAndModify().then(goals => {
+//         console.log(goals[0].content);
+//         // return(res.json(goals))
+
+//         goals.save().then(() => res.json("Goals updated!"))
+//         .catch(err => res.status(400).json("Error: " + err))
+//     }
+//         ).catch(err => res.status(400).json("Error: " + err));
+//     // Item.findById(req.params.id)
     // .then(item => {
     //     item.name = req.body.name;
 
@@ -82,7 +83,7 @@ router.route("/update").post((req, res) => {
     //     .catch(err => res.status(400).json("Error: " + err))
     // })
     // .catch(err => res.status(400).json("Error: " + err));
-});
+// });
 
 
 module.exports = router;
