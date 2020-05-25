@@ -6,6 +6,7 @@ import uuid from "uuid/v4";
 import Card from '@material-ui/core/Card';
 import * as actions from "../../store/actions/index";
 import GoalModal from "./GoalModal";
+import EditDeleteGoalModal from "./EditDeleteGoalModal";
 
 import Typography from '@material-ui/core/Typography';
 
@@ -54,6 +55,7 @@ const LongTermGoals = (props) => {
                                      <Typography variant="subtitle2" align="right" style={{color: "white"}}>
                                      {item.date} 
                                      </Typography>
+                                     <EditDeleteGoalModal cardId={item._id} cardIndex={index} />
                                      </Card>
                                      );
                                      }}
@@ -83,7 +85,6 @@ const mapDispatchToProps = dispatch => {
     return {
         onGoalAdded: () => dispatch(actions.addGoal()),
         onGoalMoved: (source, destination) => dispatch(actions.goalMoved(source, destination)),
-        onEditGoal: (source, destination) => dispatch(actions.editGoal(source, destination)),
         onDeleteGoal: (newList) => dispatch(actions.deleteGoal(newList)),
         onGetGoals: () => dispatch(actions.getGoals())
     }

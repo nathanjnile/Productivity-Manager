@@ -6,6 +6,8 @@ import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
+import EditIcon from '@material-ui/icons/Edit';
+
 
 import * as actions from "../../store/actions/index";
 
@@ -29,21 +31,27 @@ import * as actions from "../../store/actions/index";
       border: '2px solid #000',
       boxShadow: theme.shadows[5],
       padding: theme.spacing(2, 4, 3),
+
     },
   }));
 
-const GoalModal = (props) => {
+const EditDeleteGoalModal = (props) => {
+    const {columnId, cardId, cardIndex} = props;
     const classes = useStyles();
     // getModalStyle is not a pure function, we roll the style only on the first render
     const [modalStyle] = useState(getModalStyle);
     const [open, setOpen] = useState(false);
     const [goalInput, setGoalInput] = useState("");
     const [dateInput, setDateInput] = useState("");
-
   
     const handleOpen = () => {
       setOpen(true);
-      console.log(props.columnId);
+      console.log(props.goals);
+      console.log(cardId);
+      setGoalInput(props.goals[cardIndex].content);
+      setDateInput(props.goals[cardIndex].date);
+
+      // setTaskInput(props.columns[columnId].items[itemIndex].content);
     };
   
     const handleClose = () => {
@@ -52,18 +60,18 @@ const GoalModal = (props) => {
 
     const submitForm = (event) => {
         event.preventDefault();
-        if (goalInput !== "" && dateInput !== "") {
-        props.onGoalAdded(goalInput, dateInput);
+        if (goalInput !== "") {
+          // props.onEditTask(taskInput, columnId, itemId, itemIndex);
+        // props.onTaskAdded(taskInput, props.columnId);
         }
         handleClose();
-        setGoalInput("");
-        setDateInput("");
+        // setTaskInput("");
     }
   
     const body = (
       <div style={modalStyle} className={classes.paper}>
             <Typography variant="h5" gutterBottom style={{color: "#2c2f35"}}>
-                Enter goal information:
+                Edit task name:
             </Typography>
             <form onSubmit={(event) => submitForm(event)}>
             <TextField 
@@ -76,7 +84,7 @@ const GoalModal = (props) => {
             style={{width: "100%", marginTop: 10}}
              />
             <TextField 
-            id="date-field"
+            id="Date-field"
             label="Date"
             size="small"
             value={dateInput}
@@ -84,17 +92,17 @@ const GoalModal = (props) => {
             variant="filled" 
             style={{width: "100%", marginTop: 10}}
              />
-             <br/><br/>
-             <Button type="submit" style={{backgroundColor: "#3F51B5", color:"#FFFFFF", textTransform: "none"}}>Add Goal</Button>
+             <div style={{marginTop: 10, display: "flex", alignItems: "center", justifyContent:"center"}}>
+             <Button type="submit" style={{backgroundColor: "#3F51B5", color:"#FFFFFF"}}>Change Task</Button>
+             <Button onClick={() => props.onDeleteTask(columnId)}  style={{backgroundColor: "red", color:"#FFFFFF", marginLeft: "auto"}}>Delete Task</Button>
+            </div>
             </form>
       </div>
     );
   
     return (
       <div>
-        <div style={{padding: 4, display:'flex',alignItems:'center',justifyContent:'center'}}>
-        <Button onClick={handleOpen} style={{backgroundColor: "#3F51B5", color:"#FFFFFF", width: 100, textTransform: "none"}}>Add Goal</Button> 
-        </div>
+        <EditIcon onClick={handleOpen} style={{color: "white", cursor: "pointer", fontSize: "medium"}}/>
         <Modal
           open={open}
           onClose={handleClose}
@@ -110,14 +118,15 @@ const GoalModal = (props) => {
 
 const mapStateToProps = state => {
   return {
-      columns: state.tasks.columns,
+      goals: state.goals.items,
   };
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-      onGoalAdded: (goal, date) => dispatch(actions.addGoal(goal, date)),
+        onEditGoal: (source, destination) => dispatch(actions.editGoal(source, destination)),
+         
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(GoalModal);
+export default connect(mapStateToProps, mapDispatchToProps)(EditDeleteGoalModal);

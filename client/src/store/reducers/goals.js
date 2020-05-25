@@ -38,12 +38,19 @@ const goalMoved = (state, action) => {
     }; 
   }
 
+  const editGoal = (state, action) => {
+    return {
+      ...state,
+    }; 
+  }
+
 
 const reducer =(state = initialState, action) => {
     switch (action.type) {
         case actionType.GOAL_MOVED: return goalMoved(state, action);
         case actionType.GET_GOALS: return getGoals(state, action);
         case actionType.ADD_GOAL: return addGoal(state, action);
+        case actionType.EDIT_GOAL: return editGoal(state, action);
 
         default:
             return state;
