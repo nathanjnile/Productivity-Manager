@@ -5,6 +5,7 @@ import classes from "./LongTermGoals.module.css";
 import uuid from "uuid/v4";
 import Card from '@material-ui/core/Card';
 import * as actions from "../../store/actions/index";
+import GoalModal from "./GoalModal";
 
 import Typography from '@material-ui/core/Typography';
 
@@ -64,6 +65,7 @@ const LongTermGoals = (props) => {
             );
         }}
         </Droppable>
+        <GoalModal/>
     </div>
 </DragDropContext>
 </div>

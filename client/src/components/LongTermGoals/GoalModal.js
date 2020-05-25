@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 
-import * as actions from "../../../store/actions/index";
+import * as actions from "../../store/actions/index";
 
   function getModalStyle() {
     const top = 25;
@@ -29,16 +29,17 @@ import * as actions from "../../../store/actions/index";
       border: '2px solid #000',
       boxShadow: theme.shadows[5],
       padding: theme.spacing(2, 4, 3),
-
     },
   }));
 
-const ItemModal = (props) => {
+const GoalModal = (props) => {
     const classes = useStyles();
     // getModalStyle is not a pure function, we roll the style only on the first render
     const [modalStyle] = useState(getModalStyle);
     const [open, setOpen] = useState(false);
-    const [taskInput, setTaskInput] = useState("");
+    const [goalInput, setGoalInput] = useState("");
+    const [dateInput, setDateInput] = useState("");
+
   
     const handleOpen = () => {
       setOpen(true);
@@ -51,28 +52,37 @@ const ItemModal = (props) => {
 
     const submitForm = (event) => {
         event.preventDefault();
-        if (taskInput !== "") {
-        props.onTaskAdded(taskInput, props.columnId);
+        if (goalInput !== "" && dateInput !== "") {
+        props.onGoalAdded(goalInput, dateInput);
         }
         handleClose();
-        setTaskInput("");
+        setGoalInput("");
+        setDateInput("");
     }
   
     const body = (
       <div style={modalStyle} className={classes.paper}>
             <Typography variant="h5" gutterBottom style={{color: "#2c2f35"}}>
-                Enter task name:
+                Enter goal information:
             </Typography>
             <form onSubmit={(event) => submitForm(event)}>
             <TextField 
-            id="Task-field"
-            label="Task"
+            id="Goal-field"
+            label="Goal"
             size="small"
-            value={taskInput}
-            onChange={(event) => setTaskInput(event.target.value)}
+            value={goalInput}
+            onChange={(event) => setGoalInput(event.target.value)}
             variant="filled" 
-            style={{width: "100%"}}
-            autoFocus
+            style={{width: "100%", marginTop: 10}}
+             />
+            <TextField 
+            id="date-field"
+            label="Date"
+            size="small"
+            value={dateInput}
+            onChange={(event) => setDateInput(event.target.value)}
+            variant="filled" 
+            style={{width: "100%", marginTop: 10}}
              />
              <br/><br/>
              <Button type="submit" style={{backgroundColor: "#3F51B5", color:"#FFFFFF"}}>Add Task</Button>
@@ -83,7 +93,7 @@ const ItemModal = (props) => {
     return (
       <div>
         <div style={{padding: 4, display:'flex',alignItems:'center',justifyContent:'center'}}>
-        <Button onClick={handleOpen} style={{backgroundColor: "#3F51B5", color:"#FFFFFF", width: 100, textTransform: "none"}}>Add Task</Button> 
+        <Button onClick={handleOpen} style={{backgroundColor: "#3F51B5", color:"#FFFFFF", width: 100, textTransform: "none"}}>Add Goal</Button> 
         </div>
         <Modal
           open={open}
@@ -106,8 +116,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-      onTaskAdded: (task, columnId) => dispatch(actions.addTask(task, columnId)),
+      onGoalAdded: (goal, date) => dispatch(actions.addGoal(goal, date)),
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ItemModal);
+export default connect(mapStateToProps, mapDispatchToProps)(GoalModal);

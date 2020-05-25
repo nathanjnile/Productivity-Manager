@@ -1,10 +1,17 @@
 import * as actionTypes from "./actionTypes";
 import axios from "axios";
 
-export const addGoal = () => {
-    return {
-        type: actionTypes.ADD_GOAL
-    }  
+export const addGoal = (goal, date) => {
+    return dispatch => {
+        // dispatch(setItemsLoading);
+        axios.post("/api/goal/add", {content: goal, date})
+        .then(response => {
+            dispatch({
+                type: actionTypes.ADD_GOAL,
+                payload: response.data
+            })
+        }).catch(err => console.log(err));
+    };
 }
 
 export const goalMoved = (source, destination) => {

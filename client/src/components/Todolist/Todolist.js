@@ -125,7 +125,7 @@ const Todolist = (props) => {
         </Droppable>
       </DragDropContext>
       <div style={{width: 200}}>
-      {enterAddList ? <Button onClick={() => setEnterAddList(false)} className={classes.addListButton} style={{backgroundColor: "#3F51B5", color: "#ffffff"}}>Add List</Button> : listField}
+      {enterAddList ? <Button onClick={() => setEnterAddList(false)} className={classes.addListButton} style={{backgroundColor: "#3F51B5", color: "#ffffff", textTransform: "none"}}>Add List</Button> : listField}
       </div>
     </div>
     </React.Fragment>

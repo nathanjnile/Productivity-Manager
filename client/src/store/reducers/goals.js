@@ -1,4 +1,5 @@
 import * as actionType from "../actions/actionTypes";
+// import { v4 as uuidv4 } from 'uuid';
 // import { updateObject } from "../../shared/utility";
 
 const initialState = {
@@ -29,11 +30,21 @@ const goalMoved = (state, action) => {
     }; 
   }
 
+  const addGoal = (state, action) => {
+    console.log(action);
+    return {
+      ...state,
+      items : [...state.items, {_id: action.payload._id, content: action.payload.content, date: action.payload.date}]
+    }; 
+  }
+
 
 const reducer =(state = initialState, action) => {
     switch (action.type) {
         case actionType.GOAL_MOVED: return goalMoved(state, action);
         case actionType.GET_GOALS: return getGoals(state, action);
+        case actionType.ADD_GOAL: return addGoal(state, action);
+
         default:
             return state;
     }

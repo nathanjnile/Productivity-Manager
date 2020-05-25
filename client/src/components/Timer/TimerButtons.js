@@ -31,20 +31,20 @@ const TimerButtons = (props) => {
     return(
         <React.Fragment>
             <div className={classes.ButtonWorkBreak}>
-                <Button onClick={() => addTime(25*60, "25work")} style={{backgroundColor: "#3F51B5", color:"#FFFFFF", width: 180}}>25 minutes work</Button>
+                <Button onClick={() => addTime(25*60, "25work")} style={{backgroundColor: "#3F51B5", color:"#FFFFFF", width: 180, textTransform: "none"}}>25 minutes work</Button>
             </div>
             <div className={classes.ButtonWorkBreak}>
-                <Button onClick={() => addTime(5*60, "5break")} style={{backgroundColor: "#3F51B5", color:"#FFFFFF", width: 180}}>5 minutes break</Button>
+                <Button onClick={() => addTime(5*60, "5break")} style={{backgroundColor: "#3F51B5", color:"#FFFFFF", width: 180, textTransform: "none"}}>5 minutes break</Button>
             </div>
             <div className={classes.Button}>
             <div className={classes.Button}>
-                <Button onClick={() => setTimerOn(true)} style={{backgroundColor: "green", color:"#FFFFFF", width: 70, opacity: 0.8}}>Start</Button>
+                <Button onClick={() => setTimerOn(true)} style={{backgroundColor: "green", color:"#FFFFFF", width: 70, opacity: 0.8, textTransform: "none"}}>Start</Button>
             </div>
             <div className={classes.Button}>
-                <Button onClick={() => handleStop()} style={{backgroundColor: "red", color:"#FFFFFF", width: 70, opacity: 0.8}}>Stop</Button>
+                <Button onClick={() => handleStop()} style={{backgroundColor: "red", color:"#FFFFFF", width: 70, opacity: 0.8, textTransform: "none"}}>Stop</Button>
             </div>
             <div className={classes.Button}>
-                <Button onClick={() => resetTime()} style={{backgroundColor: "#3F51B5", color:"#FFFFFF", width: 70}}>Reset</Button>
+                <Button onClick={() => resetTime()} style={{backgroundColor: "#3F51B5", color:"#FFFFFF", width: 70, textTransform: "none"}}>Reset</Button>
             </div>
             </div>
         </React.Fragment>
