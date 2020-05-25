@@ -55,7 +55,9 @@ const LongTermGoals = (props) => {
                                      <Typography variant="subtitle2" align="right" style={{color: "white"}}>
                                      {item.date} 
                                      </Typography>
+                                     <div style={{display: "flex", justifyContent: "center", alignItems: "center", marginLeft: 5}}>
                                      <EditDeleteGoalModal cardId={item._id} cardIndex={index} />
+                                     </div>
                                      </Card>
                                      );
                                      }}
@@ -83,9 +85,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onGoalAdded: () => dispatch(actions.addGoal()),
         onGoalMoved: (source, destination) => dispatch(actions.goalMoved(source, destination)),
-        onDeleteGoal: (newList) => dispatch(actions.deleteGoal(newList)),
         onGetGoals: () => dispatch(actions.getGoals())
     }
   }

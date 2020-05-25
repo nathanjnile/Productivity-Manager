@@ -36,7 +36,7 @@ import * as actions from "../../store/actions/index";
   }));
 
 const EditDeleteGoalModal = (props) => {
-    const {columnId, cardId, cardIndex} = props;
+    const {cardId, cardIndex} = props;
     const classes = useStyles();
     // getModalStyle is not a pure function, we roll the style only on the first render
     const [modalStyle] = useState(getModalStyle);
@@ -94,7 +94,7 @@ const EditDeleteGoalModal = (props) => {
              />
              <div style={{marginTop: 10, display: "flex", alignItems: "center", justifyContent:"center"}}>
              <Button type="submit" style={{backgroundColor: "#3F51B5", color:"#FFFFFF"}}>Change Task</Button>
-             <Button onClick={() => props.onDeleteTask(columnId)}  style={{backgroundColor: "red", color:"#FFFFFF", marginLeft: "auto"}}>Delete Task</Button>
+             <Button onClick={() => props.onDeleteGoal(cardId, cardIndex)}  style={{backgroundColor: "red", color:"#FFFFFF", marginLeft: "auto"}}>Delete Task</Button>
             </div>
             </form>
       </div>
@@ -125,6 +125,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
         onEditGoal: (source, destination) => dispatch(actions.editGoal(source, destination)),
+        onDeleteGoal: (cardId, cardIndex) => dispatch(actions.deleteGoal(cardId, cardIndex))
          
   }
 }

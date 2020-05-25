@@ -37,14 +37,14 @@ router.route("/add").post((req, res) => {
 //     .catch(err => res.status(400).json("Error: " + err));
 // });
 
-// // @route Delete api/items/:id
-// // @desc Delete single item
-// // @access Public
-// router.route("/:id").delete(auth, (req, res) => {
-//     Item.findByIdAndDelete(req.params.id)
-//     .then(() => res.json("Item deleted."))
-//     .catch(err => res.status(400).json("Error: " + err));
-// });
+// @route Delete api/items/:id
+// @desc Delete single item
+// @access Public
+router.route("/:id").delete((req, res) => {
+    Goal.findByIdAndDelete(req.params.id)
+    .then(() => res.json("Item deleted."))
+    .catch(err => res.status(400).json("Error: " + err));
+});
 
 // @route POST api/items/update/:id
 // @desc Update single item
@@ -62,28 +62,6 @@ router.route("/update/:id").patch((req, res) => {
     .catch(err => res.status(400).json("Error: " + err));
 });
 
-// // @route POST api/items/update/:id
-// // @desc Update single item
-// // @access Private
-// router.route("/update").post((req, res) => {
-//     Goals.findAndModify().then(goals => {
-//         console.log(goals[0].content);
-//         // return(res.json(goals))
-
-//         goals.save().then(() => res.json("Goals updated!"))
-//         .catch(err => res.status(400).json("Error: " + err))
-//     }
-//         ).catch(err => res.status(400).json("Error: " + err));
-//     // Item.findById(req.params.id)
-    // .then(item => {
-    //     item.name = req.body.name;
-
-    //     item.save()
-    //     .then(() => res.json("Item updated!"))
-    //     .catch(err => res.status(400).json("Error: " + err))
-    // })
-    // .catch(err => res.status(400).json("Error: " + err));
-// });
 
 
 module.exports = router;

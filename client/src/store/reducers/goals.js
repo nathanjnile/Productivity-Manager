@@ -44,6 +44,17 @@ const goalMoved = (state, action) => {
     }; 
   }
 
+  const deleteGoal = (state, action) => {
+    console.log(action.payload.cardIndex);
+    const copiedGoals = [...state.items];
+    copiedGoals.splice(action.payload.cardIndex, 1);
+    console.log(copiedGoals);    
+    return {
+      ...state,
+      items: copiedGoals
+    }; 
+  }
+
 
 const reducer =(state = initialState, action) => {
     switch (action.type) {
@@ -51,7 +62,7 @@ const reducer =(state = initialState, action) => {
         case actionType.GET_GOALS: return getGoals(state, action);
         case actionType.ADD_GOAL: return addGoal(state, action);
         case actionType.EDIT_GOAL: return editGoal(state, action);
-
+        case actionType.DELETE_GOAL: return deleteGoal(state, action);
         default:
             return state;
     }

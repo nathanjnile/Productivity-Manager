@@ -141,7 +141,7 @@ const deleteTask = (state, action) => {
   const sourceColumn = columns[columnId];
   const sourceItems = [...sourceColumn.items];
   sourceItems.splice(itemIndex, 1);
-  console.log(sourceItems);
+  // console.log(sourceItems);
   return {
     ...state,
     columns : {

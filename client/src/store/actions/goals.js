@@ -28,10 +28,17 @@ export const editGoal = () => {
     }  
 }
 
-export const deleteGoal = () => {
-    return {
-        type: actionTypes.DELETE_GOAL
-    }  
+export const deleteGoal = (cardId, cardIndex) => {
+    return dispatch => {
+        // dispatch(setItemsLoading);
+        axios.delete(`/api/goal/${cardId}`)
+        .then(response => {
+            dispatch({
+                type: actionTypes.DELETE_GOAL,
+                payload: {cardId, cardIndex}
+            })
+        }).catch(err => console.log(err));
+    }; 
 }
 
 export const getGoals = () => {
