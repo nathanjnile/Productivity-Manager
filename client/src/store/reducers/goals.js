@@ -1,6 +1,8 @@
 import * as actionType from "../actions/actionTypes";
 // import { v4 as uuidv4 } from 'uuid';
 // import { updateObject } from "../../shared/utility";
+// import changeOrder from "../../shared/reorder";
+
 
 const initialState = {
     // items : [
@@ -12,14 +14,16 @@ const initialState = {
 }
 
 const goalMoved = (state, action) => {
-    const {source, destination} = action;
-    const { items } = state;
-    const copiedItems = [...items];
-    const [removed] = copiedItems.splice(source.index, 1);
-    copiedItems.splice(destination.index, 0, removed);
+    // const {source, destination} = action;
+    // const { items } = state;
+    // const copiedItems = [...items];
+    // const [removed] = copiedItems.splice(source.index, 1);
+    // copiedItems.splice(destination.index, 0, removed);
+    // const copiedItems2 = changeOrder([...copiedItems]);
+    console.log("pre redux update")
     return {
       ...state,
-      items: copiedItems
+      items: action.copiedItems
     }; 
   }
 
@@ -34,7 +38,7 @@ const goalMoved = (state, action) => {
     console.log(action);
     return {
       ...state,
-      items : [...state.items, {_id: action.payload._id, content: action.payload.content, date: action.payload.date}]
+      items : [...state.items, {_id: action.payload._id, content: action.payload.content, date: action.payload.date, order: action.payload.order}]
     }; 
   }
 

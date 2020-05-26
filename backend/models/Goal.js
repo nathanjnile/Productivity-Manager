@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 const goalSchema = new Schema({
     content: {type:String, required: true},
     date: {type:String, required: true},
+    order: {type:Number, required: true}
 });
 
 const Goal = mongoose.model("goal", goalSchema);

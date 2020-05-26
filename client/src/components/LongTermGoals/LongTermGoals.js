@@ -16,7 +16,7 @@ const LongTermGoals = (props) => {
     const onDragEnd = (result) => {
         if(!result.destination) return;
         const { source, destination } = result;
-        props.onGoalMoved(source, destination);
+        props.onGoalMoved(source, destination, props.items);
     }
 
     const {items, onGetGoals } = props;
@@ -85,7 +85,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onGoalMoved: (source, destination) => dispatch(actions.goalMoved(source, destination)),
+        onGoalMoved: (source, destination, items) => dispatch(actions.goalMoved(source, destination, items)),
         onGetGoals: () => dispatch(actions.getGoals())
     }
   }

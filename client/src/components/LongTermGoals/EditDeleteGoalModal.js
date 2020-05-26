@@ -36,7 +36,7 @@ import * as actions from "../../store/actions/index";
   }));
 
 const EditDeleteGoalModal = (props) => {
-    const {cardId, cardIndex} = props;
+    const {cardId, cardIndex, goals} = props;
     const classes = useStyles();
     // getModalStyle is not a pure function, we roll the style only on the first render
     const [modalStyle] = useState(getModalStyle);
@@ -46,8 +46,11 @@ const EditDeleteGoalModal = (props) => {
   
     const handleOpen = () => {
       setOpen(true);
-      console.log(props.goals);
-      console.log(cardId);
+      console.log(goals);
+      for (let i = 0;i < goals.length;i++) {
+        console.log(i, goals[i].order);
+      }
+      // console.log(cardId);
       setGoalInput(props.goals[cardIndex].content);
       setDateInput(props.goals[cardIndex].date);
 

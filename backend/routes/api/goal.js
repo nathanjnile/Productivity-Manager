@@ -17,10 +17,12 @@ router.route("/").get((req, res) => {
 router.route("/add").post((req, res) => {
     const content = req.body.content;
     const date = req.body.date;
+    const order = req.body.order;
 
     const newGoal = new Goal({
         content,
-        date   
+        date,
+        order   
     });
 
     newGoal.save()

@@ -43,7 +43,6 @@ const GoalModal = (props) => {
   
     const handleOpen = () => {
       setOpen(true);
-      console.log(props.columnId);
     };
   
     const handleClose = () => {
@@ -53,7 +52,7 @@ const GoalModal = (props) => {
     const submitForm = (event) => {
         event.preventDefault();
         if (goalInput !== "" && dateInput !== "") {
-        props.onGoalAdded(goalInput, dateInput);
+        props.onGoalAdded(goalInput, dateInput, props.goals);
         }
         handleClose();
         setGoalInput("");
@@ -110,13 +109,13 @@ const GoalModal = (props) => {
 
 const mapStateToProps = state => {
   return {
-      columns: state.tasks.columns,
+    goals: state.goals.items,
   };
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-      onGoalAdded: (goal, date) => dispatch(actions.addGoal(goal, date)),
+      onGoalAdded: (goal, date, goals) => dispatch(actions.addGoal(goal, date, goals)),
   }
 }
 
