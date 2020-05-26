@@ -64,6 +64,20 @@ router.route("/update/:id").patch((req, res) => {
     .catch(err => res.status(400).json("Error: " + err));
 });
 
+router.route("/updateMove").post((req, res) => {
+    // console.log(req.body.newItems);
+    console.log(req.body.newItems[0]._id);
+    Goal.findByIdAndUpdate(req.body.newItems[0]._id)
+    .then(goal => {
+        goal.order = req.body.newItems[0].order
+        console.log("here")
+
+        goal.save()
+        .then(() => res.json("Goal updated!"))
+        .catch(err => res.status(400).json("Error: " + err))
+    })
+    .catch(err => res.status(400).json("Error: " + err));
+});
 
 
 module.exports = router;

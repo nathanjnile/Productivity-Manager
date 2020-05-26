@@ -30,8 +30,20 @@ export const goalMoved = (source, destination, items) => {
         destination: destination
         });
         // axios call to send new order to backend
+        axios.post("/api/goal/updateMove", {oldItems: items, newItems: copiedItems2})
+        .then(res => {
+            console.log(res);
+        }).catch(error => {
+            console.log(error);
+        })
         console.log("Sup Bruh")
-        axios.post()
+        // for(let i = 0; i < copiedItems2.length;i++) {
+        //     if (items[i] !== copiedItems2[i]) {
+        //         console.log(items[i]);
+        //         console.log(copiedItems2[i]);
+        //     }
+        // }
+        // axios.post()
     }  
 }
 
