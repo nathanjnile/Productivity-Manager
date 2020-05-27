@@ -29,21 +29,31 @@ export const goalMoved = (source, destination, items) => {
         source: source,
         destination: destination
         });
-        // axios call to send new order to backend
-        axios.post("/api/goal/updateMove", {oldItems: items, newItems: copiedItems2})
-        .then(res => {
-            console.log(res);
-        }).catch(error => {
-            console.log(error);
-        })
-        console.log("Sup Bruh")
-        // for(let i = 0; i < copiedItems2.length;i++) {
-        //     if (items[i] !== copiedItems2[i]) {
-        //         console.log(items[i]);
-        //         console.log(copiedItems2[i]);
-        //     }
-        // }
-        // axios.post()
+    // Compare old goals and new goals for updated items
+    const updatedArray = [];
+    for(let i = 0; i < copiedItems2.length;i++) {
+        if (items[i] !== copiedItems2[i]) {
+            // console.log(items[i]);
+            console.log(copiedItems2[i]);
+            updatedArray.push(copiedItems2[i]);
+        }
+    }
+    console.log(updatedArray);
+    
+    if(updatedArray.length > 0) {
+
+    // axios call to send new order to backend
+    axios.post("/api/goal/updateMove", {newItems: updatedArray})
+    .then(res => {
+        console.log(res);
+    }).catch(error => {
+        console.log(error);
+    });
+
+    }
+
+
+    // axios.post()
     }  
 }
 

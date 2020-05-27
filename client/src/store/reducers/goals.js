@@ -20,7 +20,7 @@ const goalMoved = (state, action) => {
     // const [removed] = copiedItems.splice(source.index, 1);
     // copiedItems.splice(destination.index, 0, removed);
     // const copiedItems2 = changeOrder([...copiedItems]);
-    console.log("pre redux update")
+    // console.log("pre redux update")
     return {
       ...state,
       items: action.copiedItems

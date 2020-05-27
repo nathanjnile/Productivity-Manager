@@ -1,6 +1,9 @@
 const router = require("express").Router();
 const Goal = require("../../models/Goal");
 // const auth = require("../../middleware/auth");
+const util = require('util')
+var ObjectId = require('mongodb').ObjectID;
+
 
 // @route GET api/goals
 // @desc get All Items
@@ -65,19 +68,57 @@ router.route("/update/:id").patch((req, res) => {
 });
 
 router.route("/updateMove").post((req, res) => {
-    // console.log(req.body.newItems);
-    console.log(req.body.newItems[0]._id);
-    Goal.findByIdAndUpdate(req.body.newItems[0]._id)
-    .then(goal => {
-        goal.order = req.body.newItems[0].order
-        console.log("here")
+    const {newItems} = req.body;
+    console.log(newItems);
+    // console.log(req.body.newItems[0]._id);
+    // let bulkOp = Goal.collection.initializeUnorderedBulkOp();
 
-        goal.save()
-        .then(() => res.json("Goal updated!"))
-        .catch(err => res.status(400).json("Error: " + err))
-    })
-    .catch(err => res.status(400).json("Error: " + err));
-});
+    // for(let i = 0; i < newItems.length; i++) {
+    // let bulkOp = Goal.collection.initializeUnorderedBulkOp();
+    //     console.log(newItems[i]);
+    //     bulkOp.find({_id : newItems[i]._id}).update({order: newItems[i].order});
+    //     bulkOp.execute((res => {
+    //         console.log(res)
+    //     }));
+    var callback = function(err, r){
+        console.log(err)
+        console.log(r)
+        // console.log(r.matchedCount);
+        // console.log(r.modifiedCount);
+    }
+    // Initialise the bulk operations array
+    var ops = newItems.map(function (item) { 
+        console.log(item._id)
+        console.log(item.order)
+        return { 
+            "updateOne": { "filter": { _id: new ObjectId(item._id) }, "update": { "$set": { "order": item.order } } 
+            }         
+        }    
+    });
+
+    console.log(util.inspect(ops, {showHidden: false, depth: null}));
+    
+    // Get the underlying collection via the native node.js driver collection object
+    try {
+        Goal.collection.bulkWrite(ops, callback);
+    } catch (err) {
+        console.log(error);
+    }
+
+    });
+
+
+
+    // Goal.findByIdAndUpdate(req.body.newItems[0]._id)
+    // .then(goal => {
+    //     goal.order = req.body.newItems[0].order
+    //     // console.log("here")
+
+    //     goal.save()
+    //     .then(() => res.json("Goal updated!"))
+    //     .catch(err => res.status(400).json("Error: " + err))
+    // })
+    // .catch(err => res.status(400).json("Error: " + err));
 
 
 module.exports = router;
