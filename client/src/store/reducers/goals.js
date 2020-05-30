@@ -1,8 +1,4 @@
 import * as actionType from "../actions/actionTypes";
-// import { v4 as uuidv4 } from 'uuid';
-// import { updateObject } from "../../shared/utility";
-// import changeOrder from "../../shared/reorder";
-
 
 const initialState = {
     // items : [
@@ -28,9 +24,12 @@ const goalMoved = (state, action) => {
   }
 
   const getGoals = (state, action) => {
+    const orderedGoals = action.payload.sort((a, b) => {
+      return a.order - b.order;
+    });
     return {
       ...state,
-      items: action.payload
+      items: orderedGoals
     }; 
   }
 
@@ -45,17 +44,21 @@ const goalMoved = (state, action) => {
   const editGoal = (state, action) => {
     return {
       ...state,
+      items : [
+        ...state.items,
+        
+      ]
     }; 
   }
 
   const deleteGoal = (state, action) => {
-    console.log(action.payload.cardIndex);
-    const copiedGoals = [...state.items];
-    copiedGoals.splice(action.payload.cardIndex, 1);
-    console.log(copiedGoals);    
+    // console.log(action.payload.cardIndex);
+    // const copiedGoals = [...state.items];
+    // copiedGoals.splice(action.payload.cardIndex, 1);
+    // console.log(copiedGoals);    
     return {
       ...state,
-      items: copiedGoals
+      items: action.payload
     }; 
   }
 

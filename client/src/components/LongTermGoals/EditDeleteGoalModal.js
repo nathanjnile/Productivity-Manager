@@ -46,11 +46,6 @@ const EditDeleteGoalModal = (props) => {
   
     const handleOpen = () => {
       setOpen(true);
-      console.log(goals);
-      for (let i = 0;i < goals.length;i++) {
-        console.log(i, goals[i].order);
-      }
-      // console.log(cardId);
       setGoalInput(props.goals[cardIndex].content);
       setDateInput(props.goals[cardIndex].date);
 
@@ -64,11 +59,10 @@ const EditDeleteGoalModal = (props) => {
     const submitForm = (event) => {
         event.preventDefault();
         if (goalInput !== "") {
-          // props.onEditTask(taskInput, columnId, itemId, itemIndex);
-        // props.onTaskAdded(taskInput, props.columnId);
+          props.onEditGoal(cardId, goalInput, dateInput, cardIndex);
         }
         handleClose();
-        // setTaskInput("");
+        setGoalInput("");
     }
   
     const body = (
@@ -97,7 +91,7 @@ const EditDeleteGoalModal = (props) => {
              />
              <div style={{marginTop: 10, display: "flex", alignItems: "center", justifyContent:"center"}}>
              <Button type="submit" style={{backgroundColor: "#3F51B5", color:"#FFFFFF"}}>Change Task</Button>
-             <Button onClick={() => props.onDeleteGoal(cardId, cardIndex)}  style={{backgroundColor: "red", color:"#FFFFFF", marginLeft: "auto"}}>Delete Task</Button>
+             <Button onClick={() => props.onDeleteGoal(cardId, cardIndex, goals)}  style={{backgroundColor: "red", color:"#FFFFFF", marginLeft: "auto"}}>Delete Task</Button>
             </div>
             </form>
       </div>
@@ -127,8 +121,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-        onEditGoal: (source, destination) => dispatch(actions.editGoal(source, destination)),
-        onDeleteGoal: (cardId, cardIndex) => dispatch(actions.deleteGoal(cardId, cardIndex))
+        onEditGoal: (cardId, newGoalContent, newGoalDate, cardIndex) => dispatch(actions.editGoal(cardId, newGoalContent, newGoalDate, cardIndex)),
+        onDeleteGoal: (cardId, cardIndex, goals) => dispatch(actions.deleteGoal(cardId, cardIndex, goals))
          
   }
 }

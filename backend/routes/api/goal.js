@@ -51,52 +51,28 @@ router.route("/:id").delete((req, res) => {
     .catch(err => res.status(400).json("Error: " + err));
 });
 
-// @route POST api/items/update/:id
-// @desc Update single item
-// @access Private
-router.route("/update/:id").patch((req, res) => {
-    Goal.findByIdAndUpdate(req.params.id)
-    .then(goal => {
-        goal.content = req.body.content;
-        goal.date = req.body.date;
-
-        goal.save()
-        .then(() => res.json("Goal updated!"))
-        .catch(err => res.status(400).json("Error: " + err))
-    })
-    .catch(err => res.status(400).json("Error: " + err));
-});
-
-router.route("/updateMove").post((req, res) => {
-    const {newItems} = req.body;
-    console.log(newItems);
-    // console.log(req.body.newItems[0]._id);
-    // let bulkOp = Goal.collection.initializeUnorderedBulkOp();
-
-    // for(let i = 0; i < newItems.length; i++) {
-    // let bulkOp = Goal.collection.initializeUnorderedBulkOp();
-    //     console.log(newItems[i]);
-    //     bulkOp.find({_id : newItems[i]._id}).update({order: newItems[i].order});
-    //     bulkOp.execute((res => {
-    //         console.log(res)
-    //     }));
+router.route("/deleteAndUpdate").post((req, res) => {
+    console.log("backend Start");
+    const {itemToDelete} = req.body;
+    const {itemsToReorder} = req.body;
     var callback = function(err, r){
-        console.log(err)
-        console.log(r)
-        // console.log(r.matchedCount);
-        // console.log(r.modifiedCount);
+        if(err) {
+            res.status(400).json(err);
+            console.log(err)
+        } else {
+            res.json("Success!");
+            console.log(r)
+        }
     }
     // Initialise the bulk operations array
-    var ops = newItems.map(function (item) { 
-        console.log(item._id)
-        console.log(item.order)
+    let ops = itemsToReorder.map(function (item) { 
         return { 
             "updateOne": { "filter": { _id: new ObjectId(item._id) }, "update": { "$set": { "order": item.order } } 
             }         
         }    
     });
 
-    console.log(util.inspect(ops, {showHidden: false, depth: null}));
+    ops.push({ "deleteOne": { "filter": { _id: new ObjectId(itemToDelete._id) }}});
     
     // Get the underlying collection via the native node.js driver collection object
     try {
@@ -107,18 +83,49 @@ router.route("/updateMove").post((req, res) => {
 
     });
 
+// @route POST api/items/update/:id
+// @desc Update single item
+// @access Private
+router.route("/update/:id").post((req, res) => {
+    Goal.findByIdAndUpdate(req.params.id)
+    .then(goal => {
+        goal.content = req.body.newContent;
+        goal.date = req.body.newGoalDate;
 
+        goal.save()
+        .then(() => res.json("Goal updated!"))
+        .catch(err => res.status(400).json("Error: " + err))
+    })
+    .catch(err => res.status(400).json("Error: " + err));
+});
 
-    // Goal.findByIdAndUpdate(req.body.newItems[0]._id)
-    // .then(goal => {
-    //     goal.order = req.body.newItems[0].order
-    //     // console.log("here")
+router.route("/updateMove").post((req, res) => {
+    console.log("backend Start");
+    const {newItems} = req.body;
+    var callback = function(err, r){
+        if(err) {
+            res.status(400).json(err);
+            console.log(err)
+        } else {
+            res.json("Success!");
+            console.log(r)
+        }
+    }
+    // Initialise the bulk operations array
+    var ops = newItems.map(function (item) { 
+        return { 
+            "updateOne": { "filter": { _id: new ObjectId(item._id) }, "update": { "$set": { "order": item.order } } 
+            }         
+        }    
+    });
+    
+    // Get the underlying collection via the native node.js driver collection object
+    try {
+        Goal.collection.bulkWrite(ops, callback);
+    } catch (err) {
+        console.log(error);
+    }
 
-    //     goal.save()
-    //     .then(() => res.json("Goal updated!"))
-    //     .catch(err => res.status(400).json("Error: " + err))
-    // })
-    // .catch(err => res.status(400).json("Error: " + err));
-
+    });
 
 module.exports = router;
