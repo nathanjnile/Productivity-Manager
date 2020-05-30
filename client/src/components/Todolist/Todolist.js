@@ -76,6 +76,7 @@ const Todolist = (props) => {
         {(provided) => (
           <div className={classes.columnDrop} {...provided.droppableProps} ref={provided.innerRef}>
           {Object.entries(columns).map(([id, column], index) => {
+            console.log(Object.entries(columns))
             return(
               <Draggable key={id} draggableId={id} index={index}>
                 {(provided) => (

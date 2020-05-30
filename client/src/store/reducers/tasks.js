@@ -2,18 +2,16 @@ import * as actionType from "../actions/actionTypes";
 // import { updateObject } from "../../shared/utility";
 import uuid from "uuid/v4";
 
-const itemsFromBackend = [
-    {id: uuid(), content: "Go for a run"},
-    {id: uuid(), content: "Take the bins out"},
-    {id: uuid(), content: "Cook meals for the week"},
-    {id: uuid(), content: "Complete next section of node course"}
-  ]
-  
-  const columns = 
-    {
+const initialState = {
+    columns :     {
       [uuid()]: {
         name: "Todo",
-        items: itemsFromBackend
+        items: [
+          {id: uuid(), content: "Go for a run"},
+          {id: uuid(), content: "Take the bins out"},
+          {id: uuid(), content: "Cook meals for the week"},
+          {id: uuid(), content: "Complete next section of node course"}
+        ]
       },
       [uuid()]: {
         name: "In Progress",
@@ -23,10 +21,7 @@ const itemsFromBackend = [
         name: "Done",
         items: []
       }
-    };
-
-const initialState = {
-    columns
+    }
 }
 
 const addTask = (state, action) => {
