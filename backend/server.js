@@ -19,11 +19,16 @@ connection.once("open", () => {
     console.log("MongoDB database connection established successfully");
 });
 
-// const tasksRouter = require("./routes/api/items");
+// api routes
+
+const taskRouter = require("./routes/api/task");
+const columnRouter = require("./routes/api/column");
 const goalRouter = require("./routes/api/goal");
 
+app.use("/api/task", taskRouter);
+app.use("/api/column", columnRouter);
 app.use("/api/goal", goalRouter);
-// app.use("/api/users", usersRouter);
+
 
 // Serve static assets if in production
 

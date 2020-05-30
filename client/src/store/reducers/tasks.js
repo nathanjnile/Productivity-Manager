@@ -1,28 +1,34 @@
 import * as actionType from "../actions/actionTypes";
 // import { updateObject } from "../../shared/utility";
 import uuid from "uuid/v4";
+const { v4: uuidv4 } = require('uuid');
+
 
 const initialState = {
-    columns :     {
-      [uuid()]: {
-        name: "Todo",
-        items: [
-          {id: uuid(), content: "Go for a run"},
-          {id: uuid(), content: "Take the bins out"},
-          {id: uuid(), content: "Cook meals for the week"},
-          {id: uuid(), content: "Complete next section of node course"}
-        ]
-      },
-      [uuid()]: {
-        name: "In Progress",
-        items: []
-      },
-      [uuid()]: {
-        name: "Done",
-        items: []
-      }
+    columns : [
+      {
+      _id: uuidv4(),
+      name: "Todo",
+      items: [
+        {_id: uuidv4(), content: "Go for a run"},
+        {_id: uuidv4(), content: "Take the bins out"}
+      ]
+    },
+    {
+      _id: uuidv4(),
+      name: "In Progress",
+      items: [
+          {_id: uuidv4(), content: "Cook meals for the week"},
+          {_id: uuidv4(), content: "Complete next section of node course"}
+      ]
+    },
+    {
+      _id: uuidv4(),
+      name: "Done",
+      items: []
     }
-}
+  ]
+} 
 
 const addTask = (state, action) => {
   const {task, id} = action;

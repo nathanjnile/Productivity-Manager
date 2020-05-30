@@ -75,21 +75,22 @@ const Todolist = (props) => {
         <Droppable droppableId="all-column" direction="horizontal" type="column">
         {(provided) => (
           <div className={classes.columnDrop} {...provided.droppableProps} ref={provided.innerRef}>
-          {columns.map((column, index) => {
+          {Object.entries(columns).map(([id, column], index) => {
+            console.log(Object.entries(columns))
             return(
-              <Draggable key={column._id} draggableId={column._id} index={index}>
+              <Draggable key={id} draggableId={id} index={index}>
                 {(provided) => (
                   <div className={classes.columnDiv} {...provided.draggableProps} ref={provided.innerRef}>
                   <Typography variant="h6" className={classes.columnHeader} {...provided.dragHandleProps}> {column.name} </Typography>
                   <div style={{margin: 8}}>
-                  <Droppable droppableId={column._id} key={column._id} type="task">
+                  <Droppable droppableId={id} key={id} type="task">
                     {(provided, snapshot) => {
                       return (
                         <div {...provided.droppableProps} ref={provided.innerRef} className={classes.columnMain}
                          style={{background: snapshot.isDraggingOver ? "lightblue" : "lightgrey"}}>
                            {column.items.map((item, index) => {
                              return (
-                              <Draggable key={item._id} draggableId={item._id} index={index}>
+                              <Draggable key={item.id} draggableId={item.id} index={index}>
                                 {(provided, snapshot) => {
                                   return(
                                   <Card {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}
@@ -100,7 +101,7 @@ const Todolist = (props) => {
                                     <Typography variant="subtitle2" style={{color: "white"}}>
                                     {item.content} 
                                     </Typography>
-                                    <EditDeleteModal columnId={column._id} itemId={item._id} itemIndex={index}/>
+                                    <EditDeleteModal columnId={id} itemId={item.id} itemIndex={index}/>
                                   </Card>
                                   );
                                 }}
@@ -112,7 +113,7 @@ const Todolist = (props) => {
                       );
                     }}
                   </Droppable>
-                  <ItemModal columnId={column._id} />
+                  <ItemModal columnId={id} />
                   </div>
                   </div>
                 )}
@@ -141,7 +142,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
       onTaskAdded: () => dispatch(actions.addTask()),
-      onTaskMoved: (source, destination,) => dispatch(actions.taskMoved(source, destination)),
+      onTaskMoved: (source, destination) => dispatch(actions.taskMoved(source, destination)),
       onTaskMovedColumn: (source, destination) => dispatch(actions.taskMovedColumn(source, destination)),
       onColumnMoved: (source, destination) => dispatch(actions.columnMoved(source, destination)),
       onAddList: (newList) => dispatch(actions.addList(newList))

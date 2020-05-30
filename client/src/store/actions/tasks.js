@@ -5,8 +5,7 @@ export const addTask = (task, columnId) => {
         type: actionTypes.ADD_TASK,
         task: task,
         id: columnId
-    }
-        
+    }     
 }
 
 export const taskMoved = (source, destination) => {

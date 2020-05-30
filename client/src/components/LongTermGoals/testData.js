@@ -108,8 +108,8 @@ taskData.forEach((value, index) => {
 // Sort the items within each column
 
 clientData.columns.forEach((value, index) => {
-    console.log(util.inspect(value, false, null, true))
-    console.log("---------------------------------------")
+    // console.log(util.inspect(value, false, null, true))
+    // console.log("---------------------------------------")
     value.items.sort((a, b) => {
         return a.order - b.order;
         });

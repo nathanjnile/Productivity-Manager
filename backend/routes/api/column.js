@@ -1,29 +1,51 @@
 const router = require("express").Router();
-const Tasks = require("../../models/Tasks");
+const Column = require("../../models/Column");
 
 // @route GET api/items
 // @desc get All Items
 // @access Public
 router.route("/").get((req, res) => {
-    Tasks.find()
-    .then(tasks => res.json(tasks))
+    Column.find()
+    .then(columns => res.json(columns))
     .catch(err => res.status(400).json("Error: " + err));
 });
+
+
+router.route("/tasks").get((req, res) => {
+    Column.find()
+    .populate("tasks")
+    .exec((err, cols) => {
+        if(err) {
+            res.json(err);
+        }else {
+            res.json(cols);
+        }
+
+    })
+    // .then(columns => res.json(columns))
+    // .catch(err => res.status(400).json("Error: " + err));
+});
+
+
 
 // // @route POST api/items/add
 // // @desc Create a post
 // // @access Private
-// router.route("/add").post((req, res) => {
-//     const name = req.body.name;
+router.route("/add").post((req, res) => {
+    const name = req.body.name;
+    const columnOrder = req.body.columnOrder;
+    const tasks = req.body.tasks;
 
-//     const newItem = new Item({
-//         name,   
-//     });
+    const newColumn = new Column({
+        name,  
+        columnOrder,
+        tasks
+    });
 
-//     newItem.save()
-//         .then((item) => res.json(item))
-//         .catch(err => res.status(400).json("2Error: " + err));
-// });
+    newColumn.save()
+        .then((column) => res.json(column))
+        .catch(err => res.status(400).json("2Error: " + err));
+});
 
 // // @route GET api/items/:id
 // // @desc Get single item
