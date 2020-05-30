@@ -34,7 +34,6 @@ const goalMoved = (state, action) => {
   }
 
   const addGoal = (state, action) => {
-    console.log(action);
     return {
       ...state,
       items : [...state.items, {_id: action.payload._id, content: action.payload.content, date: action.payload.date, order: action.payload.order}]
@@ -42,12 +41,13 @@ const goalMoved = (state, action) => {
   }
 
   const editGoal = (state, action) => {
+    const { cardId, newContent, newDate, cardIndex} = action.payload;
+    const copiedItems = [...state.items];
+    copiedItems.splice(cardIndex, 1);
+    copiedItems.splice(cardIndex, 0, {_id: cardId, content: newContent, date: newDate, order: state.items[cardIndex].order})
     return {
       ...state,
-      items : [
-        ...state.items,
-        
-      ]
+      items : copiedItems
     }; 
   }
 

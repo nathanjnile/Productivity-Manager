@@ -54,12 +54,16 @@ export const goalMoved = (source, destination, items) => {
 export const editGoal = (cardId, newGoalContent, newGoalDate, cardIndex) => {
     return dispatch => {
         // dispatch(setItemsLoading);
-        axios.post(`/api/goal/update/${cardId}`, {newContent: newGoalContent, date: newGoalDate})
+        axios.post(`/api/goal/update/${cardId}`, {newContent: newGoalContent, newDate: newGoalDate})
         .then(response => {
             console.log(response);
             dispatch({
                 type: actionTypes.EDIT_GOAL,
-                payload: {newContent: newGoalContent, date: newGoalDate}
+                payload: {
+                    cardId: cardId, 
+                    newContent: newGoalContent, 
+                    newDate: newGoalDate, 
+                    cardIndex: cardIndex}
             })
         }).catch(err => console.log(err));
     };

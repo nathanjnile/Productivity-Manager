@@ -52,9 +52,7 @@ router.route("/:id").delete((req, res) => {
 });
 
 router.route("/deleteAndUpdate").post((req, res) => {
-    console.log("backend Start");
-    const {itemToDelete} = req.body;
-    const {itemsToReorder} = req.body;
+    const {itemToDelete, itemsToReorder} = req.body;
     var callback = function(err, r){
         if(err) {
             res.status(400).json(err);
@@ -90,7 +88,7 @@ router.route("/update/:id").post((req, res) => {
     Goal.findByIdAndUpdate(req.params.id)
     .then(goal => {
         goal.content = req.body.newContent;
-        goal.date = req.body.newGoalDate;
+        goal.date = req.body.newDate;
 
         goal.save()
         .then(() => res.json("Goal updated!"))
@@ -100,7 +98,6 @@ router.route("/update/:id").post((req, res) => {
 });
 
 router.route("/updateMove").post((req, res) => {
-    console.log("backend Start");
     const {newItems} = req.body;
     var callback = function(err, r){
         if(err) {
