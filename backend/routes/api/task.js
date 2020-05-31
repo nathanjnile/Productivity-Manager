@@ -41,6 +41,37 @@ router.route("/add").post((req, res) => {
     }})
 });
 
+// // @route POST api/task/updateMove
+// // @desc Updates the tasks which changed order within the same column
+// // @access Public
+router.route("/updateMove").post((req, res) => {
+    const {newTasks} = req.body;
+    var callback = function(err, r){
+        if(err) {
+            res.status(400).json(err);
+            console.log(err)
+        } else {
+            res.json("Success!");
+            console.log(r)
+        }
+    }
+    // Initialise the bulk operations array
+    var ops = newTasks.map(function (item) { 
+        return { 
+            "updateOne": { "filter": { _id: new ObjectId(item._id) }, "update": { "$set": { "order": item.order } } 
+            }         
+        }    
+    });
+    
+    // Execute bulkwrite
+    try {
+        Task.collection.bulkWrite(ops, callback);
+    } catch (err) {
+        console.log(err);
+    }
+
+    });
+
 // // @route GET api/items/:id
 // // @desc Get single item
 // // @access Public

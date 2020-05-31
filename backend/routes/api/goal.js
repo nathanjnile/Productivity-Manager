@@ -116,11 +116,11 @@ router.route("/updateMove").post((req, res) => {
         }    
     });
     
-    // Get the underlying collection via the native node.js driver collection object
+    // Execute bulkwrite
     try {
         Goal.collection.bulkWrite(ops, callback);
     } catch (err) {
-        console.log(error);
+        console.log(err);
     }
 
     });

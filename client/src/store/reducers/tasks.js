@@ -48,20 +48,21 @@ const addTask = (state, action) => {
 }
 
 const taskMoved = (state, action) => {
-  const {source, destination} = action;
-  const { columns } = state;
-  let columnIndex;
-  for(let i = 0; i < columns.length; i++) {
-    if(columns[i]._id === source.droppableId) {
-      columnIndex = i;
-    }
-  }
-  const copiedColumns = [...columns];
-  const [removed] = copiedColumns[columnIndex].tasks.splice(source.index, 1);
-  copiedColumns[columnIndex].tasks.splice(destination.index, 0, removed);
+  // const {source, destination} = action;
+  // const { columns } = state;
+  // let columnIndex;
+  // for(let i = 0; i < columns.length; i++) {
+  //   if(columns[i]._id === source.droppableId) {
+  //     columnIndex = i;
+  //   }
+  // }
+  // const copiedColumns = [...columns];
+  // const [removed] = copiedColumns[columnIndex].tasks.splice(source.index, 1);
+  // copiedColumns[columnIndex].tasks.splice(destination.index, 0, removed);
+  // console.log(copiedColumns);
   return {
     ...state,
-    columns: copiedColumns
+    columns: action.copiedColumns
   };
   
 }
@@ -146,6 +147,7 @@ const deleteTask = (state, action) => {
 const getTasks = (state, action) => {
   const {payload} = action;
   const copiedColumns = payload;
+  console.log(payload)
   // Sort column order
   copiedColumns.sort((a, b) => {
     return a.columnOrder - b.columnOrder;
@@ -156,10 +158,9 @@ const getTasks = (state, action) => {
       return a.order - b.order;
     });
   }
-  console.log(copiedColumns);
   return {
     ...state,
-    columns : payload
+    columns : copiedColumns
 }
 }
 

@@ -19,13 +19,11 @@ export const goalMoved = (source, destination, items) => {
     const copiedItems = [...items];
     const [removed] = copiedItems.splice(source.index, 1);
     copiedItems.splice(destination.index, 0, removed);
-    const copiedItems2 = changeOrder([...copiedItems]);
+    const copiedItems2 = changeOrder([...copiedItems], "goal");
     return dispatch => {
         dispatch({
         type: actionTypes.GOAL_MOVED,
         copiedItems: copiedItems2,
-        source: source,
-        destination: destination
         });
         // Compare old goals and new goals for updated items
         const updatedArray = [];
@@ -95,7 +93,7 @@ export const getGoals = () => {
                 // dispatch(setItemsLoading);
                 axios.get("/api/goal")
                 .then(response => {
-                    console.log(response.data);
+                    // console.log(response.data);
                     dispatch({
                         type: actionTypes.GET_GOALS,
                         payload: response.data
