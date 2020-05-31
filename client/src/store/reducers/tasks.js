@@ -1,69 +1,67 @@
 import * as actionType from "../actions/actionTypes";
 // import { updateObject } from "../../shared/utility";
-import uuid from "uuid/v4";
 const { v4: uuidv4 } = require('uuid');
 
 
 const initialState = {
-    columns : [
-      {
-      _id: uuidv4(),
-      name: "Todo",
-      items: [
-        {_id: uuidv4(), content: "Go for a run"},
-        {_id: uuidv4(), content: "Take the bins out"}
-      ]
-    },
-    {
-      _id: uuidv4(),
-      name: "In Progress",
-      items: [
-          {_id: uuidv4(), content: "Cook meals for the week"},
-          {_id: uuidv4(), content: "Complete next section of node course"}
-      ]
-    },
-    {
-      _id: uuidv4(),
-      name: "Done",
-      items: []
-    }
-  ]
+  columns : []
+  //   columns : [
+  //     {
+  //     _id: uuidv4(),
+  //     name: "Todo",
+  //     tasks: [
+  //       {_id: uuidv4(), content: "Go for a run"},
+  //       {_id: uuidv4(), content: "Take the bins out"}
+  //     ]
+  //   },
+  //   {
+  //     _id: uuidv4(),
+  //     name: "In Progress",
+  //     tasks: [
+  //         {_id: uuidv4(), content: "Cook meals for the week"},
+  //         {_id: uuidv4(), content: "Complete next section of node course"}
+  //     ]
+  //   },
+  //   {
+  //     _id: uuidv4(),
+  //     name: "Done",
+  //     tasks: []
+  //   }
+  // ]
 } 
 
 const addTask = (state, action) => {
   const {task, id} = action;
   const { columns } = state;
-  const column = columns[id];
-  const copiedItems = [...column.items];
-  copiedItems.push({id: uuid(), content: task});
+  let columnIndex;
+  for(let i = 0; i < columns.length; i++) {
+    if(columns[i]._id === id) {
+      columnIndex = i;
+    }
+  }
+  const copiedColumns = [...columns];
+  copiedColumns[columnIndex].tasks.push({_id: uuidv4(), content: task});
     return {
       ...state,
-      columns : {
-        ...columns,
-        [id]: {
-          ...column, 
-          items: copiedItems
-        }
-      }
-    };
+      columns: copiedColumns
+    }
 }
 
 const taskMoved = (state, action) => {
   const {source, destination} = action;
   const { columns } = state;
-  const column = columns[source.droppableId];
-  const copiedItems = [...column.items];
-  const [removed] = copiedItems.splice(source.index, 1);
-  copiedItems.splice(destination.index, 0, removed);
-  return {
-    ...state,
-    columns : {
-      ...columns,
-     [source.droppableId]: {
-      ...column,
-      items: copiedItems
+  let columnIndex;
+  for(let i = 0; i < columns.length; i++) {
+    if(columns[i]._id === source.droppableId) {
+      columnIndex = i;
     }
   }
+  const copiedColumns = [...columns];
+  const [removed] = copiedColumns[columnIndex].tasks.splice(source.index, 1);
+  copiedColumns[columnIndex].tasks.splice(destination.index, 0, removed);
+  return {
+    ...state,
+    columns: copiedColumns
   };
   
 }
@@ -71,87 +69,97 @@ const taskMoved = (state, action) => {
 const taskMovedColumn = (state, action) => {
   const {source, destination} = action;
   const { columns } = state;
-  const sourceColumn = columns[source.droppableId];
-  const destColumn = columns[destination.droppableId];
-  const sourceItems = [...sourceColumn.items];
-  const destItems = [...destColumn.items];
-  const [removed] = sourceItems.splice(source.index, 1);
-  destItems.splice(destination.index, 0, removed);
+  let columnSourceIndex, columnDestIndex;
+  for(let i = 0; i < columns.length; i++) {
+    if(columns[i]._id === source.droppableId) {
+      columnSourceIndex = i;
+    } else if(columns[i]._id === destination.droppableId) {
+      columnDestIndex = i;
+    }
+  }
+  const copiedColumns = [...columns];
+  const [removed] = copiedColumns[columnSourceIndex].tasks.splice(source.index, 1);
+  copiedColumns[columnDestIndex].tasks.splice(destination.index, 0, removed);
   return {
     ...state,
-    columns : {
-      ...columns,
-      [source.droppableId] : {
-        ...sourceColumn,
-        items: sourceItems
-      },
-      [destination.droppableId] : {
-        ...destColumn,
-        items: destItems
-      }
-  }
+    columns: copiedColumns
 }
 }
 
 const columnMoved = (state, action) => {
   const {source, destination} = action;
   const { columns } = state;
-  const newColumns = Object.entries({...columns});
-  const [removed] = newColumns.splice(source.index, 1);
-  newColumns.splice(destination.index, 0, removed);
-  const convColumns = Object.fromEntries(newColumns);
+  const copiedColumns = [...columns];
+  const [removed] = copiedColumns.splice(source.index, 1);
+  copiedColumns.splice(destination.index, 0, removed);
   return {
     ...state,
-    columns: {...convColumns}
+    columns: copiedColumns
   };
 }
 
 const addList = (state, action) => {
   const { columns } = state;
+  const copiedColumns = [...columns];
+  copiedColumns.push({_id: uuidv4(), name: action.newList, tasks: []})
     return {
       ...state,
-      columns : {
-        ...columns,
-        [uuid()]: {name: action.newList, items: []}
-        }
-      }
+      columns : copiedColumns
     };
+  }
 
 const editTask = (state, action) => {
   const { columns } = state;
   const { newTaskName, columnId, itemId, itemIndex } = action;
-  const sourceColumn = columns[columnId];
-  const sourceItems = [...sourceColumn.items];
-  sourceItems.splice(itemIndex, 1);
-  sourceItems.splice(itemIndex, 0, {id: itemId, content: newTaskName});
+  const copiedColumns = [...columns];
+  let columnIndex;
+  for(let i = 0; i < columns.length; i++) {
+    if(columns[i]._id === columnId) {
+      columnIndex = i;
+    }
+  }
+  copiedColumns[columnIndex].tasks.splice(itemIndex, 1);
+  copiedColumns[columnIndex].tasks.splice(itemIndex, 0, {_id: itemId, content: newTaskName});
   return {
     ...state,
-    columns : {
-      ...columns,
-      [columnId] : {
-        ...sourceColumn,
-        items: sourceItems
-      }
-  }
+    columns: copiedColumns
 }
 }
 
 const deleteTask = (state, action) => {
   const { columns } = state;
   const { columnId, itemIndex } = action;
-  const sourceColumn = columns[columnId];
-  const sourceItems = [...sourceColumn.items];
-  sourceItems.splice(itemIndex, 1);
-  // console.log(sourceItems);
+  let columnIndex;
+  for(let i = 0; i < columns.length; i++) {
+    if(columns[i]._id === columnId) {
+      columnIndex = i;
+    }
+  }
+  const copiedColumns = [...columns];
+  copiedColumns[columnIndex].tasks.splice(itemIndex, 1);
   return {
     ...state,
-    columns : {
-      ...columns,
-      [columnId] : {
-        ...sourceColumn,
-        items: sourceItems
-      }
+    columns : copiedColumns
+}
+}
+
+const getTasks = (state, action) => {
+  const {payload} = action;
+  const copiedColumns = payload;
+  // Sort column order
+  copiedColumns.sort((a, b) => {
+    return a.columnOrder - b.columnOrder;
+  });
+  // Sort column.tasks order
+  for(let i = 0; i< copiedColumns.length; i++) {
+    copiedColumns[i].tasks.sort((a, b) => {
+      return a.order - b.order;
+    });
   }
+  console.log(copiedColumns);
+  return {
+    ...state,
+    columns : payload
 }
 }
 
@@ -164,6 +172,7 @@ const reducer =(state = initialState, action) => {
         case actionType.ADD_LIST: return addList(state, action);
         case actionType.EDIT_TASK: return editTask(state, action);
         case actionType.DELETE_TASK: return deleteTask(state, action);
+        case actionType.GET_TASKS: return getTasks(state, action);
         default:
             return state;
     }

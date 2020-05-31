@@ -36,7 +36,7 @@ import * as actions from "../../../store/actions/index";
   }));
 
 const EditDeleteModal = (props) => {
-    const {columnId, itemId, itemIndex} = props;
+    const {columnId, itemId, itemIndex, columns} = props;
     const classes = useStyles();
     // getModalStyle is not a pure function, we roll the style only on the first render
     const [modalStyle] = useState(getModalStyle);
@@ -45,8 +45,13 @@ const EditDeleteModal = (props) => {
   
     const handleOpen = () => {
       setOpen(true);
-      console.log(props.columns[columnId].items[itemIndex]);
-      setTaskInput(props.columns[columnId].items[itemIndex].content);
+      let columnIndex;
+      for(let i = 0; i < columns.length; i++) {
+        if(columns[i]._id === columnId) {
+          columnIndex = i;
+        }
+      }
+      setTaskInput(columns[columnIndex].tasks[itemIndex].content);
     };
   
     const handleClose = () => {

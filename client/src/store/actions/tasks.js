@@ -1,4 +1,5 @@
 import * as actionTypes from "./actionTypes";
+import axios from "axios";
 
 export const addTask = (task, columnId) => {
     return {
@@ -58,4 +59,18 @@ export const deleteTask = (columnId, itemIndex) => {
         columnId: columnId,
         itemIndex: itemIndex
     }
+}
+
+export const getTasks = () => {
+    return dispatch => {
+                // dispatch(setItemsLoading);
+                axios.get("/api/column/tasks")
+                .then(response => {
+                    console.log(response.data);
+                    dispatch({
+                        type: actionTypes.GET_TASKS,
+                        payload: response.data
+                    })
+                }).catch(err => console.log(err));
+            };
 }

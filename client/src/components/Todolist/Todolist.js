@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { connect } from "react-redux";
 
@@ -17,7 +17,12 @@ import * as actions from "../../store/actions/index";
 const Todolist = (props) => {
   const [enterAddList, setEnterAddList] = useState(true);
   const [listFieldInput, setListFieldInput] = useState("");
-  const columns = props.columns;
+  const {columns, onGetTasks} = props;
+
+  useEffect(() => {
+    onGetTasks();
+    // console.log(items);
+}, [onGetTasks])
 
   const submitForm = (event) => {
     event.preventDefault();
@@ -87,7 +92,7 @@ const Todolist = (props) => {
                       return (
                         <div {...provided.droppableProps} ref={provided.innerRef} className={classes.columnMain}
                          style={{background: snapshot.isDraggingOver ? "lightblue" : "lightgrey"}}>
-                           {column.items.map((item, index) => {
+                           {column.tasks.map((item, index) => {
                              return (
                               <Draggable key={item._id} draggableId={item._id} index={index}>
                                 {(provided, snapshot) => {
@@ -140,6 +145,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+      onGetTasks: () => dispatch(actions.getTasks()),
       onTaskAdded: () => dispatch(actions.addTask()),
       onTaskMoved: (source, destination,) => dispatch(actions.taskMoved(source, destination)),
       onTaskMovedColumn: (source, destination) => dispatch(actions.taskMovedColumn(source, destination)),
