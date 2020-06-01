@@ -45,12 +45,10 @@ router.route("/tasks").get((req, res) => {
 router.route("/add").post((req, res) => {
     const name = req.body.name;
     const columnOrder = req.body.columnOrder;
-    const tasks = req.body.tasks;
 
     const newColumn = new Column({
         name,  
         columnOrder,
-        tasks
     });
 
     newColumn.save()
@@ -58,6 +56,9 @@ router.route("/add").post((req, res) => {
         .catch(err => res.status(400).json("2Error: " + err));
 });
 
+// // @route POST api/column/moveColumn
+// // @desc Update column order
+// // @access Private
 router.route("/moveColumn").post((req, res) => {
     const {columnsUpdate} = req.body;
     var callback = function(err, r){

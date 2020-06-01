@@ -1,6 +1,5 @@
 import * as actionType from "../actions/actionTypes";
 // import { updateObject } from "../../shared/utility";
-const { v4: uuidv4 } = require('uuid');
 
 
 const initialState = {
@@ -60,9 +59,10 @@ const columnMoved = (state, action) => {
 }
 
 const addList = (state, action) => {
+  const {payload} = action;
   const { columns } = state;
   const copiedColumns = [...columns];
-  copiedColumns.push({_id: uuidv4(), name: action.newList, tasks: []})
+  copiedColumns.push({_id: payload._id, name: payload.name, columnOrder: payload.columnOrder, tasks: []})
     return {
       ...state,
       columns : copiedColumns
@@ -88,19 +88,19 @@ const editTask = (state, action) => {
 }
 
 const deleteTask = (state, action) => {
-  const { columns } = state;
-  const { columnId, itemIndex } = action;
-  let columnIndex;
-  for(let i = 0; i < columns.length; i++) {
-    if(columns[i]._id === columnId) {
-      columnIndex = i;
-    }
-  }
-  const copiedColumns = [...columns];
-  copiedColumns[columnIndex].tasks.splice(itemIndex, 1);
+  // const { columns } = state;
+  // const { columnId, itemIndex } = action;
+  // let columnIndex;
+  // for(let i = 0; i < columns.length; i++) {
+  //   if(columns[i]._id === columnId) {
+  //     columnIndex = i;
+  //   }
+  // }
+  // const copiedColumns = [...columns];
+  // copiedColumns[columnIndex].tasks.splice(itemIndex, 1);
   return {
     ...state,
-    columns : copiedColumns
+    columns : action.payload
 }
 }
 

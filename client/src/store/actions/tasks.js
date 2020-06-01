@@ -150,11 +150,17 @@ export const columnMoved = (source, destination, columns) => {
         
 }
 
-export const addList = (newList) => {
-    return {
-        type: actionTypes.ADD_LIST,
-        newList: newList
-    }
+export const addList = (newList, columnsLength) => {
+    return dispatch => {
+        axios.post("/api/column/add", {name: newList, columnOrder: columnsLength})
+        .then(response => {
+            console.log(response.data)
+            dispatch({
+                type: actionTypes.ADD_LIST,
+                payload: response.data
+            })
+        }).catch(err => console.log(err));
+    };  
 }
 
 export const editTask = (newTaskName, columnId, itemId, itemIndex) => {
@@ -167,12 +173,30 @@ export const editTask = (newTaskName, columnId, itemId, itemIndex) => {
     }
 }
 
-export const deleteTask = (columnId, itemIndex) => {
-    return {
-        type: actionTypes.DELETE_TASK,
-        columnId: columnId,
-        itemIndex: itemIndex
+export const deleteTask = (columnId, itemIndex, columns, itemId) => {
+    let columnIndex;
+    for(let i = 0; i < columns.length; i++) {
+      if(columns[i]._id === columnId) {
+        columnIndex = i;
+      }
     }
+    const copiedColumns = [...columns];
+    copiedColumns[columnIndex].tasks.splice(itemIndex, 1);
+    const copiedColumns2 = changeOrder({taskColumns: copiedColumns, columnIndex: columnIndex}, "taskOwnColumn");
+    const columnsClone = lodash.cloneDeep(copiedColumns2);
+    console.log(columnsClone);
+    const tasksToReorder = [...columnsClone[columnIndex].tasks];
+    console.log(tasksToReorder);
+    return dispatch => {
+        axios.post("/api/task/deleteAndUpdate", {taskToDelete: itemId, tasksToReorder: tasksToReorder})
+        .then(response => {
+            console.log(response)
+            dispatch({
+                type: actionTypes.DELETE_TASK,
+                payload: copiedColumns2
+            })
+        }).catch(err => console.log(err));
+    };   
 }
 
 export const getTasks = () => {

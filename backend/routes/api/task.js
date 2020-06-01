@@ -97,6 +97,34 @@ router.route("/updateMoveColumn").post((req, res) => {
     // console.log("-------------------------")
 });
 
+router.route("/deleteAndUpdate").post((req, res) => {
+    const {taskToDelete, tasksToReorder} = req.body;
+    var callback = function(err, r){
+        if(err) {
+            res.status(400).json(err);
+            console.log(err)
+        } else {
+            res.json("Success!");
+            console.log(r)
+        }
+    }
+    // Initialise the bulk operations array
+    let ops = tasksToReorder.map(function (item) { 
+        return { 
+            "updateOne": { "filter": { _id: new ObjectId(item._id) }, "update": { "$set": { "order": item.order } } 
+            }         
+        }    
+    });
+
+    ops.push({ "deleteOne": { "filter": { _id: new ObjectId(taskToDelete) }}});
+    
+    try {
+        Task.collection.bulkWrite(ops, callback);
+    } catch (err) {
+        console.log(error);
+    }
+    });
+
 // // @route GET api/items/:id
 // // @desc Get single item
 // // @access Public

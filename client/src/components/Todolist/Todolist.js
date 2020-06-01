@@ -27,7 +27,7 @@ const Todolist = (props) => {
   const submitForm = (event) => {
     event.preventDefault();
     if(listFieldInput !== "") {
-      props.onAddList(listFieldInput);
+      props.onAddList(listFieldInput, columns.length);
     }
     clearAddList();
   } 
@@ -146,11 +146,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
       onGetTasks: () => dispatch(actions.getTasks()),
-      onTaskAdded: () => dispatch(actions.addTask()),
       onTaskMoved: (source, destination, columns) => dispatch(actions.taskMoved(source, destination, columns)),
       onTaskMovedColumn: (source, destination, columns) => dispatch(actions.taskMovedColumn(source, destination, columns)),
       onColumnMoved: (source, destination, columns) => dispatch(actions.columnMoved(source, destination, columns)),
-      onAddList: (newList) => dispatch(actions.addList(newList))
+      onAddList: (newList, columnsLength) => dispatch(actions.addList(newList, columnsLength))
   }
 }
 
