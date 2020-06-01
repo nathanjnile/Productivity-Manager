@@ -51,7 +51,7 @@ const ItemModal = (props) => {
     const submitForm = (event) => {
         event.preventDefault();
         if (taskInput !== "") {
-        props.onTaskAdded(taskInput, props.columnId);
+        props.onTaskAdded(taskInput, props.columnId, props.columns);
         }
         handleClose();
         setTaskInput("");
@@ -105,7 +105,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-      onTaskAdded: (task, columnId) => dispatch(actions.addTask(task, columnId)),
+      onTaskAdded: (task, columnId, columns) => dispatch(actions.addTask(task, columnId, columns)),
   }
 }
 

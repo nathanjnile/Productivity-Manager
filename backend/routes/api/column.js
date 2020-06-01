@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Column = require("../../models/Column");
 const Task = require("../../models/Task");
+const ObjectId = require('mongodb').ObjectID;
 
 // @route GET api/items
 // @desc get All Items
@@ -55,6 +56,39 @@ router.route("/add").post((req, res) => {
     newColumn.save()
         .then((column) => res.json(column))
         .catch(err => res.status(400).json("2Error: " + err));
+});
+
+router.route("/moveColumn").post((req, res) => {
+    const {columnsUpdate} = req.body;
+    var callback = function(err, r){
+        if(err) {
+            res.status(400).json(err);
+            console.log(err)
+        } else {
+            res.json("Success!");
+            console.log(r)
+        }
+    }
+    console.log(columnsUpdate);
+    // Initialise the bulk operations array
+    var ops = columnsUpdate.map(function (col) {
+            return { 
+                "updateOne": { "filter": 
+                { _id: new ObjectId(col._id) }, 
+                "update": 
+                {"$set": {"columnOrder": col.columnOrder}} 
+                }
+            }
+    });
+
+    try {
+        Column.collection.bulkWrite(ops, callback);
+    } catch (err) {
+        console.log(err);
+    }
+
+    // console.log(util.inspect(ops, false, null, true));
+    // console.log("-------------------------")
 });
 
 // // @route GET api/items/:id

@@ -8,16 +8,11 @@ const initialState = {
 } 
 
 const addTask = (state, action) => {
-  const {task, id} = action;
+  const {content, order, column, _id} = action.payload;
+  const {columnIndex} = action;
   const { columns } = state;
-  let columnIndex;
-  for(let i = 0; i < columns.length; i++) {
-    if(columns[i]._id === id) {
-      columnIndex = i;
-    }
-  }
   const copiedColumns = [...columns];
-  copiedColumns[columnIndex].tasks.push({_id: uuidv4(), content: task});
+  copiedColumns[columnIndex].tasks.push({_id, content, order, column});
     return {
       ...state,
       columns: copiedColumns
@@ -53,14 +48,14 @@ const taskMovedColumn = (state, action) => {
 }
 
 const columnMoved = (state, action) => {
-  const {source, destination} = action;
-  const { columns } = state;
-  const copiedColumns = [...columns];
-  const [removed] = copiedColumns.splice(source.index, 1);
-  copiedColumns.splice(destination.index, 0, removed);
+  // const {source, destination} = action;
+  // const { columns } = state;
+  // const copiedColumns = [...columns];
+  // const [removed] = copiedColumns.splice(source.index, 1);
+  // copiedColumns.splice(destination.index, 0, removed);
   return {
     ...state,
-    columns: copiedColumns
+    columns: action.payload
   };
 }
 

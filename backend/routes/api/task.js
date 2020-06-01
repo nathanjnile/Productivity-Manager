@@ -20,26 +20,16 @@ router.route("/").get((req, res) => {
 router.route("/add").post((req, res) => {
     const content = req.body.content;
     const order = req.body.order;
-    const column = req.body.columnId;
-    const _id = new ObjectId();
-    console.log(_id);
+    const column = req.body.column;
     
-
     const newTask = new Task({
-        _id,
         content,
         order,
         column
     });
 
-    const newTaskSavePromise = newTask.save();
-    const ColumnArrayPromise =  Column.findByIdAndUpdate(column, {$push: {tasks: _id}});
-
-    Promise.all([newTaskSavePromise, ColumnArrayPromise]).then((result) => {
-        return res.status(200).json(result);
-    }).catch(err => {{
-        return res.status(400).json(err);
-    }})
+    newTask.save().then((task) => res.json(task))
+    .catch(err => res.status(400).json("Error: " + err));
 });
 
 // // @route POST api/task/updateMove
@@ -73,54 +63,39 @@ router.route("/updateMove").post((req, res) => {
 
     });
 
-    // Route for updating tasks if it moves to a different column
+// Route for updating tasks if it moves to a different column
 
-    router.route("/updateMoveColumn").post((req, res) => {
-        const {newTasks} = req.body;
-        var callback = function(err, r){
-            if(err) {
-                res.status(400).json(err);
-                console.log(err)
-            } else {
-                res.json("Success!");
-                console.log(r)
-            }
+router.route("/updateMoveColumn").post((req, res) => {
+    const {newTasks} = req.body;
+    var callback = function(err, r){
+        if(err) {
+            res.status(400).json(err);
+            console.log(err)
+        } else {
+            res.json("Success!");
+            console.log(r)
         }
-        // Initialise the bulk operations array
-        var ops = newTasks.map(function (item) {
-                return { 
-                    "updateOne": { "filter": 
-                    { _id: new ObjectId(item._id) }, 
-                    "update": 
-                    {"$set": {"order": item.order, "column": item.column}} 
-                    }
+    }
+    // Initialise the bulk operations array
+    var ops = newTasks.map(function (item) {
+            return { 
+                "updateOne": { "filter": 
+                { _id: new ObjectId(item._id) }, 
+                "update": 
+                {"$set": {"order": item.order, "column": item.column}} 
                 }
-        });
+            }
+    });
 
-        try {
-            Task.collection.bulkWrite(ops, callback);
-        } catch (err) {
-            console.log(err);
-        }
+    try {
+        Task.collection.bulkWrite(ops, callback);
+    } catch (err) {
+        console.log(err);
+    }
 
-        console.log(util.inspect(ops, false, null, true));
-        console.log("-------------------------")
-        
-        
-        // Execute bulkwrite
-        // const bulkTaskPromise = Task.collection.bulkWrite(ops);
-        // const ColumnAddPromise =  Column.findByIdAndUpdate(columnId, {$push: {tasks: itemColId}});
-        // const ColumnRemovePromise =  Column.findByIdAndUpdate(sourceId, {$pull: {tasks: itemColId}});
-
-
-
-        // Promise.all([bulkTaskPromise, ColumnAddPromise, ColumnRemovePromise]).then((result) => {
-        //     return res.status(200).json(result);
-        // }).catch(err => {{
-        //     return res.status(400).json(err);
-        // }})
-    
-        });
+    // console.log(util.inspect(ops, false, null, true));
+    // console.log("-------------------------")
+});
 
 // // @route GET api/items/:id
 // // @desc Get single item

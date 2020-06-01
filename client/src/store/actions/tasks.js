@@ -3,12 +3,27 @@ import axios from "axios";
 import changeOrder from "../../shared/reorder";
 import lodash from "lodash";
 
-export const addTask = (task, columnId) => {
-    return {
-        type: actionTypes.ADD_TASK,
-        task: task,
-        id: columnId
-    }     
+export const addTask = (task, columnId, columns) => {
+    console.log(task);
+    console.log(columnId);
+    let columnIndex;
+    for(let i = 0; i < columns.length; i++) {
+      if(columns[i]._id === columnId) {
+        columnIndex = i;
+      }
+    }
+    const columnLength = columns[columnIndex].tasks.length;
+    return dispatch => {
+        axios.post("/api/task/add", {content: task, order: columnLength, column : columnId})
+        .then(response => {
+            console.log(response)
+            dispatch({
+                type: actionTypes.ADD_TASK,
+                payload: response.data,
+                columnIndex: columnIndex
+            })
+        }).catch(err => console.log(err));
+    };   
 }
 
 export const taskMoved = (source, destination, columns) => {
@@ -98,12 +113,40 @@ export const taskMovedColumn = (source, destination, columns) => {
     }    
 }
 
-export const columnMoved = (source, destination) => {
-    return {
-        type: actionTypes.COLUMN_MOVED,
-        source: source,
-        destination: destination
-    }
+export const columnMoved = (source, destination, columns) => {
+    const copiedColumns = [...columns];
+    const [removed] = copiedColumns.splice(source.index, 1);
+    copiedColumns.splice(destination.index, 0, removed);
+    const copiedColumns2 = changeOrder({columns: copiedColumns}, "moveColumn");
+    // Update column order
+    return dispatch => {
+        dispatch({
+            type: actionTypes.COLUMN_MOVED,
+                payload: copiedColumns2
+        });
+        console.log(copiedColumns2);
+    
+        const columnsClone = lodash.cloneDeep(copiedColumns2);
+        columnsClone.forEach(col => {
+            delete col.tasks;
+        })
+        console.log(columnsClone);
+        // axios call to send new task order to backend
+        axios.post("/api/column/moveColumn", {columnsUpdate: columnsClone})
+        .then(res => {
+            console.log(res);
+        }).catch(error => {
+            console.log(error);
+        });
+    } 
+    
+    
+    
+    // return {
+    //     type: actionTypes.COLUMN_MOVED,
+    //     source: source,
+    //     destination: destination
+    // }
         
 }
 
