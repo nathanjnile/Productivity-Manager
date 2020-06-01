@@ -73,8 +73,10 @@ router.route("/updateMove").post((req, res) => {
 
     });
 
+    // Route for updating tasks if it moves to a different column
+
     router.route("/updateMoveColumn").post((req, res) => {
-        const {newTasks, sourceId, destId} = req.body;
+        const {newTasks} = req.body;
         var callback = function(err, r){
             if(err) {
                 res.status(400).json(err);
@@ -84,47 +86,39 @@ router.route("/updateMove").post((req, res) => {
                 console.log(r)
             }
         }
-        let itemColId, columnId;
         // Initialise the bulk operations array
         var ops = newTasks.map(function (item) {
-            if(item.type === "sameCol") {;
-            return { 
-                "updateOne": { "filter": 
-                { _id: new ObjectId(item._id) }, 
-                "update": 
-                {"$set": {"order": item.order }} 
-                }
-                } 
-            } else if (item.type === "diffCol") {
-                itemColId = item._id;
-                columnId = item.column;
                 return { 
                     "updateOne": { "filter": 
                     { _id: new ObjectId(item._id) }, 
                     "update": 
-                    {"$set": {"order": item.order }, 
-                     "$set": {"column": item.column }} 
+                    {"$set": {"order": item.order, "column": item.column}} 
                     }
-                }        
-            }    
+                }
         });
+
+        try {
+            Task.collection.bulkWrite(ops, callback);
+        } catch (err) {
+            console.log(err);
+        }
 
         console.log(util.inspect(ops, false, null, true));
         console.log("-------------------------")
         
         
         // Execute bulkwrite
-        const bulkTaskPromise = Task.collection.bulkWrite(ops);
-        const ColumnAddPromise =  Column.findByIdAndUpdate(columnId, {$push: {tasks: itemColId}});
-        const ColumnRemovePromise =  Column.findByIdAndUpdate(sourceId, {$pull: {tasks: itemColId}});
+        // const bulkTaskPromise = Task.collection.bulkWrite(ops);
+        // const ColumnAddPromise =  Column.findByIdAndUpdate(columnId, {$push: {tasks: itemColId}});
+        // const ColumnRemovePromise =  Column.findByIdAndUpdate(sourceId, {$pull: {tasks: itemColId}});
 
 
 
-        Promise.all([bulkTaskPromise, ColumnAddPromise, ColumnRemovePromise]).then((result) => {
-            return res.status(200).json(result);
-        }).catch(err => {{
-            return res.status(400).json(err);
-        }})
+        // Promise.all([bulkTaskPromise, ColumnAddPromise, ColumnRemovePromise]).then((result) => {
+        //     return res.status(200).json(result);
+        // }).catch(err => {{
+        //     return res.status(400).json(err);
+        // }})
     
         });
 
