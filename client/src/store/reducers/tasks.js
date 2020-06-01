@@ -79,8 +79,11 @@ const editTask = (state, action) => {
       columnIndex = i;
     }
   }
-  copiedColumns[columnIndex].tasks.splice(itemIndex, 1);
-  copiedColumns[columnIndex].tasks.splice(itemIndex, 0, {_id: itemId, content: newTaskName});
+
+  copiedColumns[columnIndex].tasks[itemIndex].content = newTaskName;
+
+  // copiedColumns[columnIndex].tasks.splice(itemIndex, 1);
+  // copiedColumns[columnIndex].tasks.splice(itemIndex, 0, {_id: itemId, content: newTaskName});
   return {
     ...state,
     columns: copiedColumns

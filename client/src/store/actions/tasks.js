@@ -164,13 +164,29 @@ export const addList = (newList, columnsLength) => {
 }
 
 export const editTask = (newTaskName, columnId, itemId, itemIndex) => {
-    return {
-        type: actionTypes.EDIT_TASK,
-        newTaskName: newTaskName,
-        columnId: columnId,
-        itemId: itemId,
-        itemIndex: itemIndex
-    }
+    return dispatch => {
+        axios.post(`/api/task/update/${itemId}`, {content: newTaskName})
+        .then(response => {
+            console.log(response)
+            dispatch({
+                type: actionTypes.EDIT_TASK,
+                newTaskName: newTaskName,
+                columnId: columnId,
+                itemId: itemId,
+                itemIndex: itemIndex
+            })
+        }).catch(err => console.log(err));
+    };  
+    
+    // return {
+    //     type: actionTypes.EDIT_TASK,
+    //     newTaskName: newTaskName,
+    //     columnId: columnId,
+    //     itemId: itemId,
+    //     itemIndex: itemIndex
+    // }
+
+
 }
 
 export const deleteTask = (columnId, itemIndex, columns, itemId) => {
