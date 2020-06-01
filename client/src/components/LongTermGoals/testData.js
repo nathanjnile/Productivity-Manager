@@ -51,6 +51,53 @@ const initialState2 = {
       }
     ]
 }
+ const data =
+[
+  [
+      {
+          "_id": "5ed279c182aeb240ec8df78b",
+          "content": "Test task",
+          "order": 0,
+          "column": "5ed287ceb52d3155ecdb3a24",
+          "__v": 0
+      },
+      {
+          "_id": "5ed29337d71cd54fb059d659",
+          "content": "Test task with it inside",
+          "order": 0,
+          "column": "5ed39925c8dd2819b419ab03",
+          "__v": 0
+      },
+      {
+          "_id": "5ed294f1d71cd54fb059d65b",
+          "content": "Test task 2 with it inside",
+          "order": 0,
+          "column": "5ed287ceb52d3155ecdb3a24",
+          "__v": 0
+      },
+      {
+          "_id": "5ed29a65d71cd54fb059d65d",
+          "content": "Test task 3 with it inside",
+          "order": 1,
+          "column": "5ed39925c8dd2819b419ab03",
+          "__v": 0
+      }
+  ],
+  [
+      {
+          "_id": "5ed287ceb52d3155ecdb3a24",
+          "name": "Test Column",
+          "columnOrder": 1,
+          "__v": 0
+      },
+      {
+          "_id": "5ed39925c8dd2819b419ab03",
+          "name": "To do",
+          "columnOrder": 0,
+          "__v": 0
+      }
+  ]
+];
 
 const taskData = [
     {_id: uuidv4(), content: "Go for a run", order: 0, column: "To do"},
@@ -115,7 +162,27 @@ clientData.columns.forEach((value, index) => {
         });
 })
 
-console.log(util.inspect(clientData, false, null, true))
+// console.log(util.inspect(clientData, false, null, true))
+
+// console.log(data[0]);
 
 
 
+const columns = [...data[1]];
+
+columns.forEach(col => {
+  col["tasks"] = []
+})
+
+console.log(columns);
+
+data[0].forEach(task => {
+  for(let i = 0; i < columns.length; i++) {
+    if (task.column === columns[i]._id) {
+      columns[i].tasks.push(task);
+    }
+  }
+})
+
+
+console.log(util.inspect(columns, false, null, true));

@@ -2,6 +2,7 @@ const router = require("express").Router();
 const Task = require("../../models/Task");
 const Column = require("../../models/Column");
 var ObjectId = require('mongodb').ObjectID;
+const util = require('util')
 
 
 // @route GET api/items
@@ -71,6 +72,61 @@ router.route("/updateMove").post((req, res) => {
     }
 
     });
+
+    router.route("/updateMoveColumn").post((req, res) => {
+        const {newTasks, sourceId, destId} = req.body;
+        var callback = function(err, r){
+            if(err) {
+                res.status(400).json(err);
+                console.log(err)
+            } else {
+                res.json("Success!");
+                console.log(r)
+            }
+        }
+        let itemColId, columnId;
+        // Initialise the bulk operations array
+        var ops = newTasks.map(function (item) {
+            if(item.type === "sameCol") {;
+            return { 
+                "updateOne": { "filter": 
+                { _id: new ObjectId(item._id) }, 
+                "update": 
+                {"$set": {"order": item.order }} 
+                }
+                } 
+            } else if (item.type === "diffCol") {
+                itemColId = item._id;
+                columnId = item.column;
+                return { 
+                    "updateOne": { "filter": 
+                    { _id: new ObjectId(item._id) }, 
+                    "update": 
+                    {"$set": {"order": item.order }, 
+                     "$set": {"column": item.column }} 
+                    }
+                }        
+            }    
+        });
+
+        console.log(util.inspect(ops, false, null, true));
+        console.log("-------------------------")
+        
+        
+        // Execute bulkwrite
+        const bulkTaskPromise = Task.collection.bulkWrite(ops);
+        const ColumnAddPromise =  Column.findByIdAndUpdate(columnId, {$push: {tasks: itemColId}});
+        const ColumnRemovePromise =  Column.findByIdAndUpdate(sourceId, {$pull: {tasks: itemColId}});
+
+
+
+        Promise.all([bulkTaskPromise, ColumnAddPromise, ColumnRemovePromise]).then((result) => {
+            return res.status(200).json(result);
+        }).catch(err => {{
+            return res.status(400).json(err);
+        }})
+    
+        });
 
 // // @route GET api/items/:id
 // // @desc Get single item

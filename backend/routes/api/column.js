@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Column = require("../../models/Column");
+const Task = require("../../models/Task");
 
 // @route GET api/items
 // @desc get All Items
@@ -12,16 +13,25 @@ router.route("/").get((req, res) => {
 
 
 router.route("/tasks").get((req, res) => {
-    Column.find()
-    .populate("tasks")
-    .exec((err, cols) => {
-        if(err) {
-            res.json(err);
-        }else {
-            res.json(cols);
-        }
+    const TaskPromise = Task.find();
+    const ColumnPromise = Column.find();
 
-    })
+    Promise.all([TaskPromise, ColumnPromise]).then((result) => {
+        return res.status(200).json(result);
+    }).catch(err => {{
+        return res.status(400).json(err);
+    }})
+
+    // Column.find()
+    // .populate("tasks")
+    // .exec((err, cols) => {
+    //     if(err) {
+    //         res.json(err);
+    //     }else {
+    //         res.json(cols);
+    //     }
+
+    // })
     // .then(columns => res.json(columns))
     // .catch(err => res.status(400).json("Error: " + err));
 });
