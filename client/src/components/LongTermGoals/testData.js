@@ -174,7 +174,7 @@ columns.forEach(col => {
   col["tasks"] = []
 })
 
-console.log(columns);
+// console.log(columns);
 
 data[0].forEach(task => {
   for(let i = 0; i < columns.length; i++) {
@@ -185,4 +185,113 @@ data[0].forEach(task => {
 })
 
 
-console.log(util.inspect(columns, false, null, true));
+// console.log(util.inspect(columns, false, null, true));
+
+//------------------------------------------------------------------------
+
+const taskData2 = [
+  {_id: uuidv4(), content: "Go for a run", order: 0, column: "5ed39925c8dd2819b419ab03"},
+  {_id: uuidv4(), content: "Take the bins out", order: 1, column: "5ed39925c8dd2819b419ab03"},
+  {_id: uuidv4(), content: "Cook meals for the week", order: 1, column: "5ed5466a0a281c48243ece58"},
+  {_id: uuidv4(), content: "Complete next section of node course", order: 0, column: "5ed5466a0a281c48243ece58"}
+]
+
+const columnData2 = [
+  {_id: "5ed39925c8dd2819b419ab03", content: "To do", columnOrder: 2},
+  {_id: "5ed5466a0a281c48243ece58", content: "In progress", columnOrder: 0},
+  {_id: "5ed548b00a281c48243ece5c", content: "Done", columnOrder: 1}
+]
+
+// Initialise empty state
+
+const clientData2 = {
+  columns : {}
+}
+
+// Enter the columns
+
+columnData2.forEach(value => {
+  clientData2.columns[value._id] = {
+    name : value.content,
+    columnOrder: value.columnOrder,
+    items :[]
+  }
+})
+
+// console.log(util.inspect(clientData2, false, null, true));
+
+const clientDataSorted = Object.entries({...clientData2.columns});
+
+// console.log(clientDataSorted);
+
+// Sort the columns
+
+clientDataSorted.sort((a, b) => {
+  return a[1].columnOrder - b[1].columnOrder;
+  });
+
+const clientDataSorted2 = Object.fromEntries(clientDataSorted);
+
+  
+// Enter the tasks
+
+taskData2.forEach(value => {
+    clientDataSorted2[value.column].items.push(value);
+})
+
+// console.log(util.inspect(clientDataSorted2, false, null, true));
+
+//Sort the tasks
+
+const clonedColumns = Object.entries({...clientDataSorted2});
+
+clonedColumns.forEach((value, index) => {
+  value[1].items.sort((a, b) => {
+      return a.order - b.order;
+      });
+})
+
+const finalColumns = Object.fromEntries(clonedColumns);
+
+
+console.log(util.inspect(finalColumns, false, null, true));
+
+// {
+//   '5ed5466a0a281c48243ece58': {
+//     name: 'In progress',
+//     columnOrder: 0,
+//     items: [
+//       {
+//         _id: 'dcbedc51-825a-4812-b98b-93744fb028b1',
+//         content: 'Complete next section of node course',
+//         order: 0,
+//         column: '5ed5466a0a281c48243ece58'
+//       },
+//       {
+//         _id: 'e5123861-ca6f-4734-9f78-e2c640ab71e5',
+//         content: 'Cook meals for the week',
+//         order: 1,
+//         column: '5ed5466a0a281c48243ece58'
+//       }
+//     ]
+//   },
+//   '5ed548b00a281c48243ece5c': { name: 'Done', columnOrder: 1, items: [] },
+//   '5ed39925c8dd2819b419ab03': {
+//     name: 'To do',
+//     columnOrder: 2,
+//     items: [
+//       {
+//         _id: '2eff5a0e-d6ce-492c-a2de-cc069bc72528',
+//         content: 'Go for a run',
+//         order: 0,
+//         column: '5ed39925c8dd2819b419ab03'
+//       },
+//       {
+//         _id: '3a5ec6ec-40d9-4607-9470-3ed664a02a97',
+//         content: 'Take the bins out',
+//         order: 1,
+//         column: '5ed39925c8dd2819b419ab03'
+//       }
+//     ]
+//   }
+// }

@@ -109,38 +109,48 @@ const deleteTask = (state, action) => {
 
 const getTasks = (state, action) => {
   const {payload} = action;
-  const data = [...payload];
-  console.log(data);
-  const columns = [...data[1]];
+  const columnsData = [...payload[1]];
+  const taskData = [...payload[0]];
+  
+  const columns = {};
 
-  columns.forEach(col => {
-    col["tasks"] = []
-  })
-
-  // console.log(columns);
-
-  data[0].forEach(task => {
-    for(let i = 0; i < columns.length; i++) {
-      if (task.column === columns[i]._id) {
-        columns[i].tasks.push(task);
-      }
+  columnsData.forEach(value => {
+    columns[value._id] = {
+      name : value.name,
+      columnOrder: value.columnOrder,
+      tasks :[]
     }
   })
 
-  // Sort column order
-  columns.sort((a, b) => {
-    return a.columnOrder - b.columnOrder;
-  });
+  const columns2 = Object.entries({...columns});
+  
+  // Sort the columns
 
-  // // Sort column.tasks order
-  for(let i = 0; i< columns.length; i++) {
-    columns[i].tasks.sort((a, b) => {
-      return a.order - b.order;
+  columns2.sort((a, b) => {
+    return a[1].columnOrder - b[1].columnOrder;
     });
-  }
+
+  const columnsSorted = Object.fromEntries([...columns2]);
+
+  // Enter tasks
+  taskData.forEach(value => {
+    columnsSorted[value.column].tasks.push(value);
+  })
+
+  // Sort tasks
+  const clonedColumns = Object.entries({...columnsSorted});
+
+  clonedColumns.forEach((value, index) => {
+    value[1].tasks.sort((a, b) => {
+        return a.order - b.order;
+        });
+  })
+
+  const finalColumns = Object.fromEntries(clonedColumns);
+
   return {
     ...state,
-    columns : columns
+    columns : finalColumns
 }
 }
 
