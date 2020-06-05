@@ -5,7 +5,7 @@ var ObjectId = require('mongodb').ObjectID;
 const util = require('util')
 
 
-// @route GET api/items
+// @route GET api/tasks
 // @desc get All Items
 // @access Public
 router.route("/").get((req, res) => {
@@ -14,9 +14,9 @@ router.route("/").get((req, res) => {
     .catch(err => res.status(400).json("Error: " + err));
 });
 
-// // @route POST api/items/add
+// // @route POST api/tasks/add
 // // @desc Create a post
-// // @access Private
+// // @access Public
 router.route("/add").post((req, res) => {
     const content = req.body.content;
     const order = req.body.order;
@@ -63,8 +63,9 @@ router.route("/updateMove").post((req, res) => {
 
     });
 
-// Route for updating tasks if it moves to a different column
-
+// // @route POST api/task/updateMove
+// // @desc Route for updating tasks if it moves to a different column
+// // @access Public
 router.route("/updateMoveColumn").post((req, res) => {
     const {newTasks} = req.body;
     var callback = function(err, r){
@@ -92,11 +93,11 @@ router.route("/updateMoveColumn").post((req, res) => {
     } catch (err) {
         console.log(err);
     }
-
-    // console.log(util.inspect(ops, false, null, true));
-    // console.log("-------------------------")
 });
 
+// // @route POST api/task/deleteAndUpdate
+// // @desc Route for deleting a task and reordering tasks in the same column
+// // @access Public
 router.route("/deleteAndUpdate").post((req, res) => {
     const {taskToDelete, tasksToReorder} = req.body;
     var callback = function(err, r){
@@ -125,19 +126,9 @@ router.route("/deleteAndUpdate").post((req, res) => {
     }
     });
 
-// // @route GET api/items/:id
-// // @desc Get single item
+// // @route POST api/tasks/update/:id
+// // @desc Update single tasks
 // // @access Public
-// router.route("/:id").get((req, res) => {
-//     Item.findById(req.params.id)
-//     .then(item => res.json(item))
-//     .catch(err => res.status(400).json("Error: " + err));
-// });
-
-
-// // @route POST api/items/update/:id
-// // @desc Update single item
-// // @access Private
 router.route("/update/:id").post((req, res) => {
     Task.findByIdAndUpdate(req.params.id)
     .then(task => {

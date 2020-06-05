@@ -41,7 +41,7 @@ const ItemModal = (props) => {
   
     const handleOpen = () => {
       setOpen(true);
-      console.log(props.columnId);
+      // console.log(props.columnId);
     };
   
     const handleClose = () => {

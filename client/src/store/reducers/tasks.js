@@ -3,18 +3,24 @@ import * as actionType from "../actions/actionTypes";
 
 
 const initialState = {
-  columns : []
+  columns : {}
 } 
 
 const addTask = (state, action) => {
   const {content, order, column, _id} = action.payload;
-  const {columnIndex} = action;
   const { columns } = state;
-  const copiedColumns = [...columns];
-  copiedColumns[columnIndex].tasks.push({_id, content, order, column});
+  // Take shallow clone of specific tasks array and push on to it
+  const copiedTasks = [...columns[column].tasks];
+  copiedTasks.push({_id, content, order, column});
     return {
       ...state,
-      columns: copiedColumns
+      columns: {
+        ...columns,
+        [column] : {
+          ...columns[column],
+          tasks: copiedTasks
+        }
+      }
     }
 }
 

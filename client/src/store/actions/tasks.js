@@ -4,23 +4,14 @@ import changeOrder from "../../shared/reorder";
 import lodash from "lodash";
 
 export const addTask = (task, columnId, columns) => {
-    console.log(task);
-    console.log(columnId);
-    let columnIndex;
-    for(let i = 0; i < columns.length; i++) {
-      if(columns[i]._id === columnId) {
-        columnIndex = i;
-      }
-    }
-    const columnLength = columns[columnIndex].tasks.length;
+    const columnLength = columns[columnId].tasks.length;
     return dispatch => {
         axios.post("/api/task/add", {content: task, order: columnLength, column : columnId})
         .then(response => {
             console.log(response)
             dispatch({
                 type: actionTypes.ADD_TASK,
-                payload: response.data,
-                columnIndex: columnIndex
+                payload: response.data
             })
         }).catch(err => console.log(err));
     };   

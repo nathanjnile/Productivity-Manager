@@ -33,15 +33,6 @@ router.route("/add").post((req, res) => {
         .catch(err => res.status(400).json("2Error: " + err));
 });
 
-// // @route GET api/items/:id
-// // @desc Get single item
-// // @access Public
-// router.route("/:id").get((req, res) => {
-//     Item.findById(req.params.id)
-//     .then(item => res.json(item))
-//     .catch(err => res.status(400).json("Error: " + err));
-// });
-
 // @route Delete api/items/:id
 // @desc Delete single item
 // @access Public
