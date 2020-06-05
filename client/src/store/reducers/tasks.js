@@ -65,13 +65,14 @@ const columnMoved = (state, action) => {
 }
 
 const addList = (state, action) => {
-  const {payload} = action;
+  const { payload } = action;
   const { columns } = state;
-  const copiedColumns = [...columns];
-  copiedColumns.push({_id: payload._id, name: payload.name, columnOrder: payload.columnOrder, tasks: []})
     return {
       ...state,
-      columns : copiedColumns
+      columns : {
+        ...columns,
+        [payload._id] : {name: payload.name, columnOrder: payload.columnOrder, tasks: []}
+      }
     };
   }
 

@@ -21,13 +21,14 @@ const Todolist = (props) => {
 
   useEffect(() => {
     onGetTasks();
-    // console.log(items);
 }, [onGetTasks])
 
   const submitForm = (event) => {
     event.preventDefault();
     if(listFieldInput !== "") {
-      props.onAddList(listFieldInput, columns.length);
+      const columnsLength = Object.entries({...columns}).length;
+      console.log(columnsLength)
+      props.onAddList(listFieldInput, columnsLength);
     }
     clearAddList();
   } 
@@ -150,7 +151,7 @@ const mapDispatchToProps = dispatch => {
       // onTaskMoved: (source, destination, columns) => dispatch(actions.taskMoved(source, destination, columns)),
       // onTaskMovedColumn: (source, destination, columns) => dispatch(actions.taskMovedColumn(source, destination, columns)),
       // onColumnMoved: (source, destination, columns) => dispatch(actions.columnMoved(source, destination, columns)),
-      // onAddList: (newList, columnsLength) => dispatch(actions.addList(newList, columnsLength))
+      onAddList: (newList, columnsLength) => dispatch(actions.addList(newList, columnsLength))
   }
 }
 

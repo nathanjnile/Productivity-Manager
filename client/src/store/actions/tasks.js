@@ -129,16 +129,7 @@ export const columnMoved = (source, destination, columns) => {
         }).catch(error => {
             console.log(error);
         });
-    } 
-    
-    
-    
-    // return {
-    //     type: actionTypes.COLUMN_MOVED,
-    //     source: source,
-    //     destination: destination
-    // }
-        
+    }        
 }
 
 export const addList = (newList, columnsLength) => {
