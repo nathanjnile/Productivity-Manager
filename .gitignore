@@ -26,4 +26,4 @@ yarn-error.log*
 #config
 config/default.json
 
-config.js
+# config.js
