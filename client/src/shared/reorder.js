@@ -5,25 +5,11 @@ const changeOrderGoals = (copiedItems) => {
     return copiedItems;
 }
 
-const changeOrderOwnColumn = (items) => {
-    const {taskColumns, columnIndex} = items;
-    const copiedColumns = [...taskColumns];
-    for(let i = 0; i < copiedColumns[columnIndex].tasks.length; i++) {
-        copiedColumns[columnIndex].tasks[i].order = i;
+const changeOrderOwnColumn = (copiedTasks) => {
+    for(let i = 0; i< copiedTasks.length; i++) {
+        copiedTasks[i].order = i;
     }
-    return copiedColumns;
-}
-
-const changeOrderDiffColumn = (items) => {
-    const {taskColumns, columnSourceIndex, columnDestIndex} = items;
-    const copiedColumns = [...taskColumns];
-    for(let i = 0; i < copiedColumns[columnSourceIndex].tasks.length; i++) {
-        copiedColumns[columnSourceIndex].tasks[i].order = i;
-    }
-    for(let i = 0; i < copiedColumns[columnDestIndex].tasks.length; i++) {
-        copiedColumns[columnDestIndex].tasks[i].order = i;
-    }
-    return copiedColumns;
+    return copiedTasks;
 }
 
 const changeOrderOfColumns = (items) => {
@@ -37,8 +23,7 @@ const changeOrderOfColumns = (items) => {
 const changeOrder = (items, type) => {
     switch(type) {
     case "goal": return changeOrderGoals(items)
-    case "taskOwnColumn": return changeOrderOwnColumn(items);
-    case "taskDiffColumn": return changeOrderDiffColumn(items);
+    case "tasks": return changeOrderOwnColumn(items);
     case "moveColumn": return changeOrderOfColumns(items);
         default: return null
     }

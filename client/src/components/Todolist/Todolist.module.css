@@ -11,12 +11,17 @@
 }
 
 .columnHeader {
-    user-select: none;
     background-color: lightgrey;
     width: 200px;
     padding: 4px;
-    text-align: center;
     border-radius: 5px 5px 5px 5px;
+    
+}
+
+.columnHeaderText {
+    text-align: start;
+    user-select: none;
+    padding-left: 10px;
 }
 
 .columnMain {

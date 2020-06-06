@@ -45,13 +45,7 @@ const EditDeleteModal = (props) => {
   
     const handleOpen = () => {
       setOpen(true);
-      let columnIndex;
-      for(let i = 0; i < columns.length; i++) {
-        if(columns[i]._id === columnId) {
-          columnIndex = i;
-        }
-      }
-      setTaskInput(columns[columnIndex].tasks[itemIndex].content);
+      setTaskInput(columns[columnId].tasks[itemIndex].content);
     };
   
     const handleClose = () => {
@@ -62,7 +56,6 @@ const EditDeleteModal = (props) => {
         event.preventDefault();
         if (taskInput !== "") {
           props.onEditTask(taskInput, columnId, itemId, itemIndex);
-        // props.onTaskAdded(taskInput, props.columnId);
         }
         handleClose();
         setTaskInput("");

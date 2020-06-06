@@ -1,7 +1,6 @@
 import * as actionTypes from "./actionTypes";
 import axios from "axios";
 import changeOrder from "../../shared/reorder";
-import lodash from "lodash";
 
 export const addTask = (task, columnId, columns) => {
     const columnLength = columns[columnId].tasks.length;
@@ -19,88 +18,64 @@ export const addTask = (task, columnId, columns) => {
 
 export const taskMoved = (source, destination, columns) => {
     // Create deep copy for use later in comparison
-    const columnsClone = lodash.cloneDeep(columns);
-    const copiedColumns = [...columns];
-    // Find the column index which the task moved within
-    let columnIndex;
-    for(let i = 0; i < columns.length; i++) {
-      if(copiedColumns[i]._id === source.droppableId) {
-        columnIndex = i;
-      }
-    }
-    // Removing task from column tasks array and reinserting at destination location
-    const [removed] = copiedColumns[columnIndex].tasks.splice(source.index, 1);
-    copiedColumns[columnIndex].tasks.splice(destination.index, 0, removed);
+    const column = columns[source.droppableId];
+    const copiedTasks = [...column.tasks];
+    const [removed] = copiedTasks.splice(source.index, 1);
+    copiedTasks.splice(destination.index, 0, removed);
     //Updating order property of all the tasks in the specific column
-    const copiedColumns2 = changeOrder({taskColumns: copiedColumns, columnIndex: columnIndex}, "taskOwnColumn");
+    changeOrder([...copiedTasks], "tasks");
     return dispatch => {
         dispatch({
         type: actionTypes.TASK_MOVED,
-        copiedColumns: copiedColumns2,
+        copiedTasks,
+        source,
+        column
         });
-        // Compare old tasks and new tasks for updated items
-        const updatedArray = [];   
-        for(let i = 0; i < copiedColumns2[columnIndex].tasks.length;i++) {
-            if (columnsClone[columnIndex].tasks[i]._id !== copiedColumns2[columnIndex].tasks[i]._id) {
-                updatedArray.push(copiedColumns2[columnIndex].tasks[i]);
-            }
-        }
-        
-        if(updatedArray.length > 0) {
 
-            // axios call to send new task order to backend
-            axios.post("/api/task/updateMove", {newTasks: updatedArray})
-            .then(res => {
-                console.log(res);
-            }).catch(error => {
-                console.log(error);
-            });
-        }
-    }  
-    
+        // axios call to send new task order to backend
+        axios.post("/api/task/updateMove", {newTasks: copiedTasks})
+        .then(res => {
+            console.log(res);
+        }).catch(error => {
+            console.log(error);
+        });
+    }     
 }
 
 export const taskMovedColumn = (source, destination, columns) => {
-    let columnSourceIndex, columnDestIndex;
-    for(let i = 0; i < columns.length; i++) {
-      if(columns[i]._id === source.droppableId) {
-        columnSourceIndex = i;
-      } else if(columns[i]._id === destination.droppableId) {
-        columnDestIndex = i;
-      }
-    }
-    const copiedColumns = [...columns];
-    const [removed] = copiedColumns[columnSourceIndex].tasks.splice(source.index, 1);
-    removed.column = destination.droppableId;
-    copiedColumns[columnDestIndex].tasks.splice(destination.index, 0, removed);
-    // Reorder all columns or source and dest
-    const copiedColumns2 = changeOrder({taskColumns: copiedColumns, columnSourceIndex: columnSourceIndex, columnDestIndex: columnDestIndex}, "taskDiffColumn");
-    console.log(copiedColumns2);
+    const sourceColumn = columns[source.droppableId];
+    const destColumn = columns[destination.droppableId];
+    const sourceTasks = [...sourceColumn.tasks];
+    const destTasks = [...destColumn.tasks];
+    const [removed] = sourceTasks.splice(source.index, 1);
+    destTasks.splice(destination.index, 0, removed);
+    destTasks[destination.index].column = destination.droppableId;
+    // Reorder all source and dest tasks
+    changeOrder([...sourceTasks], "tasks");
+    changeOrder([...destTasks], "tasks");
+    console.log(sourceTasks);
+    console.log(destTasks);
     return dispatch => {
         dispatch({
             type: actionTypes.TASK_MOVED_COLUMN,
-            copiedColumns: copiedColumns2
+            sourceTasks,
+            destTasks,
+            sourceColumn,
+            destColumn,
+            source,
+            destination
         });
-        // Compare old tasks and new tasks for updated items
-        const columnsClone = lodash.cloneDeep(copiedColumns2);
         const updatedArray = [];   
-        // for(let i = 0; i < columnsClone.length; i++) {
-        //     updatedArray.push(...columnsClone[i].tasks)
-        // }
-
-        const sourceItems = columnsClone[columnSourceIndex].tasks;
-        const destItems = columnsClone[columnDestIndex].tasks;
-        updatedArray.push(...sourceItems, ...destItems);
-
+        updatedArray.push(...sourceTasks, ...destTasks);
         console.log(updatedArray);
         
-            // axios call to send new task order to backend
-            axios.post("/api/task/updateMoveColumn", {newTasks: updatedArray})
-            .then(res => {
-                console.log(res);
-            }).catch(error => {
-                console.log(error);
-            });
+        // axios call to send new task order to backend
+        axios.post("/api/task/updateMoveColumn", {newTasks: updatedArray})
+        .then(res => {
+            console.log(res);
+        }).catch(error => {
+            console.log(error);
+        });
     }    
 }
 
@@ -156,44 +131,26 @@ export const editTask = (newTaskName, columnId, itemId, itemIndex) => {
                 type: actionTypes.EDIT_TASK,
                 newTaskName: newTaskName,
                 columnId: columnId,
-                itemId: itemId,
                 itemIndex: itemIndex
             })
         }).catch(err => console.log(err));
     };  
-    
-    // return {
-    //     type: actionTypes.EDIT_TASK,
-    //     newTaskName: newTaskName,
-    //     columnId: columnId,
-    //     itemId: itemId,
-    //     itemIndex: itemIndex
-    // }
-
-
 }
 
 export const deleteTask = (columnId, itemIndex, columns, itemId) => {
-    let columnIndex;
-    for(let i = 0; i < columns.length; i++) {
-      if(columns[i]._id === columnId) {
-        columnIndex = i;
-      }
-    }
-    const copiedColumns = [...columns];
-    copiedColumns[columnIndex].tasks.splice(itemIndex, 1);
-    const copiedColumns2 = changeOrder({taskColumns: copiedColumns, columnIndex: columnIndex}, "taskOwnColumn");
-    const columnsClone = lodash.cloneDeep(copiedColumns2);
-    console.log(columnsClone);
-    const tasksToReorder = [...columnsClone[columnIndex].tasks];
-    console.log(tasksToReorder);
+    const sourceColumn = columns[columnId];
+    const sourceTasks = [...sourceColumn.tasks];
+    sourceTasks.splice(itemIndex, 1);
+    changeOrder(sourceTasks, "tasks");
     return dispatch => {
-        axios.post("/api/task/deleteAndUpdate", {taskToDelete: itemId, tasksToReorder: tasksToReorder})
+        axios.post("/api/task/deleteAndUpdate", {taskToDelete: itemId, tasksToReorder: sourceTasks})
         .then(response => {
             console.log(response)
             dispatch({
                 type: actionTypes.DELETE_TASK,
-                payload: copiedColumns2
+                columnId,
+                sourceTasks,
+                sourceColumn
             })
         }).catch(err => console.log(err));
     };   

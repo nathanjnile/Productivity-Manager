@@ -68,7 +68,9 @@ const Todolist = (props) => {
       if(source.droppableId !== destination.droppableId) {
         props.onTaskMovedColumn(source, destination, columns);
       } else {
+        if(source.index !== destination.index) {
         props.onTaskMoved(source, destination, columns);
+      } else return;
       }
     }  
   }
@@ -89,7 +91,9 @@ const Todolist = (props) => {
               <Draggable key={_id} draggableId={_id} index={index}>
                 {(provided) => (
                   <div className={classes.columnDiv} {...provided.draggableProps} ref={provided.innerRef}>
-                  <Typography variant="h6" className={classes.columnHeader} {...provided.dragHandleProps}> {column.name} </Typography>
+                  <div className={classes.columnHeader} {...provided.dragHandleProps}>  
+                  <Typography variant="h6" className={classes.columnHeaderText}> {column.name} </Typography>
+                  </div>
                   <div style={{margin: 8}}>
                   <Droppable droppableId={_id} key={_id} type="task">
                     {(provided, snapshot) => {
@@ -150,8 +154,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
       onGetTasks: () => dispatch(actions.getTasks()),
-      // onTaskMoved: (source, destination, columns) => dispatch(actions.taskMoved(source, destination, columns)),
-      // onTaskMovedColumn: (source, destination, columns) => dispatch(actions.taskMovedColumn(source, destination, columns)),
+      onTaskMoved: (source, destination, columns) => dispatch(actions.taskMoved(source, destination, columns)),
+      onTaskMovedColumn: (source, destination, columns) => dispatch(actions.taskMovedColumn(source, destination, columns)),
       onColumnMoved: (source, destination, columns) => dispatch(actions.columnMoved(source, destination, columns)),
       onAddList: (newList, columnsLength) => dispatch(actions.addList(newList, columnsLength))
   }
