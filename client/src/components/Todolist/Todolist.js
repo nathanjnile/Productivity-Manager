@@ -10,6 +10,7 @@ import ItemModal from './Modals/ItemModal';
 import TextField from '@material-ui/core/TextField';
 import CancelIcon from '@material-ui/icons/Cancel';
 import CheckIcon from '@material-ui/icons/Check';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import EditDeleteModal from "./Modals/EditDeleteModal";
 
 import * as actions from "../../store/actions/index";
@@ -93,6 +94,7 @@ const Todolist = (props) => {
                   <div className={classes.columnDiv} {...provided.draggableProps} ref={provided.innerRef}>
                   <div className={classes.columnHeader} {...provided.dragHandleProps}>  
                   <Typography variant="h6" className={classes.columnHeaderText}> {column.name} </Typography>
+                  <MoreHorizIcon fontSize="large" style={{cursor: "pointer"}}/>
                   </div>
                   <div style={{margin: 8}}>
                   <Droppable droppableId={_id} key={_id} type="task">
