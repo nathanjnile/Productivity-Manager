@@ -53,8 +53,6 @@ export const taskMovedColumn = (source, destination, columns) => {
     // Reorder all source and dest tasks
     changeOrder([...sourceTasks], "tasks");
     changeOrder([...destTasks], "tasks");
-    console.log(sourceTasks);
-    console.log(destTasks);
     return dispatch => {
         dispatch({
             type: actionTypes.TASK_MOVED_COLUMN,
@@ -67,7 +65,6 @@ export const taskMovedColumn = (source, destination, columns) => {
         });
         const updatedArray = [];   
         updatedArray.push(...sourceTasks, ...destTasks);
-        console.log(updatedArray);
         
         // axios call to send new task order to backend
         axios.post("/api/task/updateMoveColumn", {newTasks: updatedArray})
