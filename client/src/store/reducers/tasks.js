@@ -78,7 +78,7 @@ const addList = (state, action) => {
 
 const editTask = (state, action) => {
   const { columns } = state;
-  const { newTaskName, columnId, itemId, itemIndex } = action;
+  const { newTaskName, columnId, itemIndex } = action;
   const copiedColumns = [...columns];
   let columnIndex;
   for(let i = 0; i < columns.length; i++) {

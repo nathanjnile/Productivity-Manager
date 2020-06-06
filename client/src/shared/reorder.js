@@ -29,7 +29,7 @@ const changeOrderDiffColumn = (items) => {
 const changeOrderOfColumns = (items) => {
     const {columns} = items;
     for(let i = 0; i< columns.length; i++) {
-        columns[i].columnOrder = i;
+        columns[i][1].columnOrder = i;
     }
     return columns;
 }

@@ -61,7 +61,9 @@ const Todolist = (props) => {
     if(!result.destination) return;
     const { source, destination, type } = result;
     if(type === "column") {
+      if(source.index !== destination.index) {
       props.onColumnMoved(source, destination, columns);
+      } else return;
     } else {
       if(source.droppableId !== destination.droppableId) {
         props.onTaskMovedColumn(source, destination, columns);
@@ -150,7 +152,7 @@ const mapDispatchToProps = dispatch => {
       onGetTasks: () => dispatch(actions.getTasks()),
       // onTaskMoved: (source, destination, columns) => dispatch(actions.taskMoved(source, destination, columns)),
       // onTaskMovedColumn: (source, destination, columns) => dispatch(actions.taskMovedColumn(source, destination, columns)),
-      // onColumnMoved: (source, destination, columns) => dispatch(actions.columnMoved(source, destination, columns)),
+      onColumnMoved: (source, destination, columns) => dispatch(actions.columnMoved(source, destination, columns)),
       onAddList: (newList, columnsLength) => dispatch(actions.addList(newList, columnsLength))
   }
 }

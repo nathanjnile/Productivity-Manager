@@ -105,25 +105,27 @@ export const taskMovedColumn = (source, destination, columns) => {
 }
 
 export const columnMoved = (source, destination, columns) => {
-    const copiedColumns = [...columns];
-    const [removed] = copiedColumns.splice(source.index, 1);
-    copiedColumns.splice(destination.index, 0, removed);
-    const copiedColumns2 = changeOrder({columns: copiedColumns}, "moveColumn");
-    // Update column order
+    const newColumns = Object.entries({...columns});
+    const [removed] = newColumns.splice(source.index, 1);
+    newColumns.splice(destination.index, 0, removed);
+    const copiedColumns = changeOrder({columns: newColumns}, "moveColumn");
+    const convColumns = Object.fromEntries(copiedColumns);;
     return dispatch => {
         dispatch({
             type: actionTypes.COLUMN_MOVED,
-                payload: copiedColumns2
+                payload: convColumns
         });
-        console.log(copiedColumns2);
     
-        const columnsClone = lodash.cloneDeep(copiedColumns2);
-        columnsClone.forEach(col => {
-            delete col.tasks;
+        const columnsClone = [...copiedColumns];
+        const updatedColumns = columnsClone.map((value, index) => {
+            return {
+                _id: value[0],
+                columnOrder: value[1].columnOrder
+            }
         })
-        console.log(columnsClone);
+
         // axios call to send new task order to backend
-        axios.post("/api/column/moveColumn", {columnsUpdate: columnsClone})
+        axios.post("/api/column/moveColumn", {columnsUpdate: updatedColumns})
         .then(res => {
             console.log(res);
         }).catch(error => {
