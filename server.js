@@ -23,10 +23,12 @@ connection.once("open", () => {
 const taskRouter = require("./routes/api/task");
 const columnRouter = require("./routes/api/column");
 const goalRouter = require("./routes/api/goal");
+const userRouter = require("./routes/api/user");
 
 app.use("/api/task", taskRouter);
 app.use("/api/column", columnRouter);
 app.use("/api/goal", goalRouter);
+app.use("/api/user", userRouter);
 
 
 // Serve static assets if in production
