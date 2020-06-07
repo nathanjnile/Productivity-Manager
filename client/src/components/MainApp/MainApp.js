@@ -1,17 +1,22 @@
 import React from "react";
 import classes from "./MainApp.module.css";
+import { connect } from "react-redux";
 
 import Todolist from "../Todolist/Todolist";
 import Timer from "../Timer/Timer";
 import LongTermGoals from "../LongTermGoals/LongTermGoals";
+import Typography from '@material-ui/core/Typography';
 
 
-const MainApp = () => {
+const MainApp = (props) => {
+    const {isAuthenticated} = props;
 
     return(
         <div className={classes.mainStyles}>
            <div className={classes.divStyle}>
-                <Todolist/>
+                {isAuthenticated ? <Todolist/> : <Typography variant="h5" gutterBottom style={{color: "#2c2f35"}}>
+                Please login!
+            </Typography>}
            </div>
             <div className={classes.divStyle1}>
                 <Timer/>
@@ -23,5 +28,11 @@ const MainApp = () => {
     );
 }
 
+const mapStateToProps = state => {
+    return {
+    isAuthenticated: state.auth.isAuthenticated,
+    // error: state.error
+    }
+}
 
-export default MainApp;
+export default connect(mapStateToProps)(MainApp);

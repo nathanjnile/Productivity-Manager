@@ -7,6 +7,7 @@ import thunk from "redux-thunk";
 
 import tasksReducer from "./store/reducers/tasks";
 import goalsReducer from "./store/reducers/goals";
+import authReducer from "./store/reducers/auth";
 
 import * as serviceWorker from './serviceWorker';
 
@@ -14,7 +15,8 @@ const composeEnhancers = process.env.NODE_ENV === "development" ? window.__REDUX
 
 const rootReducer = combineReducers({
      tasks: tasksReducer,
-     goals: goalsReducer
+     goals: goalsReducer,
+     auth: authReducer
 })
 
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
