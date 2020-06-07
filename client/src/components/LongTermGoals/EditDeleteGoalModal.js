@@ -90,7 +90,7 @@ const EditDeleteGoalModal = (props) => {
             style={{width: "100%", marginTop: 10}}
              />
              <div style={{marginTop: 10, display: "flex", alignItems: "center", justifyContent:"center"}}>
-             <Button type="submit" style={{backgroundColor: "#3F51B5", color:"#FFFFFF"}}>Change Task</Button>
+             <Button type="submit" style={{backgroundColor: "#3F51B5", color:"#FFFFFF"}}>Change Goal</Button>
              <Button onClick={() => props.onDeleteGoal(cardId, cardIndex, goals)}  style={{backgroundColor: "red", color:"#FFFFFF", marginLeft: "auto"}}>Delete Task</Button>
             </div>
             </form>
