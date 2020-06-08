@@ -2,7 +2,6 @@ import React, {useEffect} from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { connect } from "react-redux";
 import classes from "./LongTermGoals.module.css";
-import uuid from "uuid/v4";
 import Card from '@material-ui/core/Card';
 import * as actions from "../../store/actions/index";
 import GoalModal from "./GoalModal";
@@ -34,7 +33,7 @@ const LongTermGoals = (props) => {
           <div className={classes.outerDragdropCon}>
         <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
             <div className={classes.columnDiv}> 
-             <Droppable droppableId={uuid()} key={uuid()}>
+             <Droppable droppableId={"column"}>
                {(provided, snapshot) => {
                  return(
                     <div {...provided.droppableProps} ref={provided.innerRef} className={classes.columnMain}

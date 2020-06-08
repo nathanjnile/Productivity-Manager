@@ -30,11 +30,9 @@ export const goalMoved = (source, destination, items) => {
         for(let i = 0; i < copiedItems2.length;i++) {
             if (items[i] !== copiedItems2[i]) {
                 // console.log(items[i]);
-                console.log(copiedItems2[i]);
                 updatedArray.push(copiedItems2[i]);
             }
         }
-        console.log(updatedArray);
         
         if(updatedArray.length > 0) {
 
@@ -54,7 +52,6 @@ export const editGoal = (cardId, newGoalContent, newGoalDate, cardIndex) => {
         // dispatch(setItemsLoading);
         axios.post(`/api/goal/update/${cardId}`, {newContent: newGoalContent, newDate: newGoalDate})
         .then(response => {
-            console.log(response);
             dispatch({
                 type: actionTypes.EDIT_GOAL,
                 payload: {

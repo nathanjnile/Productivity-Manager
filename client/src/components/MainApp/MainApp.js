@@ -22,7 +22,9 @@ const MainApp = (props) => {
                 <Timer/>
             </div>
             <div className={classes.divStyle2}>
-                <LongTermGoals/>
+            {isAuthenticated ? <LongTermGoals/> : <Typography variant="h5" gutterBottom style={{color: "#2c2f35"}}>
+                Please login!
+            </Typography>}
             </div>
         </div>
     );

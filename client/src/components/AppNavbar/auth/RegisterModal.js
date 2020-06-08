@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { connect } from "react-redux";
 // import PropTypes from "prop-types";
 
@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 
-// import * as actions from "../../store/actions/index";
+import * as actions from "../../../store/actions/index";
   
   function getModalStyle() {
     const top = 25;
@@ -44,17 +44,17 @@ const RegisterModal = (props) => {
     const [passwordInput, setPasswordInput] = useState("");
     const [msg, setMsg] = useState(null);
 
-  // useEffect(() => {
-  //   if(props.error.id === "REGISTER_FAIL") {
-  //   setMsg(props.error.msg.msg);
-  //   };
+  useEffect(() => {
+    // if(props.error.id === "REGISTER_FAIL") {
+    // setMsg(props.error.msg.msg);
+    // };
 
-  //   if(open) {
-  //     if(props.isAuthenticated) {
-  //       setOpen(false)
-  //     }
-  //   }
-  // }, [props.error, msg, setOpen, open, props.isAuthenticated]);
+    if(open) {
+      if(props.isAuthenticated) {
+        setOpen(false)
+      }
+    }
+  }, [props.error, msg, setOpen, open, props.isAuthenticated]);
 
     const handleOpen = () => {
       setOpen(true);
@@ -82,12 +82,8 @@ const RegisterModal = (props) => {
           password: passwordInput
         }
 
-        // props.onRegister(newUser);
-        // if (itemInput !== "") {
-        // props.onItemAdded(itemInput);
-        // }
-        // handleClose();
-        // setItemInput("");
+        props.onRegister(newUser);
+        handleClose();
     }
   
     const body = (
@@ -158,14 +154,14 @@ const RegisterModal = (props) => {
 
 const mapStateToProps = state => {
     return {
-    // isAuthenticated: state.auth.isAuthenticated,
+    isAuthenticated: state.auth.isAuthenticated,
     // error: state.error
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        // onRegister:  (newUser) => dispatch(actions.register(newUser)),
+        onRegister:  (newUser) => dispatch(actions.register(newUser)),
         // onClearErrors: () => dispatch(actions.clearErrors())
     }
 }

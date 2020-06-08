@@ -37,8 +37,7 @@ export const tokenConfig = getState => {
 
         // If token, add to headers
         if(token) {
-            config.headers["x-auth-token"] = token;
-            config.headers.Authorization = token;
+            config.headers.Authorization = `Bearer ${token}`;
         }
         return config;
 }
@@ -57,7 +56,7 @@ export const register = ({name, email, password}) => {
 
         const body = JSON.stringify({name, email, password});
 
-        axios.post("/api/users", body, config)
+        axios.post("/api/user/users", body, config)
             .then(res => {
                 dispatch({
                     type: actionTypes.REGISTER_SUCCESS,

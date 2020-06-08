@@ -1,22 +1,10 @@
 import * as actionType from "../actions/actionTypes";
 
 const initialState = {
-    // items : [
-    //     {id: uuid(), content: "To get a job is software development", dateToComplete: "Sept 2020"},
-    //     {id: uuid(), content: "Second Goal", dateToComplete: "April 2020"},
-    //     {id: uuid(), content: "Third Goal", dateToComplete: "June 2020"}
-    //   ]
     items:[]
 }
 
 const goalMoved = (state, action) => {
-    // const {source, destination} = action;
-    // const { items } = state;
-    // const copiedItems = [...items];
-    // const [removed] = copiedItems.splice(source.index, 1);
-    // copiedItems.splice(destination.index, 0, removed);
-    // const copiedItems2 = changeOrder([...copiedItems]);
-    // console.log("pre redux update")
     return {
       ...state,
       items: action.copiedItems
@@ -52,10 +40,6 @@ const goalMoved = (state, action) => {
   }
 
   const deleteGoal = (state, action) => {
-    // console.log(action.payload.cardIndex);
-    // const copiedGoals = [...state.items];
-    // copiedGoals.splice(action.payload.cardIndex, 1);
-    // console.log(copiedGoals);    
     return {
       ...state,
       items: action.payload
