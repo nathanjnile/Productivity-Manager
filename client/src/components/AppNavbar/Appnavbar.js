@@ -3,7 +3,7 @@ import React from "react";
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import { connect } from "react-redux";
 import LoginModal from "./auth/LoginModal";
 import Logout from "./auth/Logout";
