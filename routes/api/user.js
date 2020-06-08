@@ -5,15 +5,13 @@ const User = require("../../models/User");
 
 router.post("/users", async (req, res) => {
     const user = new User(req.body);
-    console.log(user);
-    console.log(req.body);
 
     try {
         await user.save();
         const token = await user.generateAuthToken();
         res.status(201).send({user, token});
     }catch (error) {
-        res.status(400).send(error);
+        res.status(400).send({msg: "email already exists"});
     }
 })
 
@@ -23,7 +21,7 @@ router.post("/users/login", async (req, res) => {
         const token = await user.generateAuthToken();
         res.send({user, token});
     } catch (error) {
-        res.status(400).send();
+        res.status(400).send({msg: "Invalid credentials"});
     }
 });
 

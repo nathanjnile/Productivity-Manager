@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 
 import Button from '@material-ui/core/Button';
 
@@ -15,9 +15,9 @@ const Logout = (props) => {
       );
 }
 
-// Logout.propTypes = {
-//     onLogout: PropTypes.func.isRequired
-// }
+Logout.propTypes = {
+    onLogout: PropTypes.func.isRequired
+}
 
 const mapDispatchToProps = dispatch => {
     return {

@@ -12,13 +12,10 @@ import * as actions from "../../../store/actions/index";
   
   function getModalStyle() {
     const top = 25;
-    // const left = 50;
-  
+
     return {
       top: `${top}%`,
       margin: "auto"
-      // left: `${left}%`,
-      // transform: `translate(-${top}%, -${left}%)`,
     };
   }
   
@@ -36,7 +33,6 @@ import * as actions from "../../../store/actions/index";
 
 const LoginModal = (props) => {
     const classes = useStyles();
-    // getModalStyle is not a pure function, we roll the style only on the first render
     const [modalStyle] = useState(getModalStyle);
     const [open, setOpen] = useState(false);
     const [emailInput, setEmailInput] = useState("");
@@ -44,9 +40,9 @@ const LoginModal = (props) => {
     const [msg, setMsg] = useState(null);
 
   useEffect(() => {
-    // if(props.error.id === "LOGIN_FAIL") {
-    // setMsg(props.error.msg.msg);
-    // };
+    if(props.error.id === "LOGIN_FAIL") {
+    setMsg(props.error.msg.msg);
+    };
 
     if(open) {
       if(props.isAuthenticated) {
@@ -62,7 +58,7 @@ const LoginModal = (props) => {
   
     const handleClose = () => {
       setOpen(false);
-      // props.onClearErrors();
+      props.onClearErrors();
       clearFields();
       setMsg(null);
     };
@@ -133,24 +129,24 @@ const LoginModal = (props) => {
       );
 }
 
-// LoginModal.propTypes = {
-//     isAuthenticated: PropTypes.bool,
-//     error: PropTypes.object.isRequired,
-//     onLogin: PropTypes.func.isRequired,
-//     onClearErrors: PropTypes.func.isRequired
-// }
+LoginModal.propTypes = {
+    isAuthenticated: PropTypes.bool,
+    error: PropTypes.object.isRequired,
+    onLogin: PropTypes.func.isRequired,
+    onClearErrors: PropTypes.func.isRequired
+}
 
 const mapStateToProps = state => {
     return {
     isAuthenticated: state.auth.isAuthenticated,
-    // error: state.error
+    error: state.error
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         onLogin:  (user) => dispatch(actions.login(user)),
-        // onClearErrors: () => dispatch(actions.clearErrors())
+        onClearErrors: () => dispatch(actions.clearErrors())
     }
 }
 

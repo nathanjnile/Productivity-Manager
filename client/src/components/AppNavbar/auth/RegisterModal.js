@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { connect } from "react-redux";
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
@@ -12,13 +12,10 @@ import * as actions from "../../../store/actions/index";
   
   function getModalStyle() {
     const top = 25;
-    // const left = 50;
-  
+
     return {
       top: `${top}%`,
       margin: "auto"
-      // left: `${left}%`,
-      // transform: `translate(-${top}%, -${left}%)`,
     };
   }
   
@@ -36,7 +33,6 @@ import * as actions from "../../../store/actions/index";
 
 const RegisterModal = (props) => {
     const classes = useStyles();
-    // getModalStyle is not a pure function, we roll the style only on the first render
     const [modalStyle] = useState(getModalStyle);
     const [open, setOpen] = useState(false);
     const [nameInput, setNameInput] = useState("");
@@ -45,13 +41,14 @@ const RegisterModal = (props) => {
     const [msg, setMsg] = useState(null);
 
   useEffect(() => {
-    // if(props.error.id === "REGISTER_FAIL") {
-    // setMsg(props.error.msg.msg);
-    // };
+    if(props.error.id === "REGISTER_FAIL") {
+    setMsg(props.error.msg.msg);
+    };
 
     if(open) {
       if(props.isAuthenticated) {
-        setOpen(false)
+        setOpen(false);
+        clearFields();
       }
     }
   }, [props.error, msg, setOpen, open, props.isAuthenticated]);
@@ -62,7 +59,7 @@ const RegisterModal = (props) => {
   
     const handleClose = () => {
       setOpen(false);
-      // props.onClearErrors();
+      props.onClearErrors();
       clearFields();
       setMsg(null);
     };
@@ -83,7 +80,6 @@ const RegisterModal = (props) => {
         }
 
         props.onRegister(newUser);
-        handleClose();
     }
   
     const body = (
@@ -145,24 +141,24 @@ const RegisterModal = (props) => {
       );
 }
 
-// RegisterModal.propTypes = {
-//     isAuthenticated: PropTypes.bool,
-//     error: PropTypes.object.isRequired,
-//     onRegister: PropTypes.func.isRequired,
-//     onClearErrors: PropTypes.func.isRequired
-// }
+RegisterModal.propTypes = {
+    isAuthenticated: PropTypes.bool,
+    error: PropTypes.object.isRequired,
+    onRegister: PropTypes.func.isRequired,
+    onClearErrors: PropTypes.func.isRequired
+}
 
 const mapStateToProps = state => {
     return {
     isAuthenticated: state.auth.isAuthenticated,
-    // error: state.error
+    error: state.error
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         onRegister:  (newUser) => dispatch(actions.register(newUser)),
-        // onClearErrors: () => dispatch(actions.clearErrors())
+        onClearErrors: () => dispatch(actions.clearErrors())
     }
 }
 

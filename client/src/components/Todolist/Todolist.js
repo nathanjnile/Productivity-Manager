@@ -149,8 +149,8 @@ const Todolist = (props) => {
 
 const mapStateToProps = state => {
   return {
-      columns: state.tasks.columns,
-  };
+      columns: state.tasks.columns
+      };
 }
 
 const mapDispatchToProps = dispatch => {
@@ -159,7 +159,7 @@ const mapDispatchToProps = dispatch => {
       onTaskMoved: (source, destination, columns) => dispatch(actions.taskMoved(source, destination, columns)),
       onTaskMovedColumn: (source, destination, columns) => dispatch(actions.taskMovedColumn(source, destination, columns)),
       onColumnMoved: (source, destination, columns) => dispatch(actions.columnMoved(source, destination, columns)),
-      onAddList: (newList, columnsLength) => dispatch(actions.addList(newList, columnsLength))
+      onAddList: (newList, columnsLength) => dispatch(actions.addList(newList, columnsLength)),
   }
 }
 
