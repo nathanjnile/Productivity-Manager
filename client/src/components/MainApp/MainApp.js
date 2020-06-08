@@ -14,14 +14,14 @@ const MainApp = (props) => {
     const [msg, setMsg] = useState(null);
 
     useEffect(() => {
-        if(props.error.id === "AUTH_ERROR") {
+        if(error.id === "AUTH_ERROR") {
         setMsg(error.msg.msg);
         };
     
         if(isAuthenticated) {
           onClearErrors();
         }
-      }, [error, msg, isAuthenticated]);
+      }, [msg, isAuthenticated, onClearErrors, error.id, error.msg.msg]);
 
     return(
         <div className={classes.mainStyles}>

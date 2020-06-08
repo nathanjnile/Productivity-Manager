@@ -22,10 +22,11 @@ const goalMoved = (state, action) => {
   }
 
   const addGoal = (state, action) => {
+    const { _id, content, date, order, owner } = action.payload;
     return {
       ...state,
-      items : [...state.items, {_id: action.payload._id, content: action.payload.content, date: action.payload.date, order: action.payload.order}]
-    }; 
+      items : [...state.items, {_id, content, date, order, owner}]
+    }
   }
 
   const editGoal = (state, action) => {

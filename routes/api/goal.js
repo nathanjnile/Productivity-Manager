@@ -1,15 +1,15 @@
 const router = require("express").Router();
 const Goal = require("../../models/Goal");
-// const auth = require("../../middleware/auth");
 const util = require('util')
 var ObjectId = require('mongodb').ObjectID;
+const auth = require("../../middleware/auth");
 
 
 // @route GET api/goals
 // @desc get All Items
-// @access Public
-router.route("/").get((req, res) => {
-    Goal.find()
+// @access Private
+router.get("/", auth, (req, res) => {
+    Goal.find({owner: req.user._id})
     .then(goals => res.json(goals))
     .catch(err => res.status(400).json("Error: " + err));
 });
@@ -17,15 +17,17 @@ router.route("/").get((req, res) => {
 // @route POST api/goals/add
 // @desc Create a post
 // @access Private
-router.route("/add").post((req, res) => {
+router.post("/add", auth, (req, res) => {
     const content = req.body.content;
     const date = req.body.date;
     const order = req.body.order;
+    const owner = req.body.owner;
 
     const newGoal = new Goal({
         content,
         date,
-        order   
+        order,
+        owner   
     });
 
     newGoal.save()
@@ -53,13 +55,17 @@ router.route("/deleteAndUpdate").post((req, res) => {
             console.log(r)
         }
     }
-    // Initialise the bulk operations array
-    let ops = itemsToReorder.map(function (item) { 
-        return { 
-            "updateOne": { "filter": { _id: new ObjectId(item._id) }, "update": { "$set": { "order": item.order } } 
-            }         
-        }    
-    });
+
+    let ops = [];
+    
+    if(itemsToReorder) {
+        ops = itemsToReorder.map(function (item) { 
+            return { 
+                "updateOne": { "filter": { _id: new ObjectId(item._id) }, "update": { "$set": { "order": item.order } } 
+                }         
+            }    
+        });
+    }
 
     ops.push({ "deleteOne": { "filter": { _id: new ObjectId(itemToDelete._id) }}});
     
