@@ -35,16 +35,10 @@ router.post("/add", auth, (req, res) => {
         .catch(err => res.status(400).json("2Error: " + err));
 });
 
-// @route Delete api/items/:id
-// @desc Delete single item
-// @access Public
-router.route("/:id").delete((req, res) => {
-    Goal.findByIdAndDelete(req.params.id)
-    .then(() => res.json("Item deleted."))
-    .catch(err => res.status(400).json("Error: " + err));
-});
-
-router.route("/deleteAndUpdate").post((req, res) => {
+// @route POST api/goals/deleteAndUpdate
+// @desc Delete the selected goal and update the order of the others
+// @access Private
+router.post("/deleteAndUpdate", auth, (req, res) => {
     const {itemToDelete, itemsToReorder} = req.body;
     var callback = function(err, r){
         if(err) {
@@ -61,13 +55,13 @@ router.route("/deleteAndUpdate").post((req, res) => {
     if(itemsToReorder) {
         ops = itemsToReorder.map(function (item) { 
             return { 
-                "updateOne": { "filter": { _id: new ObjectId(item._id) }, "update": { "$set": { "order": item.order } } 
+                "updateOne": { "filter": { _id: new ObjectId(item._id), owner: req.user._id}, "update": { "$set": { "order": item.order } } 
                 }         
             }    
         });
     }
 
-    ops.push({ "deleteOne": { "filter": { _id: new ObjectId(itemToDelete._id) }}});
+    ops.push({ "deleteOne": { "filter": { _id: new ObjectId(itemToDelete._id), owner: req.user._id }}});
     
     // Get the underlying collection via the native node.js driver collection object
     try {

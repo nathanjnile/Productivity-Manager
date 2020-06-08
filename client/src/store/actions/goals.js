@@ -72,8 +72,8 @@ export const deleteGoal = (cardId, cardIndex, goals) => {
     console.log(copiedGoals);
     const copiedGoals2 = changeOrder([...copiedGoals], "goal");   
 
-    return dispatch => {
-        axios.post("/api/goal/deleteAndUpdate", {itemToDelete: goals[cardIndex], itemsToReorder: copiedGoals2})
+    return (dispatch, getState) => {
+        axios.post("/api/goal/deleteAndUpdate", {itemToDelete: goals[cardIndex], itemsToReorder: copiedGoals2}, tokenConfig(getState))
         .then(res => {
             console.log(res);
             dispatch({
