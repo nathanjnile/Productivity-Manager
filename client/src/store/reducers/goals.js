@@ -47,6 +47,12 @@ const goalMoved = (state, action) => {
     }; 
   }
 
+  const clearGoals = (state, action) => {
+    return {
+      ...state,
+      items: []
+    }; 
+  }
 
 const reducer =(state = initialState, action) => {
     switch (action.type) {
@@ -55,6 +61,7 @@ const reducer =(state = initialState, action) => {
         case actionType.ADD_GOAL: return addGoal(state, action);
         case actionType.EDIT_GOAL: return editGoal(state, action);
         case actionType.DELETE_GOAL: return deleteGoal(state, action);
+        case actionType.CLEAR_GOALS: return clearGoals(state, action);
         default:
             return state;
     }

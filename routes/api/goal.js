@@ -72,14 +72,14 @@ router.post("/deleteAndUpdate", auth, (req, res) => {
 
     });
 
-// @route POST api/items/update/:id
+// @route POST api/goal/update/:id
 // @desc Update single item
 // @access Private
-router.route("/update/:id").post((req, res) => {
-    Goal.findByIdAndUpdate(req.params.id)
+router.post("/update", auth, (req, res) => {
+    Goal.findOne({_id: req.body._id, owner: req.user._id})
     .then(goal => {
-        goal.content = req.body.newContent;
-        goal.date = req.body.newDate;
+        goal.content = req.body.content;
+        goal.date = req.body.date;
 
         goal.save()
         .then(() => res.json("Goal updated!"))
@@ -88,7 +88,10 @@ router.route("/update/:id").post((req, res) => {
     .catch(err => res.status(400).json("Error: " + err));
 });
 
-router.route("/updateMove").post((req, res) => {
+// @route POST api/updateMove
+// @desc Reorder the goals when moved
+// @access Private
+router.post("/updateMove", auth, (req, res) => {
     const {newItems} = req.body;
     var callback = function(err, r){
         if(err) {
@@ -100,9 +103,9 @@ router.route("/updateMove").post((req, res) => {
         }
     }
     // Initialise the bulk operations array
-    var ops = newItems.map(function (item) { 
+    let ops = newItems.map(function (item) { 
         return { 
-            "updateOne": { "filter": { _id: new ObjectId(item._id) }, "update": { "$set": { "order": item.order } } 
+            "updateOne": { "filter": { _id: new ObjectId(item._id), owner: req.user._id}, "update": { "$set": { "order": item.order } } 
             }         
         }    
     });

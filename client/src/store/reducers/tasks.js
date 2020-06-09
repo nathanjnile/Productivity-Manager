@@ -158,6 +158,13 @@ const getTasks = (state, action) => {
 }
 }
 
+const clearTasks = (state, action) => {
+  return {
+    ...state,
+    columns : {}
+  }
+}
+
 const reducer =(state = initialState, action) => {
     switch (action.type) {
         case actionType.ADD_TASK: return addTask(state, action);
@@ -168,6 +175,7 @@ const reducer =(state = initialState, action) => {
         case actionType.EDIT_TASK: return editTask(state, action);
         case actionType.DELETE_TASK: return deleteTask(state, action);
         case actionType.GET_TASKS: return getTasks(state, action);
+        case actionType.CLEAR_TASKS: return clearTasks(state, action);
         default:
             return state;
     }

@@ -21,7 +21,7 @@ export const goalMoved = (source, destination, items) => {
     const [removed] = copiedItems.splice(source.index, 1);
     copiedItems.splice(destination.index, 0, removed);
     const copiedItems2 = changeOrder([...copiedItems], "goal");
-    return dispatch => {
+    return (dispatch, getState) => {
         dispatch({
         type: actionTypes.GOAL_MOVED,
         copiedItems: copiedItems2,
@@ -30,7 +30,6 @@ export const goalMoved = (source, destination, items) => {
         const updatedArray = [];
         for(let i = 0; i < copiedItems2.length;i++) {
             if (items[i] !== copiedItems2[i]) {
-                // console.log(items[i]);
                 updatedArray.push(copiedItems2[i]);
             }
         }
@@ -38,20 +37,20 @@ export const goalMoved = (source, destination, items) => {
         if(updatedArray.length > 0) {
 
             // axios call to send new order to backend
-            axios.post("/api/goal/updateMove", {newItems: updatedArray})
+            axios.post("/api/goal/updateMove", {newItems: updatedArray}, tokenConfig(getState))
             .then(res => {
                 console.log(res);
             }).catch(error => {
-                console.log(error);
+                console.log(error.response);
             });
         }
     }  
 }
 
 export const editGoal = (cardId, newGoalContent, newGoalDate, cardIndex) => {
-    return dispatch => {
+    return (dispatch, getState) => {
         // dispatch(setItemsLoading);
-        axios.post(`/api/goal/update/${cardId}`, {newContent: newGoalContent, newDate: newGoalDate})
+        axios.post("/api/goal/update", {_id: cardId, content: newGoalContent, date: newGoalDate}, tokenConfig(getState))
         .then(response => {
             dispatch({
                 type: actionTypes.EDIT_GOAL,

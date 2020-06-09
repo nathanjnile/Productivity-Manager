@@ -8,7 +8,6 @@ export const loadUser = () => {
     return (dispatch, getState) => {
         // User loading
         dispatch({type: actionTypes.USER_LOADING});
-        console.log(tokenConfig(getState))
         axios.get("/api/user/users/me", tokenConfig(getState))
             .then(res => dispatch({
                 type: actionTypes.USER_LOADED,
@@ -76,6 +75,8 @@ export const register = ({name, email, password}) => {
 export const logout = () => {
     return (dispatch) => {
         dispatch({type: actionTypes.LOGOUT_SUCCESS});
+        dispatch({type: actionTypes.CLEAR_GOALS});
+        dispatch({type: actionTypes.CLEAR_TASKS});
     }
 }
 
