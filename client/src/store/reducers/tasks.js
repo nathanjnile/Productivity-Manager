@@ -66,13 +66,13 @@ const columnMoved = (state, action) => {
 }
 
 const addList = (state, action) => {
-  const { payload } = action;
+  const { _id, name, columnOrder, owner, __v } = action.payload;
   const { columns } = state;
     return {
       ...state,
       columns : {
         ...columns,
-        [payload._id] : {name: payload.name, columnOrder: payload.columnOrder, tasks: []}
+        [_id] : {name, columnOrder, owner, __v, tasks: []}
       }
     };
   }
@@ -122,6 +122,7 @@ const getTasks = (state, action) => {
     columns[value._id] = {
       name : value.name,
       columnOrder: value.columnOrder,
+      owner: value.owner,
       tasks :[]
     }
   })

@@ -1,11 +1,12 @@
 import * as actionTypes from "./actionTypes";
 import axios from "axios";
 import changeOrder from "../../shared/reorder";
+import { tokenConfig } from "./auth";
 
 export const addTask = (task, columnId, columns) => {
     const columnLength = columns[columnId].tasks.length;
-    return dispatch => {
-        axios.post("/api/task/add", {content: task, order: columnLength, column : columnId})
+    return (dispatch, getState) => {
+        axios.post("/api/task/add", {content: task, order: columnLength, column : columnId}, tokenConfig(getState))
         .then(response => {
             console.log(response)
             dispatch({
@@ -82,7 +83,7 @@ export const columnMoved = (source, destination, columns) => {
     newColumns.splice(destination.index, 0, removed);
     const copiedColumns = changeOrder({columns: newColumns}, "moveColumn");
     const convColumns = Object.fromEntries(copiedColumns);;
-    return dispatch => {
+    return (dispatch, getState) => {
         dispatch({
             type: actionTypes.COLUMN_MOVED,
                 payload: convColumns
@@ -97,7 +98,7 @@ export const columnMoved = (source, destination, columns) => {
         })
 
         // axios call to send new task order to backend
-        axios.post("/api/column/moveColumn", {columnsUpdate: updatedColumns})
+        axios.post("/api/column/moveColumn", {columnsUpdate: updatedColumns}, tokenConfig(getState))
         .then(res => {
             console.log(res);
         }).catch(error => {
@@ -107,8 +108,8 @@ export const columnMoved = (source, destination, columns) => {
 }
 
 export const addList = (newList, columnsLength) => {
-    return dispatch => {
-        axios.post("/api/column/add", {name: newList, columnOrder: columnsLength})
+    return (dispatch, getState) => {
+        axios.post("/api/column/add", {name: newList, columnOrder: columnsLength, owner: getState().auth.user._id}, tokenConfig(getState))
         .then(response => {
             console.log(response.data)
             dispatch({
@@ -154,9 +155,9 @@ export const deleteTask = (columnId, itemIndex, columns, itemId) => {
 }
 
 export const getTasks = () => {
-    return dispatch => {
+    return (dispatch, getState) => {
                 // dispatch(setItemsLoading);
-                axios.get("/api/column/tasks")
+                axios.get("/api/column/tasks", tokenConfig(getState))
                 .then(response => {
                     // console.log(response.data);
                     dispatch({

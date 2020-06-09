@@ -28,7 +28,6 @@ const Todolist = (props) => {
     event.preventDefault();
     if(listFieldInput !== "") {
       const columnsLength = Object.entries({...columns}).length;
-      console.log(columnsLength)
       props.onAddList(listFieldInput, columnsLength);
     }
     clearAddList();

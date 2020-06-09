@@ -3,14 +3,14 @@ const Task = require("../../models/Task");
 const Column = require("../../models/Column");
 var ObjectId = require('mongodb').ObjectID;
 const util = require('util')
-// const auth = require("../middleware/auth");
+const auth = require("../../middleware/auth");
 
 
-// @route GET api/tasks
-// @desc get All Items
-// @access Public
-router.route("/").get((req, res) => {
-    Task.find()
+// @route GET api/task
+// @desc get All tasks, route not used in the app, testing only
+// @access Private
+router.get("/", auth, (req, res) => {
+    Task.find({owner: req.user._id})
     .then(tasks => res.json(tasks))
     .catch(err => res.status(400).json("Error: " + err));
 });
@@ -18,16 +18,11 @@ router.route("/").get((req, res) => {
 // // @route POST api/tasks/add
 // // @desc Create a post
 // // @access Public
-router.route("/add").post((req, res) => {
-    const content = req.body.content;
-    const order = req.body.order;
-    const column = req.body.column;
-    
-    const newTask = new Task({
-        content,
-        order,
-        column
-    });
+router.post("/add", auth, (req, res) => {
+    const { content, order, column } = req.body;
+    const owner = req.user._id;
+
+    const newTask = new Task({content, order, column, owner});
 
     newTask.save().then((task) => res.json(task))
     .catch(err => res.status(400).json("Error: " + err));

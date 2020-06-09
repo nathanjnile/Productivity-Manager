@@ -53,9 +53,9 @@ router.post("/deleteAndUpdate", auth, (req, res) => {
     let ops = [];
     
     if(itemsToReorder) {
-        ops = itemsToReorder.map(function (item) { 
+        ops = itemsToReorder.map(function (goal) { 
             return { 
-                "updateOne": { "filter": { _id: new ObjectId(item._id), owner: req.user._id}, "update": { "$set": { "order": item.order } } 
+                "updateOne": { "filter": { _id: new ObjectId(goal._id), owner: req.user._id}, "update": { "$set": { "order": goal.order } } 
                 }         
             }    
         });
@@ -103,9 +103,9 @@ router.post("/updateMove", auth, (req, res) => {
         }
     }
     // Initialise the bulk operations array
-    let ops = newItems.map(function (item) { 
+    let ops = newItems.map(function (goal) { 
         return { 
-            "updateOne": { "filter": { _id: new ObjectId(item._id), owner: req.user._id}, "update": { "$set": { "order": item.order } } 
+            "updateOne": { "filter": { _id: new ObjectId(goal._id), owner: req.user._id}, "update": { "$set": { "order": goal.order } } 
             }         
         }    
     });

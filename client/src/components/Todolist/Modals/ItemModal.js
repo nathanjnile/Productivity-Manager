@@ -74,7 +74,7 @@ const ItemModal = (props) => {
             autoFocus
              />
              <br/><br/>
-             <Button type="submit" style={{backgroundColor: "#3F51B5", color:"#FFFFFF"}}>Add Task</Button>
+             <Button type="submit" style={{backgroundColor: "#3F51B5", color:"#FFFFFF", textTransform: "none"}}>Add Task</Button>
             </form>
       </div>
     );
