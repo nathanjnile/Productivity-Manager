@@ -13,9 +13,9 @@ import ListColumn from "./ListColumn/ListColumn";
 import * as actions from "../../store/actions/index";
 
 const Todolist = (props) => {
+  const {columns, onGetTasks, onAddList, onColumnMoved, onTaskMovedColumn, onTaskMoved} = props;
   const [enterAddList, setEnterAddList] = useState(true);
   const [listFieldInput, setListFieldInput] = useState("");
-  const {columns, onGetTasks, onAddList, onColumnMoved, onTaskMovedColumn, onTaskMoved} = props;
 
   useEffect(() => {
     onGetTasks();

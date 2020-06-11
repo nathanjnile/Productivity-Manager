@@ -11,7 +11,7 @@ import classes from "../../CssModules/Modal.module.css";
 import * as actions from "../../../store/actions/index";
 
 const EditDeleteModal = (props) => {
-    const {columnId, itemId, itemIndex, columns} = props;
+    const {columnId, itemId, itemIndex, columns, onEditTask, onDeleteTask} = props;
     const [open, setOpen] = useState(false);
     const [taskInput, setTaskInput] = useState("");
   
@@ -27,7 +27,7 @@ const EditDeleteModal = (props) => {
     const submitForm = (event) => {
         event.preventDefault();
         if (taskInput !== "") {
-          props.onEditTask(taskInput, columnId, itemId, itemIndex);
+          onEditTask(taskInput, columnId, itemId, itemIndex);
         }
         handleClose();
         setTaskInput("");
@@ -50,7 +50,7 @@ const EditDeleteModal = (props) => {
              />
              <div style={{marginTop: 10, display: "flex", alignItems: "center", justifyContent:"center"}}>
              <Button type="submit" style={{backgroundColor: "#3F51B5", color:"#FFFFFF"}}>Change Task</Button>
-             <Button onClick={() => props.onDeleteTask(columnId, itemIndex, columns, itemId)}  style={{backgroundColor: "red", color:"#FFFFFF", marginLeft: "auto"}}>Delete Task</Button>
+             <Button onClick={() => onDeleteTask(columnId, itemIndex, columns, itemId)}  style={{backgroundColor: "red", color:"#FFFFFF", marginLeft: "auto"}}>Delete Task</Button>
             </div>
             </form>
       </div>

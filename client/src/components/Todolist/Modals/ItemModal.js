@@ -10,6 +10,7 @@ import classes from "../../CssModules/Modal.module.css";
 import * as actions from "../../../store/actions/index";
 
 const ItemModal = (props) => {
+    const {onTaskAdded, columnId, columns} = props;
     const [open, setOpen] = useState(false);
     const [taskInput, setTaskInput] = useState("");
   
@@ -24,7 +25,7 @@ const ItemModal = (props) => {
     const submitForm = (event) => {
         event.preventDefault();
         if (taskInput !== "") {
-        props.onTaskAdded(taskInput, props.columnId, props.columns);
+        onTaskAdded(taskInput, columnId, columns);
         }
         handleClose();
         setTaskInput("");
