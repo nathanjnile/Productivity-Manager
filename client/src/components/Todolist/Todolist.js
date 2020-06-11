@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { connect } from "react-redux";
 
-import Card from '@material-ui/core/Card';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import classes from "./Todolist.module.css"
@@ -11,7 +10,7 @@ import TextField from '@material-ui/core/TextField';
 import CancelIcon from '@material-ui/icons/Cancel';
 import CheckIcon from '@material-ui/icons/Check';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-import EditDeleteModal from "./Modals/EditDeleteModal";
+import TaskCard from "./TaskCard/TaskCard";
 
 import * as actions from "../../store/actions/index";
 
@@ -105,16 +104,8 @@ const Todolist = (props) => {
                               <Draggable key={item._id} draggableId={item._id} index={index}>
                                 {(provided, snapshot) => {
                                   return(
-                                  <Card {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}
-                                  className={classes.cardMain}
-                                  style={{backgroundColor: snapshot.isDragging ? "#263B4A" : "#3F51B5",
-                                      ...provided.draggableProps.style}}
-                                      >
-                                    <Typography variant="subtitle2" style={{color: "white"}}>
-                                    {item.content} 
-                                    </Typography>
-                                    <EditDeleteModal columnId={_id} itemId={item._id} itemIndex={index}/>
-                                  </Card>
+                                    <TaskCard content={item.content} taskId={item._id} columnId={_id}
+                                              taskIndex={index} provided={provided} snapshot={snapshot}/>
                                   );
                                 }}
                               </Draggable>
