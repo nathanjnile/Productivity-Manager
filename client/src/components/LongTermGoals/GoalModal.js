@@ -6,6 +6,8 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import classes from "../CssModules/Modal.module.css";
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
 
 import * as actions from "../../store/actions/index";
 
@@ -35,7 +37,7 @@ const GoalModal = (props) => {
   
     const body = (
       <div className={classes.ModalBody}>
-            <Typography variant="h5" gutterBottom style={{color: "#2c2f35"}}>
+            <Typography id="simple-modal-title" variant="h5" gutterBottom style={{color: "#2c2f35"}}>
                 Enter goal information:
             </Typography>
             <form onSubmit={(event) => submitForm(event)}>
@@ -47,6 +49,7 @@ const GoalModal = (props) => {
             onChange={(event) => setGoalInput(event.target.value)}
             variant="filled" 
             style={{width: "100%", marginTop: 10}}
+            autoFocus
              />
             <TextField 
             id="date-field"
@@ -72,9 +75,16 @@ const GoalModal = (props) => {
           onClose={handleClose}
           aria-labelledby="simple-modal-title"
           aria-describedby="simple-modal-description"
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
           style={{display:'flex',alignItems:'center',justifyContent:'center'}}
         >
+        <Fade in={open}>
           {body}
+        </Fade>
         </Modal>
       </div>
       );

@@ -5,6 +5,8 @@
     border: 2px solid black;
     box-shadow: 5;
     padding: 20px 40px 30px;
+    border-radius: 10px 10px 10px 10px;
     top: 25%;
     margin: auto;
+    outline: 0;
 }

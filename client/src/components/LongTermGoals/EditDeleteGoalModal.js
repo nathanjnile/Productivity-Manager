@@ -7,6 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import EditIcon from '@material-ui/icons/Edit';
 import classes from "../CssModules/Modal.module.css";
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
 
 import * as actions from "../../store/actions/index";
 
@@ -75,9 +77,16 @@ const EditDeleteGoalModal = (props) => {
           onClose={handleClose}
           aria-labelledby="simple-modal-title"
           aria-describedby="simple-modal-description"
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
           style={{display:'flex',alignItems:'center',justifyContent:'center'}}
         >
+        <Fade in={open}>
           {body}
+        </Fade>
         </Modal>
       </div>
       );
