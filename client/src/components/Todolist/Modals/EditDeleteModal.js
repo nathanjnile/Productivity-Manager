@@ -1,45 +1,17 @@
 import React, {useState} from "react";
 import { connect } from "react-redux";
 
-import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import EditIcon from '@material-ui/icons/Edit';
-
+import classes from "../../CssModules/Modal.module.css";
 
 import * as actions from "../../../store/actions/index";
 
-  function getModalStyle() {
-    const top = 25;
-    // const left = 50;
-  
-    return {
-      top: `${top}%`,
-      margin: "auto"
-      // left: `${left}%`,
-      // transform: `translate(-${top}%, -${left}%)`,
-    };
-  }
-  
-  const useStyles = makeStyles((theme) => ({
-    paper: {
-      position: 'absolute',
-      width: 300,
-      backgroundColor: theme.palette.background.paper,
-      border: '2px solid #000',
-      boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
-
-    },
-  }));
-
 const EditDeleteModal = (props) => {
     const {columnId, itemId, itemIndex, columns} = props;
-    const classes = useStyles();
-    // getModalStyle is not a pure function, we roll the style only on the first render
-    const [modalStyle] = useState(getModalStyle);
     const [open, setOpen] = useState(false);
     const [taskInput, setTaskInput] = useState("");
   
@@ -62,7 +34,7 @@ const EditDeleteModal = (props) => {
     }
   
     const body = (
-      <div style={modalStyle} className={classes.paper}>
+      <div className={classes.ModalBody}>
             <Typography variant="h5" gutterBottom style={{color: "#2c2f35"}}>
                 Edit task name:
             </Typography>
@@ -75,7 +47,6 @@ const EditDeleteModal = (props) => {
             onChange={(event) => setTaskInput(event.target.value)}
             variant="filled" 
             style={{width: "100%"}}
-            // autoFocus
              />
              <div style={{marginTop: 10, display: "flex", alignItems: "center", justifyContent:"center"}}>
              <Button type="submit" style={{backgroundColor: "#3F51B5", color:"#FFFFFF"}}>Change Task</Button>

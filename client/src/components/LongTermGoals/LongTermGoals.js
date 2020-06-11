@@ -11,18 +11,16 @@ import Typography from '@material-ui/core/Typography';
 
 
 const LongTermGoals = (props) => {
+    const {onGoalMoved, items, onGetGoals} = props;
 
     const onDragEnd = (result) => {
         if(!result.destination) return;
         const { source, destination } = result;
-        props.onGoalMoved(source, destination, props.items);
+        onGoalMoved(source, destination, items);
     }
-
-    const {items, onGetGoals } = props;
 
     useEffect(() => {
         onGetGoals();
-        // console.log(items);
     }, [onGetGoals])
 
     return(
@@ -48,14 +46,14 @@ const LongTermGoals = (props) => {
                                      style={{backgroundColor: snapshot.isDragging ? "#263B4A" : "#3F51B5",
                                      ...provided.draggableProps.style}}
                                      >
-                                     <Typography variant="subtitle2" align="left" style={{color: "white"}}>
-                                     {item.content} 
-                                     </Typography>
-                                     <Typography variant="subtitle2" align="right" style={{color: "white"}}>
-                                     {item.date} 
-                                     </Typography>
-                                     <div style={{display: "flex", justifyContent: "center", alignItems: "center", marginLeft: 5}}>
-                                     <EditDeleteGoalModal cardId={item._id} cardIndex={index} />
+                                        <Typography variant="subtitle2" align="left" style={{color: "white"}}>
+                                        {item.content} 
+                                        </Typography>
+                                        <Typography variant="subtitle2" align="right" style={{color: "white"}}>
+                                        {item.date} 
+                                        </Typography>
+                                        <div style={{display: "flex", justifyContent: "center", alignItems: "center", marginLeft: 5}}>
+                                        <EditDeleteGoalModal cardId={item._id} cardIndex={index} />
                                      </div>
                                      </Card>
                                      );

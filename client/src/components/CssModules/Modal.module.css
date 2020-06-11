@@ -1,0 +1,10 @@
+.ModalBody {
+    position: absolute;
+    width: 300px;
+    background-color: white;
+    border: 2px solid black;
+    box-shadow: 5;
+    padding: 20px 40px 30px;
+    top: 25%;
+    margin: auto;
+}

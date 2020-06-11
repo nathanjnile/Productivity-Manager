@@ -11,7 +11,7 @@ import RegisterModal from "./auth/RegisterModal";
 
 
 const Appnavbar = (props) => {
-  const {isAuthenticated} = props;
+  const {isAuthenticated, user} = props;
 
     return(
         <AppBar position="static">
@@ -19,6 +19,9 @@ const Appnavbar = (props) => {
           <Typography variant="h6" style={{flexGrow : 1, userSelect: "none"}}>
             Productivity Tracker
           </Typography>
+          {isAuthenticated ? <Typography variant="subtitle1" style={{flexGrow: 1}}>
+            Welcome {user.name}
+          </Typography> : null}
           {!isAuthenticated ? <LoginModal/> : null}
           {isAuthenticated ? <Logout/> : null}
           {!isAuthenticated ? <RegisterModal/> : null}
@@ -31,6 +34,7 @@ const Appnavbar = (props) => {
 const mapStateToProps = state => {
   return {
   isAuthenticated: state.auth.isAuthenticated,
+  user: state.auth.user
   // error: state.error
   }
 }

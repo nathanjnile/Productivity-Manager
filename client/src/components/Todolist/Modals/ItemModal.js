@@ -1,47 +1,20 @@
 import React, {useState} from "react";
 import { connect } from "react-redux";
 
-import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
+import classes from "../../CssModules/Modal.module.css";
 
 import * as actions from "../../../store/actions/index";
 
-  function getModalStyle() {
-    const top = 25;
-    // const left = 50;
-  
-    return {
-      top: `${top}%`,
-      margin: "auto"
-      // left: `${left}%`,
-      // transform: `translate(-${top}%, -${left}%)`,
-    };
-  }
-  
-  const useStyles = makeStyles((theme) => ({
-    paper: {
-      position: 'absolute',
-      width: 300,
-      backgroundColor: theme.palette.background.paper,
-      border: '2px solid #000',
-      boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
-
-    },
-  }));
-
 const ItemModal = (props) => {
-    const classes = useStyles();
-    const [modalStyle] = useState(getModalStyle);
     const [open, setOpen] = useState(false);
     const [taskInput, setTaskInput] = useState("");
   
     const handleOpen = () => {
       setOpen(true);
-      // console.log(props.columnId);
     };
   
     const handleClose = () => {
@@ -58,7 +31,7 @@ const ItemModal = (props) => {
     }
   
     const body = (
-      <div style={modalStyle} className={classes.paper}>
+      <div className={classes.ModalBody}>
             <Typography variant="h5" gutterBottom style={{color: "#2c2f35"}}>
                 Enter task name:
             </Typography>
@@ -73,8 +46,7 @@ const ItemModal = (props) => {
             style={{width: "100%"}}
             autoFocus
              />
-             <br/><br/>
-             <Button type="submit" style={{backgroundColor: "#3F51B5", color:"#FFFFFF", textTransform: "none"}}>Add Task</Button>
+             <Button type="submit" style={{backgroundColor: "#3F51B5", color:"#FFFFFF", marginTop: 10, textTransform: "none"}}>Add Task</Button>
             </form>
       </div>
     );
