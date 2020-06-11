@@ -25,7 +25,7 @@ export const taskMoved = (source, destination, columns) => {
     copiedTasks.splice(destination.index, 0, removed);
     //Updating order property of all the tasks in the specific column
     changeOrder([...copiedTasks], "tasks");
-    return dispatch => {
+    return (dispatch, getState) => {
         dispatch({
         type: actionTypes.TASK_MOVED,
         copiedTasks,
@@ -34,7 +34,7 @@ export const taskMoved = (source, destination, columns) => {
         });
 
         // axios call to send new task order to backend
-        axios.post("/api/task/updateMove", {newTasks: copiedTasks})
+        axios.post("/api/task/updateMove", {newTasks: copiedTasks}, tokenConfig(getState))
         .then(res => {
             console.log(res);
         }).catch(error => {
@@ -54,7 +54,7 @@ export const taskMovedColumn = (source, destination, columns) => {
     // Reorder all source and dest tasks
     changeOrder([...sourceTasks], "tasks");
     changeOrder([...destTasks], "tasks");
-    return dispatch => {
+    return (dispatch, getState) => {
         dispatch({
             type: actionTypes.TASK_MOVED_COLUMN,
             sourceTasks,
@@ -68,7 +68,7 @@ export const taskMovedColumn = (source, destination, columns) => {
         updatedArray.push(...sourceTasks, ...destTasks);
         
         // axios call to send new task order to backend
-        axios.post("/api/task/updateMoveColumn", {newTasks: updatedArray})
+        axios.post("/api/task/updateMoveColumn", {newTasks: updatedArray}, tokenConfig(getState))
         .then(res => {
             console.log(res);
         }).catch(error => {
@@ -121,8 +121,8 @@ export const addList = (newList, columnsLength) => {
 }
 
 export const editTask = (newTaskName, columnId, itemId, itemIndex) => {
-    return dispatch => {
-        axios.post(`/api/task/update/${itemId}`, {content: newTaskName})
+    return (dispatch, getState) => {
+        axios.post(`/api/task/update/${itemId}`, {content: newTaskName}, tokenConfig(getState))
         .then(response => {
             console.log(response)
             dispatch({
@@ -140,8 +140,8 @@ export const deleteTask = (columnId, itemIndex, columns, itemId) => {
     const sourceTasks = [...sourceColumn.tasks];
     sourceTasks.splice(itemIndex, 1);
     changeOrder(sourceTasks, "tasks");
-    return dispatch => {
-        axios.post("/api/task/deleteAndUpdate", {taskToDelete: itemId, tasksToReorder: sourceTasks})
+    return (dispatch, getState) => {
+        axios.post("/api/task/deleteAndUpdate", {taskToDelete: itemId, tasksToReorder: sourceTasks}, tokenConfig(getState))
         .then(response => {
             console.log(response)
             dispatch({

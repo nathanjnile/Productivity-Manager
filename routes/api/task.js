@@ -17,7 +17,7 @@ router.get("/", auth, (req, res) => {
 
 // // @route POST api/tasks/add
 // // @desc Create a post
-// // @access Public
+// // @access Private
 router.post("/add", auth, (req, res) => {
     const { content, order, column } = req.body;
     const owner = req.user._id;
@@ -30,8 +30,8 @@ router.post("/add", auth, (req, res) => {
 
 // // @route POST api/task/updateMove
 // // @desc Updates the tasks which changed order within the same column
-// // @access Public
-router.route("/updateMove").post((req, res) => {
+// // @access Private
+router.post("/updateMove", auth, (req, res) => {
     const {newTasks} = req.body;
     var callback = function(err, r){
         if(err) {
@@ -45,7 +45,7 @@ router.route("/updateMove").post((req, res) => {
     // Initialise the bulk operations array
     var ops = newTasks.map(function (item) { 
         return { 
-            "updateOne": { "filter": { _id: new ObjectId(item._id) }, "update": { "$set": { "order": item.order } } 
+            "updateOne": { "filter": { _id: new ObjectId(item._id), owner: req.user._id }, "update": { "$set": { "order": item.order } } 
             }         
         }    
     });
@@ -59,10 +59,10 @@ router.route("/updateMove").post((req, res) => {
 
     });
 
-// // @route POST api/task/updateMove
+// // @route POST api/task/updateMoveColumns
 // // @desc Route for updating tasks if it moves to a different column
-// // @access Public
-router.route("/updateMoveColumn").post((req, res) => {
+// // @access Private
+router.post("/updateMoveColumn", auth, (req, res) => {
     const {newTasks} = req.body;
     var callback = function(err, r){
         if(err) {
@@ -77,7 +77,7 @@ router.route("/updateMoveColumn").post((req, res) => {
     var ops = newTasks.map(function (item) {
             return { 
                 "updateOne": { "filter": 
-                { _id: new ObjectId(item._id) }, 
+                { _id: new ObjectId(item._id), owner: req.user._id }, 
                 "update": 
                 {"$set": {"order": item.order, "column": item.column}} 
                 }
@@ -93,8 +93,8 @@ router.route("/updateMoveColumn").post((req, res) => {
 
 // // @route POST api/task/deleteAndUpdate
 // // @desc Route for deleting a task and reordering tasks in the same column
-// // @access Public
-router.route("/deleteAndUpdate").post((req, res) => {
+// // @access Private
+router.post("/deleteAndUpdate", auth, (req, res) => {
     const {taskToDelete, tasksToReorder} = req.body;
     var callback = function(err, r){
         if(err) {
@@ -108,7 +108,7 @@ router.route("/deleteAndUpdate").post((req, res) => {
     // Initialise the bulk operations array
     let ops = tasksToReorder.map(function (item) { 
         return { 
-            "updateOne": { "filter": { _id: new ObjectId(item._id) }, "update": { "$set": { "order": item.order } } 
+            "updateOne": { "filter": { _id: new ObjectId(item._id), owner: req.user._id }, "update": { "$set": { "order": item.order } } 
             }         
         }    
     });
@@ -124,9 +124,9 @@ router.route("/deleteAndUpdate").post((req, res) => {
 
 // // @route POST api/tasks/update/:id
 // // @desc Update single tasks
-// // @access Public
-router.route("/update/:id").post((req, res) => {
-    Task.findByIdAndUpdate(req.params.id)
+// // @access Private
+router.post("/update/:id", auth, (req, res) => {
+    Task.findOne({_id: req.params.id, owner: req.user._id})
     .then(task => {
         task.content = req.body.content;
 
