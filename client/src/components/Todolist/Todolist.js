@@ -18,7 +18,7 @@ import * as actions from "../../store/actions/index";
 const Todolist = (props) => {
   const [enterAddList, setEnterAddList] = useState(true);
   const [listFieldInput, setListFieldInput] = useState("");
-  const {columns, onGetTasks} = props;
+  const {columns, onGetTasks, onAddList, onColumnMoved, onTaskMovedColumn, onTaskMoved} = props;
 
   useEffect(() => {
     onGetTasks();
@@ -28,7 +28,7 @@ const Todolist = (props) => {
     event.preventDefault();
     if(listFieldInput !== "") {
       const columnsLength = Object.entries({...columns}).length;
-      props.onAddList(listFieldInput, columnsLength);
+      onAddList(listFieldInput, columnsLength);
     }
     clearAddList();
   } 
@@ -62,14 +62,14 @@ const Todolist = (props) => {
     const { source, destination, type } = result;
     if(type === "column") {
       if(source.index !== destination.index) {
-      props.onColumnMoved(source, destination, columns);
+      onColumnMoved(source, destination, columns);
       } else return;
     } else {
       if(source.droppableId !== destination.droppableId) {
-        props.onTaskMovedColumn(source, destination, columns);
+        onTaskMovedColumn(source, destination, columns);
       } else {
         if(source.index !== destination.index) {
-        props.onTaskMoved(source, destination, columns);
+        onTaskMoved(source, destination, columns);
       } else return;
       }
     }  
@@ -86,7 +86,6 @@ const Todolist = (props) => {
         {(provided) => (
           <div className={classes.columnDrop} {...provided.droppableProps} ref={provided.innerRef}>
           {Object.entries(columns).map(([_id, column], index) => {
-            // console.log(Object.entries(columns));
             return(
               <Draggable key={_id} draggableId={_id} index={index}>
                 {(provided) => (
