@@ -6,7 +6,7 @@ import EditDeleteModal from "../Modals/EditDeleteModal";
 import classes from "./TaskCard.module.css"
 
 
-const Todolist = (props) => {
+const TaskCard = (props) => {
     const {content, taskId, columnId, taskIndex, provided, snapshot} = props;
 
   return (
@@ -24,4 +24,4 @@ const Todolist = (props) => {
 }
 
 
-export default Todolist;
+export default TaskCard;

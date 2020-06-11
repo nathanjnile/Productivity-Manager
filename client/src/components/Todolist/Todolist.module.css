@@ -32,16 +32,6 @@
     border-radius: 5px 5px 5px 5px; 
 }
 
-.cardMain {
-    user-select: none;
-    padding: 10px;
-    margin: 0 0 8px 0;
-    min-height: 10px;
-    color: #ffffff;
-    display: grid;
-    grid-template-columns: 5fr 1fr;
-}
-
 .columnDrop {
     display: flex;
 }

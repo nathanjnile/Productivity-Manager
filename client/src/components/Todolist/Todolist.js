@@ -5,12 +5,10 @@ import { connect } from "react-redux";
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import classes from "./Todolist.module.css"
-import ItemModal from './Modals/ItemModal';
 import TextField from '@material-ui/core/TextField';
 import CancelIcon from '@material-ui/icons/Cancel';
 import CheckIcon from '@material-ui/icons/Check';
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-import TaskCard from "./TaskCard/TaskCard";
+import ListColumn from "./ListColumn/ListColumn";
 
 import * as actions from "../../store/actions/index";
 
@@ -88,37 +86,7 @@ const Todolist = (props) => {
             return(
               <Draggable key={_id} draggableId={_id} index={index}>
                 {(provided) => (
-                  <div className={classes.columnDiv} {...provided.draggableProps} ref={provided.innerRef}>
-                  <div className={classes.columnHeader} {...provided.dragHandleProps}>  
-                  <Typography variant="h6" className={classes.columnHeaderText}> {column.name} </Typography>
-                  <MoreHorizIcon fontSize="large" style={{cursor: "pointer"}}/>
-                  </div>
-                  <div style={{margin: 8}}>
-                  <Droppable droppableId={_id} key={_id} type="task">
-                    {(provided, snapshot) => {
-                      return (
-                        <div {...provided.droppableProps} ref={provided.innerRef} className={classes.columnMain}
-                         style={{background: snapshot.isDraggingOver ? "lightblue" : "lightgrey"}}>
-                           {column.tasks.map((item, index) => {
-                             return (
-                              <Draggable key={item._id} draggableId={item._id} index={index}>
-                                {(provided, snapshot) => {
-                                  return(
-                                    <TaskCard content={item.content} taskId={item._id} columnId={_id}
-                                              taskIndex={index} provided={provided} snapshot={snapshot}/>
-                                  );
-                                }}
-                              </Draggable>
-                             );
-                           })}
-                           {provided.placeholder}
-                        </div>
-                      );
-                    }}
-                  </Droppable>
-                  <ItemModal columnId={_id} />
-                  </div>
-                  </div>
+                  <ListColumn provided={provided} column={column} _id={_id} />
                 )}
               </Draggable>
             );
