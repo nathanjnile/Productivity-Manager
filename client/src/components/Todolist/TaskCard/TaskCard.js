@@ -12,7 +12,7 @@ const TaskCard = (props) => {
   return (
     <Card {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}
     className={classes.cardMain}
-    style={{backgroundColor: snapshot.isDragging ? "#263B4A" : "#3F51B5",
+    style={{backgroundColor: snapshot.isDragging ? "#34546b" : "#3F51B5",
         ...provided.draggableProps.style}}
         >
       <Typography variant="subtitle2" style={{color: "white"}}>

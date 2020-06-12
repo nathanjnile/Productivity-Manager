@@ -9,6 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import CancelIcon from '@material-ui/icons/Cancel';
 import CheckIcon from '@material-ui/icons/Check';
 import ListColumn from "./ListColumn/ListColumn";
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
 import * as actions from "../../store/actions/index";
 
@@ -36,6 +37,7 @@ const Todolist = (props) => {
   }
 
   const listField = (
+    <ClickAwayListener onClickAway={clearAddList}>
     <form onSubmit={(event) => submitForm(event)} style={{width: 200}}>
     <TextField 
     id="Task-field"
@@ -52,6 +54,7 @@ const Todolist = (props) => {
      <CancelIcon onClick={() => clearAddList()} fontSize="large" className={classes.addListIconCancel} />
      </div>
      </form>
+     </ClickAwayListener>
   );
 
   const onDragEnd = (result) => {
@@ -86,7 +89,7 @@ const Todolist = (props) => {
             return(
               <Draggable key={_id} draggableId={_id} index={index}>
                 {(provided) => (
-                  <ListColumn provided={provided} column={column} _id={_id} />
+                  <ListColumn provided={provided} column={column} _id={_id}/>
                 )}
               </Draggable>
             );

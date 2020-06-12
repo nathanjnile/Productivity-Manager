@@ -22,7 +22,7 @@ const ListColumn = (props) => {
       {(provided, snapshot) => {
         return (
           <div {...provided.droppableProps} ref={provided.innerRef} className={classes.columnMain}
-           style={{background: snapshot.isDraggingOver ? "lightblue" : "lightgrey"}}>
+           style={{background: snapshot.isDraggingOver ? "darkgrey" : "lightgrey"}}>
              {column.tasks.map((task, index) => {
                return (
                 <Draggable key={task._id} draggableId={task._id} index={index}>

@@ -12,6 +12,7 @@ import Fade from '@material-ui/core/Fade';
 import * as actions from "../../store/actions/index";
 
 const GoalModal = (props) => {
+    const { onGoalAdded, goals } = props;
     const [open, setOpen] = useState(false);
     const [goalInput, setGoalInput] = useState("");
     const [dateInput, setDateInput] = useState("");
@@ -28,7 +29,7 @@ const GoalModal = (props) => {
     const submitForm = (event) => {
         event.preventDefault();
         if (goalInput !== "" && dateInput !== "") {
-        props.onGoalAdded(goalInput, dateInput, props.goals);
+        onGoalAdded(goalInput, dateInput, goals);
         }
         handleClose();
         setGoalInput("");

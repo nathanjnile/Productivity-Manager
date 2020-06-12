@@ -35,7 +35,7 @@ const LongTermGoals = (props) => {
                {(provided, snapshot) => {
                  return(
                     <div {...provided.droppableProps} ref={provided.innerRef} className={classes.columnMain}
-                     style={{background: snapshot.isDraggingOver ? "lightblue" : "lightgrey"}}>
+                     style={{background: snapshot.isDraggingOver ? "darkgrey" : "lightgrey"}}>
                         {items.map((item, index) => {
                             return(
                              <Draggable key={item._id} draggableId={item._id} index={index}>
