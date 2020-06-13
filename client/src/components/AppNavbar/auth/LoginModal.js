@@ -2,55 +2,35 @@ import React, {useState, useEffect} from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
+import classes from "../../CssModules/Modal.module.css";
 
 import * as actions from "../../../store/actions/index";
   
-  function getModalStyle() {
-    const top = 25;
-
-    return {
-      top: `${top}%`,
-      margin: "auto"
-    };
-  }
-  
-  const useStyles = makeStyles((theme) => ({
-    paper: {
-      position: 'absolute',
-      width: 300,
-      backgroundColor: theme.palette.background.paper,
-      border: '2px solid #000',
-      boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
-
-    },
-  }));
-
 const LoginModal = (props) => {
-    const classes = useStyles();
-    const [modalStyle] = useState(getModalStyle);
-    const [open, setOpen] = useState(false);
-    const [emailInput, setEmailInput] = useState("");
-    const [passwordInput, setPasswordInput] = useState("");
-    const [msg, setMsg] = useState(null);
+  const {error, isAuthenticated, onClearErrors, onLogin} = props;
+  const [open, setOpen] = useState(false);
+  const [emailInput, setEmailInput] = useState("");
+  const [passwordInput, setPasswordInput] = useState("");
+  const [msg, setMsg] = useState(null);
 
   useEffect(() => {
-    if(props.error.id === "LOGIN_FAIL") {
-    setMsg(props.error.msg.msg);
+    if(error.id === "LOGIN_FAIL") {
+    setMsg(error.msg.msg);
     };
 
     if(open) {
-      if(props.isAuthenticated) {
+      if(isAuthenticated) {
         setOpen(false);
         clearFields();
       }
     }
-  }, [props.error, msg, setOpen, open, props.isAuthenticated]);
+  }, [error, msg, setOpen, open, isAuthenticated]);
 
     const handleOpen = () => {
       setOpen(true);
@@ -58,7 +38,7 @@ const LoginModal = (props) => {
   
     const handleClose = () => {
       setOpen(false);
-      props.onClearErrors();
+      onClearErrors();
       clearFields();
       setMsg(null);
     };
@@ -76,11 +56,11 @@ const LoginModal = (props) => {
             password: passwordInput
         }
 
-        props.onLogin(user);
+        onLogin(user);
     }
   
     const body = (
-      <div style={modalStyle} className={classes.paper}>
+      <div className={classes.ModalBody}>
             <Typography variant="h5" gutterBottom style={{color: "#2c2f35"}}>
                 Login!
             </Typography>
@@ -93,7 +73,7 @@ const LoginModal = (props) => {
             value={emailInput}
             onChange={(event) => setEmailInput(event.target.value)}
             variant="filled" 
-            style={{width: "100%", marginBottom: "10px"}}
+            style={{width: "100%"}}
              />
             <TextField 
             id="Password-field"
@@ -103,12 +83,12 @@ const LoginModal = (props) => {
             value={passwordInput}
             onChange={(event) => setPasswordInput(event.target.value)}
             variant="filled" 
-            style={{width: "100%", marginBottom: "10px"}}
+            style={{width: "100%", marginTop: 10}}
              />
-            <Typography variant="h6" gutterBottom style={{color: "#ff0000", marginBottom: "10px"}}>
+            <Typography variant="h6" gutterBottom style={{color: "#ff0000",  marginTop: 10, textTransform: "none"}}>
                 {msg}
             </Typography>
-             <Button type="submit" style={{backgroundColor: "#3F51B5", color:"#FFFFFF", width: "100%"}}>Login</Button>
+             <Button type="submit" style={{backgroundColor: "#3F51B5", color:"#FFFFFF",  marginTop: 10, textTransform: "none"}}>Login</Button>
             </form>
       </div>
     );
@@ -121,9 +101,16 @@ const LoginModal = (props) => {
           onClose={handleClose}
           aria-labelledby="simple-modal-title"
           aria-describedby="simple-modal-description"
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
           style={{display:'flex',alignItems:'center',justifyContent:'center'}}
         >
+        <Fade in={open}>
           {body}
+        </Fade>
         </Modal>
       </div>
       );
