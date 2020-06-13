@@ -9,23 +9,30 @@ const auth = require("../../middleware/auth");
 // @route GET api/task
 // @desc get All tasks, route not used in the app, testing only
 // @access Private
-router.get("/", auth, (req, res) => {
-    Task.find({owner: req.user._id})
-    .then(tasks => res.json(tasks))
-    .catch(err => res.status(400).json("Error: " + err));
+router.get("/", auth, async (req, res) => {
+    try {
+        const tasks = await Task.find({owner: req.user._id});
+        res.status(200).json(tasks);
+    }catch (error) {
+        res.status(400).send("Error: " + error);
+    }
 });
 
 // // @route POST api/tasks/add
 // // @desc Create a post
 // // @access Private
-router.post("/add", auth, (req, res) => {
+router.post("/add", auth, async (req, res) => {
     const { content, order, column } = req.body;
     const owner = req.user._id;
 
     const newTask = new Task({content, order, column, owner});
 
-    newTask.save().then((task) => res.json(task))
-    .catch(err => res.status(400).json("Error: " + err));
+    try {
+        const task = await newTask.save();
+        res.status(201).send({task});
+    }catch (error) {
+        res.status(400).send("Error: " + error);
+    }
 });
 
 // // @route POST api/task/updateMove
@@ -33,10 +40,10 @@ router.post("/add", auth, (req, res) => {
 // // @access Private
 router.post("/updateMove", auth, (req, res) => {
     const {newTasks} = req.body;
-    var callback = function(err, r){
-        if(err) {
-            res.status(400).json(err);
-            console.log(err)
+    var callback = function(error, r){
+        if(error) {
+            res.status(400).json(error);
+            console.log(error)
         } else {
             res.json("Success!");
             console.log(r)
@@ -53,8 +60,8 @@ router.post("/updateMove", auth, (req, res) => {
     // Execute bulkwrite
     try {
         Task.collection.bulkWrite(ops, callback);
-    } catch (err) {
-        console.log(err);
+    } catch (error) {
+        console.log(error);
     }
 
     });
@@ -64,10 +71,10 @@ router.post("/updateMove", auth, (req, res) => {
 // // @access Private
 router.post("/updateMoveColumn", auth, (req, res) => {
     const {newTasks} = req.body;
-    var callback = function(err, r){
-        if(err) {
-            res.status(400).json(err);
-            console.log(err)
+    var callback = function(error, r){
+        if(error) {
+            res.status(400).json(error);
+            console.log(error)
         } else {
             res.json("Success!");
             console.log(r)
@@ -86,8 +93,8 @@ router.post("/updateMoveColumn", auth, (req, res) => {
 
     try {
         Task.collection.bulkWrite(ops, callback);
-    } catch (err) {
-        console.log(err);
+    } catch (error) {
+        console.log(error);
     }
 });
 
@@ -96,10 +103,10 @@ router.post("/updateMoveColumn", auth, (req, res) => {
 // // @access Private
 router.post("/deleteAndUpdate", auth, (req, res) => {
     const {taskToDelete, tasksToReorder} = req.body;
-    var callback = function(err, r){
-        if(err) {
-            res.status(400).json(err);
-            console.log(err)
+    var callback = function(error, r){
+        if(error) {
+            res.status(400).json(error);
+            console.log(error)
         } else {
             res.json("Success!");
             console.log(r)
@@ -117,7 +124,7 @@ router.post("/deleteAndUpdate", auth, (req, res) => {
     
     try {
         Task.collection.bulkWrite(ops, callback);
-    } catch (err) {
+    } catch (error) {
         console.log(error);
     }
     });
@@ -125,16 +132,19 @@ router.post("/deleteAndUpdate", auth, (req, res) => {
 // // @route POST api/tasks/update/:id
 // // @desc Update single tasks
 // // @access Private
-router.post("/update/:id", auth, (req, res) => {
-    Task.findOne({_id: req.params.id, owner: req.user._id})
-    .then(task => {
+router.post("/update/:id", auth, async (req, res) => {
+    try {
+        const task = await Task.findOne({_id: req.params.id, owner: req.user._id});
         task.content = req.body.content;
-
-        task.save()
-        .then(() => res.json("Task updated!"))
-        .catch(err => res.status(400).json("Error: " + err))
-    })
-    .catch(err => res.status(400).json("Error: " + err));
+        try{
+            await task.save();
+        }catch (error) {
+            res.status(400).send({msg: "Unable to save updated task"})
+        }
+        res.status(200).json("Task updated!");
+    } catch (error) {
+        res.status(400).send({msg: "Unable to update task"});
+    }
 });
 
 

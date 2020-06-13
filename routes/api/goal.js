@@ -6,33 +6,34 @@ const auth = require("../../middleware/auth");
 
 
 // @route GET api/goals
-// @desc get All Items
+// @desc get All Goals
 // @access Private
-router.get("/", auth, (req, res) => {
-    Goal.find({owner: req.user._id})
-    .then(goals => res.json(goals))
-    .catch(err => res.status(400).json("Error: " + err));
+router.get("/", auth, async (req, res) => {
+    try {
+        const goals = await Goal.find({owner: req.user._id});
+        res.status(200).json(goals);
+    }catch (error) {
+        res.status(400).json("Error: " + error);
+    }
 });
 
 // @route POST api/goals/add
 // @desc Create a post
 // @access Private
-router.post("/add", auth, (req, res) => {
+router.post("/add", auth, async (req, res) => {
     const content = req.body.content;
     const date = req.body.date;
     const order = req.body.order;
     const owner = req.body.owner;
 
-    const newGoal = new Goal({
-        content,
-        date,
-        order,
-        owner   
-    });
+    const newGoal = new Goal({content, date, order, owner});
 
-    newGoal.save()
-        .then((goal) => res.json(goal))
-        .catch(err => res.status(400).json("2Error: " + err));
+    try {
+        const goal = await newGoal.save();
+        res.status(201).json(goal);
+    }catch (error) {
+        res.status(400).json("Error: " + error);
+    }
 });
 
 // @route POST api/goals/deleteAndUpdate
@@ -40,10 +41,10 @@ router.post("/add", auth, (req, res) => {
 // @access Private
 router.post("/deleteAndUpdate", auth, (req, res) => {
     const {itemToDelete, itemsToReorder} = req.body;
-    var callback = function(err, r){
-        if(err) {
-            res.status(400).json(err);
-            console.log(err)
+    var callback = function(error, r){
+        if(error) {
+            res.status(400).json(error);
+            console.log(error)
         } else {
             res.json("Success!");
             console.log(r)
@@ -66,7 +67,7 @@ router.post("/deleteAndUpdate", auth, (req, res) => {
     // Get the underlying collection via the native node.js driver collection object
     try {
         Goal.collection.bulkWrite(ops, callback);
-    } catch (err) {
+    } catch (error) {
         console.log(error);
     }
 
@@ -75,17 +76,20 @@ router.post("/deleteAndUpdate", auth, (req, res) => {
 // @route POST api/goal/update/:id
 // @desc Update single item
 // @access Private
-router.post("/update", auth, (req, res) => {
-    Goal.findOne({_id: req.body._id, owner: req.user._id})
-    .then(goal => {
+router.post("/update", auth, async (req, res) => {
+    try {
+        const goal = await Goal.findOne({_id: req.body._id, owner: req.user._id});
         goal.content = req.body.content;
         goal.date = req.body.date;
-
-        goal.save()
-        .then(() => res.json("Goal updated!"))
-        .catch(err => res.status(400).json("Error: " + err))
-    })
-    .catch(err => res.status(400).json("Error: " + err));
+        try{
+            await goal.save();
+        }catch (error) {
+            res.status(400).send({msg: "Unable to save updated goal"})
+        }
+        res.status(200).json("Task updated!");
+    } catch (error) {
+        res.status(400).send({msg: "Unable to update goal"});
+    }
 });
 
 // @route POST api/updateMove
@@ -93,10 +97,10 @@ router.post("/update", auth, (req, res) => {
 // @access Private
 router.post("/updateMove", auth, (req, res) => {
     const {newItems} = req.body;
-    var callback = function(err, r){
-        if(err) {
-            res.status(400).json(err);
-            console.log(err)
+    var callback = function(error, r){
+        if(error) {
+            res.status(400).json(error);
+            console.log(error)
         } else {
             res.json("Success!");
             console.log(r)
@@ -113,8 +117,8 @@ router.post("/updateMove", auth, (req, res) => {
     // Execute bulkwrite
     try {
         Goal.collection.bulkWrite(ops, callback);
-    } catch (err) {
-        console.log(err);
+    } catch (error) {
+        console.log(error);
     }
 
     });

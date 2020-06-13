@@ -11,7 +11,7 @@ export const addTask = (task, columnId, columns) => {
             console.log(response)
             dispatch({
                 type: actionTypes.ADD_TASK,
-                payload: response.data
+                payload: response.data.task
             })
         }).catch(err => console.log(err));
     };   

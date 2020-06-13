@@ -52,7 +52,7 @@ const EditDeleteModal = (props) => {
              />
              <div style={{marginTop: 10, display: "flex", alignItems: "center", justifyContent:"center"}}>
              <Button type="submit" style={{backgroundColor: "#3F51B5", color:"#FFFFFF"}}>Edit Task</Button>
-             <Button onClick={() => onDeleteTask(columnId, itemIndex, columns, itemId)}  style={{backgroundColor: "red", color:"#FFFFFF", marginLeft: "auto"}}>Delete Task</Button>
+             <Button onClick={() => onDeleteTask(columnId, itemIndex, columns, itemId)}  style={{backgroundColor: "red", color:"#FFFFFF", marginLeft: "auto", opacity: 0.8}}>Delete Task</Button>
             </div>
             </form>
       </div>

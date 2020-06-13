@@ -7,10 +7,13 @@ const auth = require("../../middleware/auth");
 // @route GET api/columns
 // @desc get All columns, for testing purposes only
 // @access Private
-router.get("/", auth, (req, res) => {
-    Column.find({owner: req.user._id})
-    .then(columns => res.json(columns))
-    .catch(err => res.status(400).json("Error: " + err));
+router.get("/", auth, async (req, res) => {
+    try {
+        const columns = await Column.find({owner: req.user._id});
+        res.status(200).json(columns);
+    }catch (error) {
+        res.status(400).json("Error: " + error);
+    }
 });
 
 // @route GET api/columns/tasks
@@ -22,21 +25,24 @@ router.get("/tasks", auth, (req, res) => {
 
     Promise.all([TaskPromise, ColumnPromise]).then((result) => {
         return res.status(200).json(result);
-    }).catch(err => {
-        return res.status(400).json(err);
+    }).catch(error => {
+        return res.status(400).json(error);
     })
 });
 
 // // @route POST api/columns/add
 // // @desc Create a column
 // // @access Private
-router.post("/add", auth, (req, res) => {
+router.post("/add", auth, async (req, res) => {
     const {name, columnOrder, owner} = req.body;
     const newColumn = new Column({ name, columnOrder, owner});
 
-    newColumn.save()
-        .then((column) => res.json(column))
-        .catch(err => res.status(400).json("2Error: " + err));
+    try {
+        const column = await newColumn.save();
+        res.status(201).json(column);
+    }catch (error) {
+        res.status(400).json("Error: " + error);
+    }
 });
 
 // // @route POST api/column/moveColumn
@@ -44,10 +50,10 @@ router.post("/add", auth, (req, res) => {
 // // @access Private
 router.post("/moveColumn", auth, (req, res) => {
     const {columnsUpdate} = req.body;
-    var callback = function(err, r){
-        if(err) {
-            res.status(400).json(err);
-            console.log(err)
+    var callback = function(error, r){
+        if(error) {
+            res.status(400).json(error);
+            console.log(error)
         } else {
             res.json("Success!");
             console.log(r)
@@ -67,8 +73,8 @@ router.post("/moveColumn", auth, (req, res) => {
 
     try {
         Column.collection.bulkWrite(ops, callback);
-    } catch (err) {
-        console.log(err);
+    } catch (error) {
+        console.log(error);
     }
 });
 
