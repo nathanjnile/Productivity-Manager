@@ -1,13 +1,13 @@
 import * as actionType from "../actions/actionTypes";
 
 const initialState = {
-    items:[]
+    goals:[]
 }
 
 const goalMoved = (state, action) => {
     return {
       ...state,
-      items: action.copiedItems
+      goals: action.copiedItems
     }; 
   }
 
@@ -17,7 +17,7 @@ const goalMoved = (state, action) => {
     });
     return {
       ...state,
-      items: orderedGoals
+      goals: orderedGoals
     }; 
   }
 
@@ -25,32 +25,32 @@ const goalMoved = (state, action) => {
     const { _id, content, date, order, owner } = action.payload;
     return {
       ...state,
-      items : [...state.items, {_id, content, date, order, owner}]
+      goals : [...state.goals, {_id, content, date, order, owner}]
     }
   }
 
   const editGoal = (state, action) => {
     const { cardId, newContent, newDate, cardIndex} = action.payload;
-    const copiedItems = [...state.items];
+    const copiedItems = [...state.goals];
     copiedItems.splice(cardIndex, 1);
-    copiedItems.splice(cardIndex, 0, {_id: cardId, content: newContent, date: newDate, order: state.items[cardIndex].order})
+    copiedItems.splice(cardIndex, 0, {_id: cardId, content: newContent, date: newDate, order: state.goals[cardIndex].order})
     return {
       ...state,
-      items : copiedItems
+      goals : copiedItems
     }; 
   }
 
   const deleteGoal = (state, action) => {
     return {
       ...state,
-      items: action.payload
+      goals: action.payload
     }; 
   }
 
   const clearGoals = (state, action) => {
     return {
       ...state,
-      items: []
+      goals: []
     }; 
   }
 

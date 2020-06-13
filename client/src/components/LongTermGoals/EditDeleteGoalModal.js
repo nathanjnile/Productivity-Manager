@@ -9,6 +9,9 @@ import EditIcon from '@material-ui/icons/Edit';
 import classes from "../CssModules/Modal.module.css";
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
+import 'date-fns';
+import DateFnsUtils from '@date-io/date-fns';
+import { MuiPickersUtilsProvider, KeyboardDatePicker,} from '@material-ui/pickers';
 
 import * as actions from "../../store/actions/index";
 
@@ -26,6 +29,10 @@ const EditDeleteGoalModal = (props) => {
   
     const handleClose = () => {
       setOpen(false);
+    };
+
+    const handleDateChange = (date) => {
+      setDateInput(date);
     };
 
     const submitForm = (event) => {
@@ -52,17 +59,22 @@ const EditDeleteGoalModal = (props) => {
             variant="filled" 
             style={{width: "100%", marginTop: 10}}
              />
-            <TextField 
-            id="Date-field"
-            label="Date"
-            size="small"
-            value={dateInput}
-            onChange={(event) => setDateInput(event.target.value)}
-            variant="filled" 
-            style={{width: "100%", marginTop: 10}}
-             />
+             <MuiPickersUtilsProvider utils={DateFnsUtils}>
+             <KeyboardDatePicker
+              margin="normal"
+              id="date-picker-dialog"
+              label="Date"
+              format="dd/MM/yyyy"
+              value={dateInput}
+              onChange={handleDateChange}
+              KeyboardButtonProps={{
+                'aria-label': 'change date',
+                }}
+              style={{width: "100%", marginTop: 10, backgroundColor: "#E3E3E3"}}
+              />
+              </MuiPickersUtilsProvider>
              <div style={{marginTop: 10, display: "flex", alignItems: "center", justifyContent:"center"}}>
-             <Button type="submit" style={{backgroundColor: "#3F51B5", color:"#FFFFFF"}}>Change Goal</Button>
+             <Button type="submit" style={{backgroundColor: "#3F51B5", color:"#FFFFFF"}}>Edit Goal</Button>
              <Button onClick={() => onDeleteGoal(cardId, cardIndex, goals)}  style={{backgroundColor: "red", color:"#FFFFFF", marginLeft: "auto", opacity: 0.8}}>Delete Task</Button>
             </div>
             </form>
@@ -94,7 +106,7 @@ const EditDeleteGoalModal = (props) => {
 
 const mapStateToProps = state => {
   return {
-      goals: state.goals.items,
+      goals: state.goals.goals,
   };
 }
 

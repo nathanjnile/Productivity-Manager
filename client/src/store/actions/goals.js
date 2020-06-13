@@ -16,8 +16,8 @@ export const addGoal = (goal, date, goals) => {
     };
 }
 
-export const goalMoved = (source, destination, items) => {
-    const copiedItems = [...items];
+export const goalMoved = (source, destination, goals) => {
+    const copiedItems = [...goals];
     const [removed] = copiedItems.splice(source.index, 1);
     copiedItems.splice(destination.index, 0, removed);
     const copiedItems2 = changeOrder([...copiedItems], "goal");
@@ -29,7 +29,7 @@ export const goalMoved = (source, destination, items) => {
         // Compare old goals and new goals for updated items
         const updatedArray = [];
         for(let i = 0; i < copiedItems2.length;i++) {
-            if (items[i] !== copiedItems2[i]) {
+            if (goals[i] !== copiedItems2[i]) {
                 updatedArray.push(copiedItems2[i]);
             }
         }

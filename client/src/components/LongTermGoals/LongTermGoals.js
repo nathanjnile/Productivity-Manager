@@ -11,12 +11,12 @@ import Typography from '@material-ui/core/Typography';
 
 
 const LongTermGoals = (props) => {
-    const {onGoalMoved, items, onGetGoals} = props;
+    const {onGoalMoved, goals, onGetGoals} = props;
 
     const onDragEnd = (result) => {
         if(!result.destination) return;
         const { source, destination } = result;
-        onGoalMoved(source, destination, items);
+        onGoalMoved(source, destination, goals);
     }
 
     useEffect(() => {
@@ -36,9 +36,9 @@ const LongTermGoals = (props) => {
                  return(
                     <div {...provided.droppableProps} ref={provided.innerRef} className={classes.columnMain}
                      style={{background: snapshot.isDraggingOver ? "darkgrey" : "lightgrey"}}>
-                        {items.map((item, index) => {
+                        {goals.map((goal, index) => {
                             return(
-                             <Draggable key={item._id} draggableId={item._id} index={index}>
+                             <Draggable key={goal._id} draggableId={goal._id} index={index}>
                                 {(provided, snapshot) => {
                                     return(
                                      <Card {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}
@@ -47,13 +47,13 @@ const LongTermGoals = (props) => {
                                      ...provided.draggableProps.style}}
                                      >
                                         <Typography variant="subtitle2" align="left" style={{color: "white"}}>
-                                        {item.content} 
+                                        {goal.content} 
                                         </Typography>
                                         <Typography variant="subtitle2" align="right" style={{color: "white"}}>
-                                        {item.date} 
+                                        {new Date(goal.date).getDate() + "/" + (new Date(goal.date).getMonth() + 1)+ "/" + new Date(goal.date).getFullYear()}
                                         </Typography>
                                         <div style={{display: "flex", justifyContent: "center", alignItems: "center", marginLeft: 5}}>
-                                        <EditDeleteGoalModal cardId={item._id} cardIndex={index} />
+                                        <EditDeleteGoalModal cardId={goal._id} cardIndex={index} />
                                      </div>
                                      </Card>
                                      );
@@ -76,13 +76,13 @@ const LongTermGoals = (props) => {
 
 const mapStateToProps = state => {
     return {
-        items: state.goals.items
+        goals: state.goals.goals
     };
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onGoalMoved: (source, destination, items) => dispatch(actions.goalMoved(source, destination, items)),
+        onGoalMoved: (source, destination, goals) => dispatch(actions.goalMoved(source, destination, goals)),
         onGetGoals: () => dispatch(actions.getGoals())
     }
   }

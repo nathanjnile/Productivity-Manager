@@ -8,6 +8,9 @@ import TextField from '@material-ui/core/TextField';
 import classes from "../CssModules/Modal.module.css";
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
+import 'date-fns';
+import DateFnsUtils from '@date-io/date-fns';
+import { MuiPickersUtilsProvider, KeyboardDatePicker,} from '@material-ui/pickers';
 
 import * as actions from "../../store/actions/index";
 
@@ -15,8 +18,7 @@ const GoalModal = (props) => {
     const { onGoalAdded, goals } = props;
     const [open, setOpen] = useState(false);
     const [goalInput, setGoalInput] = useState("");
-    const [dateInput, setDateInput] = useState("");
-
+    const [dateInput, setDateInput] = useState(Date.now());
   
     const handleOpen = () => {
       setOpen(true);
@@ -26,6 +28,10 @@ const GoalModal = (props) => {
       setOpen(false);
     };
 
+    const handleDateChange = (date) => {
+      setDateInput(date);
+    };
+
     const submitForm = (event) => {
         event.preventDefault();
         if (goalInput !== "" && dateInput !== "") {
@@ -33,7 +39,7 @@ const GoalModal = (props) => {
         }
         handleClose();
         setGoalInput("");
-        setDateInput("");
+        // setDateInput("");
     }
   
     const body = (
@@ -42,25 +48,30 @@ const GoalModal = (props) => {
                 Enter goal information:
             </Typography>
             <form onSubmit={(event) => submitForm(event)}>
-            <TextField 
-            id="Goal-field"
-            label="Goal"
-            size="small"
-            value={goalInput}
-            onChange={(event) => setGoalInput(event.target.value)}
-            variant="filled" 
-            style={{width: "100%", marginTop: 10}}
-            autoFocus
-             />
-            <TextField 
-            id="date-field"
-            label="Date"
-            size="small"
-            value={dateInput}
-            onChange={(event) => setDateInput(event.target.value)}
-            variant="filled" 
-            style={{width: "100%", marginTop: 10}}
-             />
+              <TextField 
+              id="Goal-field"
+              label="Goal"
+              size="small"
+              value={goalInput}
+              onChange={(event) => setGoalInput(event.target.value)}
+              variant="filled" 
+              style={{width: "100%", marginTop: 10}}
+              autoFocus
+                />
+             <MuiPickersUtilsProvider utils={DateFnsUtils}>
+             <KeyboardDatePicker
+              margin="normal"
+              id="date-picker-dialog"
+              label="Date"
+              format="dd/MM/yyyy"
+              value={dateInput}
+              onChange={handleDateChange}
+              KeyboardButtonProps={{
+                'aria-label': 'change date',
+                }}
+              style={{width: "100%", marginTop: 10, backgroundColor: "#E3E3E3"}}
+              />
+              </MuiPickersUtilsProvider>
              <Button type="submit" style={{backgroundColor: "#3F51B5", color:"#FFFFFF", marginTop: 10, textTransform: "none"}}>Add Goal</Button>
             </form>
       </div>
@@ -93,7 +104,7 @@ const GoalModal = (props) => {
 
 const mapStateToProps = state => {
   return {
-    goals: state.goals.items,
+    goals: state.goals.goals,
   };
 }
 
