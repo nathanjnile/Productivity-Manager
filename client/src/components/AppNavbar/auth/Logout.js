@@ -7,9 +7,10 @@ import Button from '@material-ui/core/Button';
 import * as actions from "../../../store/actions/index";
   
 const Logout = (props) => {
+    const {onLogout} = props;
 
     return (
-        <Button onClick={props.onLogout} style={{backgroundColor: "#3F51B5", color:"#FFFFFF"}}>
+        <Button onClick={onLogout} style={{backgroundColor: "#3F51B5", color:"#FFFFFF"}}>
             Logout
         </Button>
       );

@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button';
@@ -104,6 +105,14 @@ const EditDeleteGoalModal = (props) => {
       );
 }
 
+EditDeleteGoalModal.propTypes = {
+  cardId: PropTypes.string.isRequired,
+  cardIndex: PropTypes.number.isRequired,
+  goals: PropTypes.array.isRequired,
+  onEditGoal: PropTypes.func.isRequired,
+  onDeleteGoal: PropTypes.func.isRequired
+}
+
 const mapStateToProps = state => {
   return {
       goals: state.goals.goals,
@@ -113,8 +122,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
         onEditGoal: (cardId, newGoalContent, newGoalDate, cardIndex) => dispatch(actions.editGoal(cardId, newGoalContent, newGoalDate, cardIndex)),
-        onDeleteGoal: (cardId, cardIndex, goals) => dispatch(actions.deleteGoal(cardId, cardIndex, goals))
-         
+        onDeleteGoal: (cardId, cardIndex, goals) => dispatch(actions.deleteGoal(cardId, cardIndex, goals))     
   }
 }
 

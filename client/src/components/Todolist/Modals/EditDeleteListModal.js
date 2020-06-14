@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button';
@@ -79,6 +80,14 @@ const EditDeleteListModal = (props) => {
         </Modal>
       </div>
       );
+}
+
+EditDeleteListModal.propTypes = {
+  columnId: PropTypes.string.isRequired,
+  columns: PropTypes.object.isRequired,
+  onEditList: PropTypes.func.isRequired,
+  onDeleteList: PropTypes.func.isRequired,
+  columnIndex: PropTypes.number.isRequired
 }
 
 const mapStateToProps = state => {

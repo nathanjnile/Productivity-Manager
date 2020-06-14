@@ -22,6 +22,8 @@ const LoginModal = (props) => {
   useEffect(() => {
     if(error.id === "LOGIN_FAIL") {
     setMsg(error.msg.msg);
+    setEmailInput("");
+    setPasswordInput("");
     };
 
     if(open) {
@@ -51,13 +53,10 @@ const LoginModal = (props) => {
     const submitForm = (event) => {
         event.preventDefault();
 
-        const user = {
-            email : emailInput,
-            password: passwordInput
-        }
-
-        onLogin(user);
-        // clearFields();
+        onLogin({
+          email : emailInput,
+          password: passwordInput
+        });
     }
   
     const body = (

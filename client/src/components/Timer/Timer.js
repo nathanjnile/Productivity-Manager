@@ -8,7 +8,6 @@ import alarmSound from "./sounds/soundbible_alarm.mp3";
 import Typography from '@material-ui/core/Typography';
 
 const Timer = () => {
-
     const [displayTime, setDisplayTime] = useState(25*60); // in seconds
     const [timerOn, setTimerOn] = useState(false);
     const [sound, setSound] = useState(false);
@@ -44,6 +43,5 @@ const Timer = () => {
         </div>
     );
 }
-
 
 export default Timer;

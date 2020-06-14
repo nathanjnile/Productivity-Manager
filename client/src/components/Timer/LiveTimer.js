@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import Typography from '@material-ui/core/Typography';
 
@@ -12,6 +13,11 @@ const LiveTimer = (props) => {
           </Typography>
         </div>
     );
+}
+
+LiveTimer.propTypes = {
+  mins: PropTypes.number.isRequired,
+  seconds: PropTypes.string.isRequired,
 }
 
 export default LiveTimer;

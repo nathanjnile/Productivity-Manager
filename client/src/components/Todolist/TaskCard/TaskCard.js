@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from "prop-types";
 
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
@@ -23,5 +24,13 @@ const TaskCard = (props) => {
   );
 }
 
+TaskCard.propTypes = {
+  content: PropTypes.string.isRequired,
+  taskId: PropTypes.string.isRequired,
+  columnId: PropTypes.string.isRequired,
+  taskIndex: PropTypes.number.isRequired,
+  provided: PropTypes.object.isRequired,
+  snapshot: PropTypes.object.isRequired
+}
 
 export default TaskCard;

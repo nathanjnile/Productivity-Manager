@@ -1,4 +1,6 @@
 import React, {useEffect} from "react";
+import PropTypes from "prop-types";
+
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { connect } from "react-redux";
 import classes from "./LongTermGoals.module.css";
@@ -72,6 +74,12 @@ const LongTermGoals = (props) => {
 </div>
 </div>
 );
+}
+
+LongTermGoals.propTypes = {
+    goals: PropTypes.array.isRequired,
+    onGoalMoved: PropTypes.func.isRequired,
+    onGetGoals: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => {

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 
 import classes from "./TimerButtons.module.css";
 import Button from '@material-ui/core/Button';
@@ -9,7 +10,6 @@ const TimerButtons = (props) => {
     const [timerType, setTimerType] = useState("25work");
 
     const addTime = (time, lengthType) => {
-        // setTimerOn(true);
         setDisplayTime(time);
         setTimerType(lengthType);
     }
@@ -49,6 +49,13 @@ const TimerButtons = (props) => {
             </div>
         </React.Fragment>
     );
+}
+
+
+TimerButtons.propTypes = {
+    setDisplayTime: PropTypes.func.isRequired,
+    setTimerOn: PropTypes.func.isRequired,
+    setSound: PropTypes.func.isRequired
 }
 
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Droppable, Draggable } from "react-beautiful-dnd";
+import PropTypes from "prop-types";
 
 import Typography from '@material-ui/core/Typography';
 import classes from "./ListColumn.module.css"
@@ -9,7 +10,7 @@ import EditDeleteListModal from "../Modals/EditDeleteListModal";
 
 
 const ListColumn = (props) => {
-    const {provided, column, _id, columnIndex} = props;
+  const {provided, column, _id, columnIndex} = props;
 
   return (
     <div className={classes.columnDiv} {...provided.draggableProps} ref={provided.innerRef}>
@@ -45,6 +46,13 @@ const ListColumn = (props) => {
     </div>
 
   );
+}
+
+ListColumn.propTypes = {
+  _id: PropTypes.string.isRequired,
+  column: PropTypes.object.isRequired,
+  columnIndex: PropTypes.number.isRequired,
+  provided: PropTypes.object.isRequired
 }
 
 

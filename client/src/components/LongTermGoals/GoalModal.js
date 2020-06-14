@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button';
@@ -39,7 +40,6 @@ const GoalModal = (props) => {
         }
         handleClose();
         setGoalInput("");
-        // setDateInput("");
     }
   
     const body = (
@@ -100,6 +100,11 @@ const GoalModal = (props) => {
         </Modal>
       </div>
       );
+}
+
+GoalModal.propTypes = {
+  goals: PropTypes.array.isRequired,
+  onGoalAdded: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => {

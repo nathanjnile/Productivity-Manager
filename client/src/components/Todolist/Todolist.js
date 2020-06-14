@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -105,6 +106,15 @@ const Todolist = (props) => {
     </div>
     </React.Fragment>
   );
+}
+
+Todolist.propTypes = {
+  columns: PropTypes.object.isRequired,
+  onGetTasks: PropTypes.func.isRequired,
+  onAddList: PropTypes.func.isRequired,
+  onColumnMoved: PropTypes.func.isRequired,
+  onTaskMoved: PropTypes.func.isRequired,
+  onTaskMovedColumn: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => {

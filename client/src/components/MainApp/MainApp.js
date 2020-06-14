@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import classes from "./MainApp.module.css";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 import Todolist from "../Todolist/Todolist";
 import Timer from "../Timer/Timer";
@@ -40,6 +41,12 @@ const MainApp = (props) => {
             </div>
         </div>
     );
+}
+
+MainApp.propTypes = {
+    isAuthenticated: PropTypes.bool,
+    error: PropTypes.object.isRequired,
+    onClearErrors: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => {

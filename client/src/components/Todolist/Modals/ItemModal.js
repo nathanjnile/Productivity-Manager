@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button';
@@ -77,6 +78,12 @@ const ItemModal = (props) => {
         </Modal>
       </div>
       );
+}
+
+ItemModal.propTypes = {
+  onTaskAdded: PropTypes.func.isRequired,
+  columnId: PropTypes.string.isRequired,
+  columns: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => {
