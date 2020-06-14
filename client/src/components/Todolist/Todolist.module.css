@@ -4,34 +4,6 @@
     height: 90%;
 }
 
-.columnDiv {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.columnHeader {
-    background-color: lightgrey;
-    width: 200px;
-    padding: 4px;
-    border-radius: 5px 5px 5px 5px;
-    display: grid;
-    grid-template-columns: 5fr 1fr;
-}
-
-.columnHeaderText {
-    text-align: start;
-    user-select: none;
-    padding-left: 10px;
-}
-
-.columnMain {
-    padding: 4px;
-    width: 200px;
-    min-height: 500px;  
-    border-radius: 5px 5px 5px 5px; 
-}
-
 .columnDrop {
     display: flex;
 }

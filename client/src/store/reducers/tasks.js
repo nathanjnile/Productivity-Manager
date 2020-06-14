@@ -152,7 +152,7 @@ const getTasks = (state, action) => {
   })
 
   const columns2 = Object.entries({...columns});
-  
+
   // Sort the columns
 
   columns2.sort((a, b) => {
@@ -163,7 +163,9 @@ const getTasks = (state, action) => {
 
   // Enter tasks
   taskData.forEach(value => {
+    if(columnsSorted[value.column]) {
     columnsSorted[value.column].tasks.push(value);
+    }
   })
 
   // Sort tasks

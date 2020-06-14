@@ -138,9 +138,7 @@ export const deleteList = (columnId, columnIndex, columns) => {
     const newColumns = Object.entries({...columns});
     newColumns.splice(columnIndex, 1);
     const copiedColumns = changeOrder({columns: newColumns}, "moveColumn");
-    console.log(copiedColumns)
     const convColumns = Object.fromEntries([...copiedColumns]);
-    console.log(convColumns)
     return (dispatch, getState) => {
         axios.post("/api/column/deleteAndUpdate", {columnToDelete: columnId, columnsToReorder: copiedColumns}, tokenConfig(getState))
         .then(response => {
@@ -192,7 +190,6 @@ export const getTasks = () => {
                 // dispatch(setItemsLoading);
                 axios.get("/api/column/tasks", tokenConfig(getState))
                 .then(response => {
-                    // console.log(response.data);
                     dispatch({
                         type: actionTypes.GET_TASKS,
                         payload: response.data

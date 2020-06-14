@@ -121,13 +121,6 @@ router.post("/deleteAndUpdate", auth, (req, res) => {
 
     ops.push({ "deleteOne": { "filter": { _id: new ObjectId(columnToDelete), owner: req.user._id }}});
     
-    // try {
-    //     Column.collection.bulkWrite(ops, callback);
-    // } catch (error) {
-    //     console.log(error);
-    // }
-    // });
-
     const bulkPromise = Column.collection.bulkWrite(ops);
     const TaskPromise = Task.deleteMany({ column: new ObjectId(columnToDelete), owner: req.user._id})
 
