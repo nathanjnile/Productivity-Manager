@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 // Connect to Mongo
-mongoose.connect(process.env.mongoURIdev, {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true});
+mongoose.connect(process.env.mongoURI, {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true});
 const connection = mongoose.connection;
 connection.once("open", () => {
     console.log("MongoDB database connection established successfully");
