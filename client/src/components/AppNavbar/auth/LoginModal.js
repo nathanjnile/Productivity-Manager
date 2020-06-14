@@ -57,6 +57,7 @@ const LoginModal = (props) => {
         }
 
         onLogin(user);
+        clearFields();
     }
   
     const body = (

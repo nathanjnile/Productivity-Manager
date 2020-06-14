@@ -78,6 +78,67 @@ router.post("/moveColumn", auth, (req, res) => {
     }
 });
 
+// // @route POST api/column/update/:id
+// // @desc Update single tasks
+// // @access Private
+router.post("/update/:id", auth, async (req, res) => {
+    try {
+        const column = await Column.findOne({_id: req.params.id, owner: req.user._id});
+        column.name = req.body.name;
+        try{
+            await column.save();
+        }catch (error) {
+            res.status(400).send({msg: "Unable to save updated column"})
+        }
+        res.status(200).json("Column updated!");
+    } catch (error) {
+        res.status(400).send({msg: "Unable to update column"});
+    }
+});
+
+// // @route POST api/column/deleteAndUpdate
+// // @desc Route for deleting a column and reordering columns
+// // @access Private
+router.post("/deleteAndUpdate", auth, (req, res) => {
+    const {columnToDelete, columnsToReorder} = req.body;
+    console.log(columnsToReorder)
+    var callback = function(error, r){
+        if(error) {
+            res.status(400).json(error);
+            console.log(error)
+        } else {
+            res.json("Success!");
+            console.log(r)
+        }
+    }
+    // Initialise the bulk operations array
+    let ops = columnsToReorder.map(function (col) { 
+        return { 
+            "updateOne": { "filter": { _id: new ObjectId(col[0]), owner: req.user._id }, "update": { "$set": { "columnOrder": col[1].columnOrder } } 
+            }         
+        }    
+    });
+
+    ops.push({ "deleteOne": { "filter": { _id: new ObjectId(columnToDelete), owner: req.user._id }}});
+    
+    // try {
+    //     Column.collection.bulkWrite(ops, callback);
+    // } catch (error) {
+    //     console.log(error);
+    // }
+    // });
+
+    const bulkPromise = Column.collection.bulkWrite(ops);
+    const TaskPromise = Task.deleteMany({ column: new ObjectId(columnToDelete), owner: req.user._id})
+
+    Promise.all([bulkPromise, TaskPromise]).then((result) => {
+        return res.status(200).json(result);
+    }).catch(error => {
+        return res.status(400).json(error);
+    })
+
+})
+
 
 
 module.exports = router;

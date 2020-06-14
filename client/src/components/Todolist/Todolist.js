@@ -89,7 +89,7 @@ const Todolist = (props) => {
             return(
               <Draggable key={_id} draggableId={_id} index={index}>
                 {(provided) => (
-                  <ListColumn provided={provided} column={column} _id={_id}/>
+                  <ListColumn provided={provided} column={column} _id={_id} columnIndex={index}/>
                 )}
               </Draggable>
             );
@@ -100,7 +100,7 @@ const Todolist = (props) => {
         </Droppable>
       </DragDropContext>
       <div style={{width: 200}}>
-      {enterAddList ? <Button onClick={() => setEnterAddList(false)} className={classes.addListButton} style={{backgroundColor: "#3F51B5", color: "#ffffff", textTransform: "none"}}>Add List</Button> : listField}
+      {enterAddList ? <Button onClick={() => setEnterAddList(false)} className={classes.addListButton} style={{backgroundColor: "#3F51B5", color: "#ffffff", textTransform: "none"}}> Add List </Button> : listField}
       </div>
     </div>
     </React.Fragment>

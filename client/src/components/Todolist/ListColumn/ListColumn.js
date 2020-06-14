@@ -3,19 +3,19 @@ import { Droppable, Draggable } from "react-beautiful-dnd";
 
 import Typography from '@material-ui/core/Typography';
 import classes from "./ListColumn.module.css"
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import TaskCard from "../TaskCard/TaskCard";
 import ItemModal from "../Modals/ItemModal";
+import EditDeleteListModal from "../Modals/EditDeleteListModal";
 
 
 const ListColumn = (props) => {
-    const {provided, column, _id} = props;
+    const {provided, column, _id, columnIndex} = props;
 
   return (
     <div className={classes.columnDiv} {...provided.draggableProps} ref={provided.innerRef}>
     <div className={classes.columnHeader} {...provided.dragHandleProps}>  
     <Typography variant="h6" className={classes.columnHeaderText}> {column.name} </Typography>
-    <MoreHorizIcon fontSize="large" style={{cursor: "pointer"}}/>
+    <EditDeleteListModal columnId={_id} columnIndex={columnIndex}/>
     </div>
     <div style={{margin: 8}}>
     <Droppable droppableId={_id} key={_id} type="task">

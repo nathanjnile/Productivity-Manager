@@ -77,6 +77,30 @@ const addList = (state, action) => {
     };
   }
 
+  const editList = (state, action) => {
+    const { newListName, columnId } = action;
+    const { columns } = state;
+
+      return {
+        ...state,
+        columns : {
+          ...columns,
+          [columnId] : {
+            ...columns[columnId],
+            name: newListName
+          }
+        }
+      };
+  }
+
+  const deleteList = (state, action) => {
+    const { convColumns } = action;
+    return {
+      ...state,
+      columns: convColumns
+    };
+}
+
 const editTask = (state, action) => {
   const { columns } = state;
   const { newTaskName, columnId, itemIndex } = action;
@@ -173,6 +197,8 @@ const reducer =(state = initialState, action) => {
         case actionType.TASK_MOVED_COLUMN: return taskMovedColumn(state, action);
         case actionType.COLUMN_MOVED: return columnMoved(state, action);
         case actionType.ADD_LIST: return addList(state, action);
+        case actionType.EDIT_LIST: return editList(state, action);
+        case actionType.DELETE_LIST: return deleteList(state, action);
         case actionType.EDIT_TASK: return editTask(state, action);
         case actionType.DELETE_TASK: return deleteTask(state, action);
         case actionType.GET_TASKS: return getTasks(state, action);

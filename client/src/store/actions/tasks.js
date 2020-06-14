@@ -82,7 +82,7 @@ export const columnMoved = (source, destination, columns) => {
     const [removed] = newColumns.splice(source.index, 1);
     newColumns.splice(destination.index, 0, removed);
     const copiedColumns = changeOrder({columns: newColumns}, "moveColumn");
-    const convColumns = Object.fromEntries(copiedColumns);;
+    const convColumns = Object.fromEntries(copiedColumns);
     return (dispatch, getState) => {
         dispatch({
             type: actionTypes.COLUMN_MOVED,
@@ -115,6 +115,39 @@ export const addList = (newList, columnsLength) => {
             dispatch({
                 type: actionTypes.ADD_LIST,
                 payload: response.data
+            })
+        }).catch(err => console.log(err));
+    };  
+}
+
+export const editList = (newListName, columnId) => {
+    return (dispatch, getState) => {
+        axios.post(`/api/column/update/${columnId}`, {name: newListName}, tokenConfig(getState))
+        .then(response => {
+            console.log(response.data)
+            dispatch({
+                type: actionTypes.EDIT_LIST,
+                newListName,
+                columnId
+            })
+        }).catch(err => console.log(err));
+    };  
+}
+
+export const deleteList = (columnId, columnIndex, columns) => {
+    const newColumns = Object.entries({...columns});
+    newColumns.splice(columnIndex, 1);
+    const copiedColumns = changeOrder({columns: newColumns}, "moveColumn");
+    console.log(copiedColumns)
+    const convColumns = Object.fromEntries([...copiedColumns]);
+    console.log(convColumns)
+    return (dispatch, getState) => {
+        axios.post("/api/column/deleteAndUpdate", {columnToDelete: columnId, columnsToReorder: copiedColumns}, tokenConfig(getState))
+        .then(response => {
+            console.log(response.data)
+            dispatch({
+                type: actionTypes.DELETE_LIST,
+                convColumns: convColumns
             })
         }).catch(err => console.log(err));
     };  

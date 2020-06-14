@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-// const Task = require("./task");
+const Task = require("./Task");
 require("dotenv").config();
 
 
@@ -97,9 +97,11 @@ userSchema.pre("save", async function (next) {
     next();
 })
 
-// // Delete user tasks when user is removed
-// userSchema.pre("remove", async function (next) {
+// Delete user tasks when user is removed
+// userSchema.pre("deleteOne", async function (next) {
+//     console.log("here")
 //     const user = this;
+//     console.log(user)
 //     await Task.deleteMany({owner: user._id});
 
 //     next();

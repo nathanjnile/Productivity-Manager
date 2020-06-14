@@ -13,24 +13,25 @@ import Fade from '@material-ui/core/Fade';
 import * as actions from "../../../store/actions/index";
 
 const RegisterModal = (props) => {
-    const [open, setOpen] = useState(false);
-    const [nameInput, setNameInput] = useState("");
-    const [emailInput, setEmailInput] = useState("");
-    const [passwordInput, setPasswordInput] = useState("");
-    const [msg, setMsg] = useState(null);
+  const { error, isAuthenticated, onClearErrors, onRegister } = props;
+  const [open, setOpen] = useState(false);
+  const [nameInput, setNameInput] = useState("");
+  const [emailInput, setEmailInput] = useState("");
+  const [passwordInput, setPasswordInput] = useState("");
+  const [msg, setMsg] = useState(null);
 
   useEffect(() => {
-    if(props.error.id === "REGISTER_FAIL") {
-    setMsg(props.error.msg.msg);
+    if(error.id === "REGISTER_FAIL") {
+    setMsg(error.msg.msg);
     };
 
     if(open) {
-      if(props.isAuthenticated) {
+      if(isAuthenticated) {
         setOpen(false);
         clearFields();
       }
     }
-  }, [props.error, msg, setOpen, open, props.isAuthenticated]);
+  }, [error, msg, setOpen, open, isAuthenticated]);
 
     const handleOpen = () => {
       setOpen(true);
@@ -38,7 +39,7 @@ const RegisterModal = (props) => {
   
     const handleClose = () => {
       setOpen(false);
-      props.onClearErrors();
+      onClearErrors();
       clearFields();
       setMsg(null);
     };
@@ -58,7 +59,7 @@ const RegisterModal = (props) => {
           password: passwordInput
         }
 
-        props.onRegister(newUser);
+        onRegister(newUser);
     }
   
     const body = (
