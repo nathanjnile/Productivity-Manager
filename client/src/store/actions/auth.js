@@ -6,7 +6,6 @@ import * as errorActions from "./error";
 
 export const loadUser = () => {
     return (dispatch, getState) => {
-        // User loading
         dispatch({type: actionTypes.USER_LOADING});
         axios.get("/api/user/users/me", tokenConfig(getState))
             .then(res => dispatch({
@@ -44,6 +43,7 @@ export const tokenConfig = getState => {
 // Register user
 export const register = ({name, email, password}) => {
     return (dispatch) => {
+        dispatch({type: actionTypes.USER_LOADING});
         // headers
         const config = {
             headers : {
@@ -82,6 +82,7 @@ export const logout = () => {
 
 export const login = ({email, password}) => {
     return (dispatch) => {
+        dispatch({type: actionTypes.USER_LOADING});
         // headers
         const config = {
             headers : {

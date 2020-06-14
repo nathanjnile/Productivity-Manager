@@ -3,7 +3,15 @@ import * as actionType from "../actions/actionTypes";
 
 
 const initialState = {
-  columns : {}
+  columns : {},
+  isLoading: false
+}
+
+const taskLoading = (state, action) => {
+  return {
+    ...state,
+    isLoading: true
+  }; 
 } 
 
 const addTask = (state, action) => {
@@ -14,6 +22,7 @@ const addTask = (state, action) => {
   copiedTasks.push({_id, content, order, column});
     return {
       ...state,
+      isLoading: false,
       columns: {
         ...columns,
         [column] : {
@@ -70,6 +79,7 @@ const addList = (state, action) => {
   const { columns } = state;
     return {
       ...state,
+      isLoading: false,
       columns : {
         ...columns,
         [_id] : {name, columnOrder, owner, __v, tasks: []}
@@ -83,6 +93,7 @@ const addList = (state, action) => {
 
       return {
         ...state,
+        isLoading: false,
         columns : {
           ...columns,
           [columnId] : {
@@ -97,6 +108,7 @@ const addList = (state, action) => {
     const { convColumns } = action;
     return {
       ...state,
+      isLoading: false,
       columns: convColumns
     };
 }
@@ -110,6 +122,7 @@ const editTask = (state, action) => {
   sourceTasks.splice(itemIndex, 0, {...removed, content: newTaskName});
   return {
     ...state,
+    isLoading: false,
     columns : {
       ...columns,
       [columnId] : {
@@ -125,6 +138,7 @@ const deleteTask = (state, action) => {
   const { columnId, sourceColumn, sourceTasks } = action;
   return {
     ...state,
+    isLoading: false,
     columns : {
       ...columns,
       [columnId] : {
@@ -181,6 +195,7 @@ const getTasks = (state, action) => {
 
   return {
     ...state,
+    isLoading: false,
     columns : finalColumns
 }
 }
@@ -188,6 +203,7 @@ const getTasks = (state, action) => {
 const clearTasks = (state, action) => {
   return {
     ...state,
+    isLoading: false,
     columns : {}
   }
 }
@@ -205,6 +221,7 @@ const reducer =(state = initialState, action) => {
         case actionType.DELETE_TASK: return deleteTask(state, action);
         case actionType.GET_TASKS: return getTasks(state, action);
         case actionType.CLEAR_TASKS: return clearTasks(state, action);
+        case actionType.TASK_LOADING: return taskLoading(state, action);
         default:
             return state;
     }

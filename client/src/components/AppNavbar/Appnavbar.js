@@ -11,7 +11,7 @@ import RegisterModal from "./auth/RegisterModal";
 
 
 const Appnavbar = (props) => {
-  const {isAuthenticated, user} = props;
+  const {isAuthenticated} = props;
 
     return(
         <AppBar position="static">
@@ -19,9 +19,9 @@ const Appnavbar = (props) => {
           <Typography variant="h6" style={{flexGrow : 1, userSelect: "none"}}>
             Productivity Tracker
           </Typography>
-          {isAuthenticated ? <Typography variant="subtitle1" style={{flexGrow: 1}}>
+          {/* {isAuthenticated ? <Typography variant="subtitle1" style={{flexGrow: 1}}>
             Welcome {user.name}
-          </Typography> : null}
+          </Typography> : null} */}
           {!isAuthenticated ? <LoginModal/> : null}
           {isAuthenticated ? <Logout/> : null}
           {!isAuthenticated ? <RegisterModal/> : null}

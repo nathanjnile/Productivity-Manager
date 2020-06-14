@@ -5,7 +5,7 @@ import { tokenConfig } from "./auth";
 
 export const addGoal = (goal, date, goals) => {
     return (dispatch, getState) => {
-        // dispatch(setItemsLoading);
+        dispatch({type: actionTypes.GOAL_LOADING});
         axios.post("/api/goal/add", {content: goal, date, order: goals.length, owner: getState().auth.user._id}, tokenConfig(getState))
         .then(response => {
             dispatch({
@@ -49,7 +49,7 @@ export const goalMoved = (source, destination, goals) => {
 
 export const editGoal = (cardId, newGoalContent, newGoalDate, cardIndex) => {
     return (dispatch, getState) => {
-        // dispatch(setItemsLoading);
+        dispatch({type: actionTypes.GOAL_LOADING});
         axios.post("/api/goal/update", {_id: cardId, content: newGoalContent, date: newGoalDate}, tokenConfig(getState))
         .then(response => {
             dispatch({
@@ -72,6 +72,7 @@ export const deleteGoal = (cardId, cardIndex, goals) => {
     const copiedGoals2 = changeOrder([...copiedGoals], "goal");   
 
     return (dispatch, getState) => {
+        dispatch({type: actionTypes.GOAL_LOADING});
         axios.post("/api/goal/deleteAndUpdate", {itemToDelete: goals[cardIndex], itemsToReorder: copiedGoals2}, tokenConfig(getState))
         .then(res => {
             console.log(res);
@@ -87,7 +88,7 @@ export const deleteGoal = (cardId, cardIndex, goals) => {
 
 export const getGoals = () => {
     return (dispatch, getState) => {
-                // dispatch(setItemsLoading);
+                dispatch({type: actionTypes.GOAL_LOADING});
                 axios.get("/api/goal", tokenConfig(getState))
                 .then(response => {
                     // console.log(response.data);

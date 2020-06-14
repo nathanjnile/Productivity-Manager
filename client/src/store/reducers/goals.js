@@ -1,8 +1,16 @@
 import * as actionType from "../actions/actionTypes";
 
 const initialState = {
-    goals:[]
+    goals:[],
+    isLoading: false
 }
+
+const goalLoading = (state, action) => {
+  return {
+    ...state,
+    isLoading: true
+  }; 
+} 
 
 const goalMoved = (state, action) => {
     return {
@@ -17,6 +25,7 @@ const goalMoved = (state, action) => {
     });
     return {
       ...state,
+      isLoading: false,
       goals: orderedGoals
     }; 
   }
@@ -25,6 +34,7 @@ const goalMoved = (state, action) => {
     const { _id, content, date, order, owner } = action.payload;
     return {
       ...state,
+      isLoading: false,
       goals : [...state.goals, {_id, content, date, order, owner}]
     }
   }
@@ -36,6 +46,7 @@ const goalMoved = (state, action) => {
     copiedItems.splice(cardIndex, 0, {_id: cardId, content: newContent, date: newDate, order: state.goals[cardIndex].order})
     return {
       ...state,
+      isLoading: false,
       goals : copiedItems
     }; 
   }
@@ -43,6 +54,7 @@ const goalMoved = (state, action) => {
   const deleteGoal = (state, action) => {
     return {
       ...state,
+      isLoading: false,
       goals: action.payload
     }; 
   }
@@ -50,6 +62,7 @@ const goalMoved = (state, action) => {
   const clearGoals = (state, action) => {
     return {
       ...state,
+      isLoading: false,
       goals: []
     }; 
   }
@@ -62,6 +75,7 @@ const reducer =(state = initialState, action) => {
         case actionType.EDIT_GOAL: return editGoal(state, action);
         case actionType.DELETE_GOAL: return deleteGoal(state, action);
         case actionType.CLEAR_GOALS: return clearGoals(state, action);
+        case actionType.GOAL_LOADING: return goalLoading(state, action);
         default:
             return state;
     }
