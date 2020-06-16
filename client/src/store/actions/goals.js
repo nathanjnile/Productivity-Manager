@@ -12,7 +12,9 @@ export const addGoal = (goal, date, goals) => {
                 type: actionTypes.ADD_GOAL,
                 payload: response.data
             })
-        }).catch(err => console.log(err));
+        }).catch(err => {
+        //  console.log(err)
+        });
     };
 }
 
@@ -39,9 +41,9 @@ export const goalMoved = (source, destination, goals) => {
             // axios call to send new order to backend
             axios.post("/api/goal/updateMove", {newItems: updatedArray}, tokenConfig(getState))
             .then(res => {
-                console.log(res);
+                // console.log(res);
             }).catch(error => {
-                console.log(error.response);
+                // console.log(error.response);
             });
         }
     }  
@@ -60,28 +62,28 @@ export const editGoal = (cardId, newGoalContent, newGoalDate, cardIndex) => {
                     newDate: newGoalDate, 
                     cardIndex: cardIndex}
             })
-        }).catch(err => console.log(err));
+        }).catch(err => {
+            // console.log(err)
+        });
     };
 }
 
 export const deleteGoal = (cardId, cardIndex, goals) => {
     const copiedGoals = [...goals];
     copiedGoals.splice(cardIndex, 1);
-    console.log(goals[cardIndex])
-    console.log(copiedGoals);
     const copiedGoals2 = changeOrder([...copiedGoals], "goal");   
 
     return (dispatch, getState) => {
         dispatch({type: actionTypes.GOAL_LOADING});
         axios.post("/api/goal/deleteAndUpdate", {itemToDelete: goals[cardIndex], itemsToReorder: copiedGoals2}, tokenConfig(getState))
         .then(res => {
-            console.log(res);
+            // console.log(res);
             dispatch({
                 type: actionTypes.DELETE_GOAL,
                 payload: copiedGoals2
             })
         }).catch(error => {
-            console.log(error);
+            // console.log(error);
         });
     }; 
 }
@@ -96,6 +98,8 @@ export const getGoals = () => {
                         type: actionTypes.GET_GOALS,
                         payload: response.data
                     })
-                }).catch(err => console.log(err));
+                }).catch(err => {
+                // console.log(err)
+                });
             };
 }

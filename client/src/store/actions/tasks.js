@@ -9,12 +9,14 @@ export const addTask = (task, columnId, columns) => {
         dispatch({type: actionTypes.TASK_LOADING});
         axios.post("/api/task/add", {content: task, order: columnLength, column : columnId}, tokenConfig(getState))
         .then(response => {
-            console.log(response)
+            // console.log(response)
             dispatch({
                 type: actionTypes.ADD_TASK,
                 payload: response.data.task
             })
-        }).catch(err => console.log(err));
+        }).catch(err => {
+            // console.log(err)
+        } );
     };   
 }
 
@@ -37,9 +39,9 @@ export const taskMoved = (source, destination, columns) => {
         // axios call to send new task order to backend
         axios.post("/api/task/updateMove", {newTasks: copiedTasks}, tokenConfig(getState))
         .then(res => {
-            console.log(res);
+            // console.log(res);
         }).catch(error => {
-            console.log(error);
+            // console.log(error);
         });
     }     
 }
@@ -71,9 +73,9 @@ export const taskMovedColumn = (source, destination, columns) => {
         // axios call to send new task order to backend
         axios.post("/api/task/updateMoveColumn", {newTasks: updatedArray}, tokenConfig(getState))
         .then(res => {
-            console.log(res);
+            // console.log(res);
         }).catch(error => {
-            console.log(error);
+            // console.log(error);
         });
     }    
 }
@@ -101,9 +103,9 @@ export const columnMoved = (source, destination, columns) => {
         // axios call to send new task order to backend
         axios.post("/api/column/moveColumn", {columnsUpdate: updatedColumns}, tokenConfig(getState))
         .then(res => {
-            console.log(res);
+            // console.log(res);
         }).catch(error => {
-            console.log(error);
+            // console.log(error);
         });
     }        
 }
@@ -113,12 +115,14 @@ export const addList = (newList, columnsLength) => {
         dispatch({type: actionTypes.TASK_LOADING});
         axios.post("/api/column/add", {name: newList, columnOrder: columnsLength, owner: getState().auth.user._id}, tokenConfig(getState))
         .then(response => {
-            console.log(response.data)
+            // console.log(response.data)
             dispatch({
                 type: actionTypes.ADD_LIST,
                 payload: response.data
             })
-        }).catch(err => console.log(err));
+        }).catch(err => {
+        // console.log(err)
+        });
     };  
 }
 
@@ -127,13 +131,15 @@ export const editList = (newListName, columnId) => {
         dispatch({type: actionTypes.TASK_LOADING});
         axios.post(`/api/column/update/${columnId}`, {name: newListName}, tokenConfig(getState))
         .then(response => {
-            console.log(response.data)
+            // console.log(response.data)
             dispatch({
                 type: actionTypes.EDIT_LIST,
                 newListName,
                 columnId
             })
-        }).catch(err => console.log(err));
+        }).catch(err => {
+        // console.log(err)
+        });
     };  
 }
 
@@ -146,12 +152,14 @@ export const deleteList = (columnId, columnIndex, columns) => {
         dispatch({type: actionTypes.TASK_LOADING});
         axios.post("/api/column/deleteAndUpdate", {columnToDelete: columnId, columnsToReorder: copiedColumns}, tokenConfig(getState))
         .then(response => {
-            console.log(response.data)
+            // console.log(response.data)
             dispatch({
                 type: actionTypes.DELETE_LIST,
                 convColumns: convColumns
             })
-        }).catch(err => console.log(err));
+        }).catch(err => {
+            // console.log(err)
+        });
     };  
 }
 
@@ -160,14 +168,16 @@ export const editTask = (newTaskName, columnId, itemId, itemIndex) => {
         dispatch({type: actionTypes.TASK_LOADING});
         axios.post(`/api/task/update/${itemId}`, {content: newTaskName}, tokenConfig(getState))
         .then(response => {
-            console.log(response)
+            // console.log(response)
             dispatch({
                 type: actionTypes.EDIT_TASK,
                 newTaskName: newTaskName,
                 columnId: columnId,
                 itemIndex: itemIndex
             })
-        }).catch(err => console.log(err));
+        }).catch(err => {
+            // console.log(err)
+        });
     };  
 }
 
@@ -180,14 +190,16 @@ export const deleteTask = (columnId, itemIndex, columns, itemId) => {
         dispatch({type: actionTypes.TASK_LOADING});
         axios.post("/api/task/deleteAndUpdate", {taskToDelete: itemId, tasksToReorder: sourceTasks}, tokenConfig(getState))
         .then(response => {
-            console.log(response)
+            // console.log(response)
             dispatch({
                 type: actionTypes.DELETE_TASK,
                 columnId,
                 sourceTasks,
                 sourceColumn
             })
-        }).catch(err => console.log(err));
+        }).catch(err => {
+        // console.log(err)
+        });
     };   
 }
 
@@ -200,6 +212,8 @@ export const getTasks = () => {
                         type: actionTypes.GET_TASKS,
                         payload: response.data
                     })
-                }).catch(err => console.log(err));
+                }).catch(err => {
+                // console.log(err)
+                });
             };
 }

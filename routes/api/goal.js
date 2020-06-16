@@ -64,7 +64,6 @@ router.post("/deleteAndUpdate", auth, (req, res) => {
 
     ops.push({ "deleteOne": { "filter": { _id: new ObjectId(itemToDelete._id), owner: req.user._id }}});
     
-    // Get the underlying collection via the native node.js driver collection object
     try {
         Goal.collection.bulkWrite(ops, callback);
     } catch (error) {

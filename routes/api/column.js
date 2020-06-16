@@ -59,7 +59,6 @@ router.post("/moveColumn", auth, (req, res) => {
             console.log(r)
         }
     }
-    console.log(columnsUpdate);
     // Initialise the bulk operations array
     var ops = columnsUpdate.map(function (col) {
             return { 
