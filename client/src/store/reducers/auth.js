@@ -2,7 +2,7 @@ import * as actionType from "../actions/actionTypes";
 import { updateObject } from "../../shared/utility";
 
 const initialState = {
-    token: localStorage.getItem("token"),
+    token: sessionStorage.getItem("token"),
     isAuthenticated: null,
     isLoading: false,
     user: null
@@ -17,12 +17,12 @@ const userLoaded = (state, action) => {
 };
 
 const registerSuccess = (state, action) => {
-    localStorage.setItem("token", action.payload.token);
+    sessionStorage.setItem("token", action.payload.token);
     return {...state, ...action.payload, isAuthenticated: true, isLoading: false};
 };
 
 const authError = (state, action) => {
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     return updateObject(state, {token: null, isAuthenticated: false, isLoading: false, user: null});
 };
 
