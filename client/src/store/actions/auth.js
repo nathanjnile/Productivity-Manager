@@ -1,6 +1,7 @@
 import * as actionTypes from "./actionTypes";
 import axios from "axios";
 import * as errorActions from "./error";
+import { v4 as uuidv4 } from 'uuid';
 
 // Check token & load user
 
@@ -52,6 +53,43 @@ export const register = ({name, email, password}) => {
         }
 
         // Request body
+
+        const body = JSON.stringify({name, email, password});
+
+        axios.post("/api/user/users", body, config)
+            .then(res => {
+                dispatch({
+                    type: actionTypes.REGISTER_SUCCESS,
+                    payload: res.data
+                })
+            }).catch(err => {
+                dispatch(errorActions.returnErrors(err.response.data, err.response.status, "REGISTER_FAIL"));
+                dispatch({
+                    type: actionTypes.REGISTER_FAIL
+                })
+            })
+
+
+    }
+}
+
+// Register Guest user
+export const addGuest = () => {
+    return (dispatch) => {
+        dispatch({type: actionTypes.USER_LOADING});
+        // headers
+        const config = {
+            headers : {
+                "Content-type": "application/json"
+            }
+        }
+
+        const guestId = uuidv4();
+
+        // Request body
+        const name = `guest ${guestId}`;
+        const email = `guest${guestId}@mail.com`;
+        const password = uuidv4();
 
         const body = JSON.stringify({name, email, password});
 
