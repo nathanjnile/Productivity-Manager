@@ -19,7 +19,7 @@ const Appnavbar = (props) => {
         <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" style={{flexGrow : 1, userSelect: "none"}}>
-            Productivity Tracker
+            Productivity Manager
           </Typography> 
           {!isAuthenticated ? <Button onClick={onAddGuest} style={{backgroundColor: "#3F51B5", color:"#FFFFFF"}}>Guest Access</Button> : null}
           {!isAuthenticated ? <LoginModal/> : null}
