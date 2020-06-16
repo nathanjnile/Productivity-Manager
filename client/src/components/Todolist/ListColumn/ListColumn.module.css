@@ -17,6 +17,7 @@
     text-align: start;
     user-select: none;
     padding-left: 10px;
+    overflow: hidden;
 }
 
 .columnMain {

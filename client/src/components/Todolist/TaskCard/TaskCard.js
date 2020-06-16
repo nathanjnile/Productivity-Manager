@@ -16,7 +16,7 @@ const TaskCard = (props) => {
     style={{backgroundColor: snapshot.isDragging ? "#34546b" : "#3F51B5",
         ...provided.draggableProps.style}}
         >
-      <Typography variant="subtitle2" style={{color: "white"}}>
+      <Typography variant="subtitle2" style={{color: "white", overflow: "hidden"}}>
       {content} 
       </Typography>
       <EditDeleteModal columnId={columnId} itemId={taskId} itemIndex={taskIndex}/>

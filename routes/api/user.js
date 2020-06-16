@@ -11,7 +11,7 @@ router.post("/users", async (req, res) => {
         const token = await user.generateAuthToken();
         res.status(201).send({user, token});
     }catch (error) {
-        res.status(400).send({msg: "email already exists"});
+        res.status(400).send({msg: "registration failed"});
     }
 })
 

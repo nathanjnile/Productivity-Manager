@@ -76,7 +76,7 @@ const EditDeleteGoalModal = (props) => {
               </MuiPickersUtilsProvider>
              <div style={{marginTop: 10, display: "flex", alignItems: "center", justifyContent:"center"}}>
              <Button type="submit" style={{backgroundColor: "#3F51B5", color:"#FFFFFF"}}>Edit Goal</Button>
-             <Button onClick={() => onDeleteGoal(cardId, cardIndex, goals)}  style={{backgroundColor: "red", color:"#FFFFFF", marginLeft: "auto", opacity: 0.8}}>Delete Task</Button>
+             <Button onClick={() => onDeleteGoal(cardId, cardIndex, goals)}  style={{backgroundColor: "red", color:"#FFFFFF", marginLeft: "auto", opacity: 0.8}}>Delete Goal</Button>
             </div>
             </form>
       </div>

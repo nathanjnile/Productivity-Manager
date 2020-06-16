@@ -52,6 +52,8 @@ const RegisterModal = (props) => {
 
     const submitForm = (event) => {
         event.preventDefault();
+        if(nameInput === "" || emailInput === "" || passwordInput === "") return setMsg("please enter all fields");
+        if(passwordInput.length < 7) return setMsg("password minimum length is 7");
 
         const newUser = {
           name: nameInput,

@@ -48,7 +48,7 @@ const LongTermGoals = (props) => {
                                      style={{backgroundColor: snapshot.isDragging ? "#263B4A" : "#3F51B5",
                                      ...provided.draggableProps.style}}
                                      >
-                                        <Typography variant="subtitle2" align="left" style={{color: "white"}}>
+                                        <Typography variant="subtitle2" align="left" style={{color: "white", overflow: "hidden"}}>
                                         {goal.content} 
                                         </Typography>
                                         <Typography variant="subtitle2" align="right" style={{color: "white"}}>

@@ -101,7 +101,6 @@ router.post("/update/:id", auth, async (req, res) => {
 // // @access Private
 router.post("/deleteAndUpdate", auth, (req, res) => {
     const {columnToDelete, columnsToReorder} = req.body;
-    console.log(columnsToReorder)
     var callback = function(error, r){
         if(error) {
             res.status(400).json(error);
