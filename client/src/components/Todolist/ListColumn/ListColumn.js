@@ -8,7 +8,6 @@ import TaskCard from "../TaskCard/TaskCard";
 import ItemModal from "../Modals/ItemModal";
 import EditDeleteListModal from "../Modals/EditDeleteListModal";
 
-
 const ListColumn = (props) => {
   const {provided, column, _id, columnIndex} = props;
 
