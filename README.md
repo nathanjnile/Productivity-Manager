@@ -5,7 +5,7 @@
 *	A full stack productivity management tool built with React, Express, Node.js and Mongodb.
 *	Features include a Kanban board for tasks, a goals section, and a productivity timer. Built upon the react-beautiful-dnd library.
 
-    <a href="https://productivity-manager.herokuapp.com/">View the App on Heroku</a>
+    <a href="https://productivity-manager.herokuapp.com/" target="_blank">View the App on Heroku</a>
 
 <a href="https://productivity-manager.herokuapp.com/">
   <img src="/Screenshots/example.JPG" alt="Logo">
