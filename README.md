@@ -73,7 +73,7 @@ https://productivity-manager.herokuapp.com/
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-![App](/Screenshots/example.JPG)
+![[App][/Screenshots/example.JPG]](https://productivity-manager.herokuapp.com/)
 
 Here's a blank template to get started:
 **To avoid retyping too much info. Do a search and replace with your text editor for the following:**
