@@ -72,12 +72,10 @@ https://productivity-manager.herokuapp.com/
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-<!--
 
-![App](/Screenshots/example.JPG)
--->
-
-<img href="https://productivity-manager.herokuapp.com/" src="/Screenshots/example.JPG" alt="Logo">
+<a href="https://productivity-manager.herokuapp.com/">
+  <img src="/Screenshots/example.JPG" alt="Logo">
+</a>
 
 Here's a blank template to get started:
 **To avoid retyping too much info. Do a search and replace with your text editor for the following:**
