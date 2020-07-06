@@ -25,12 +25,15 @@ https://productivity-manager.herokuapp.com/
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
+
+<!--
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
+-->
 
 
 
@@ -44,7 +47,7 @@ https://productivity-manager.herokuapp.com/
   <h3 align="center">Productivity Manager</h3>
 
   <p align="center">
-    YOUR_SHORT_DESCRIPTION
+    Description: Mern Productivity Manager
     <br />
     <br />
     <br />
@@ -63,11 +66,7 @@ https://productivity-manager.herokuapp.com/
   * [Prerequisites](#prerequisites)
   * [Installation](#installation)
 * [Usage](#usage)
-* [Roadmap](#roadmap)
-* [Contributing](#contributing)
-* [License](#license)
 * [Contact](#contact)
-* [Acknowledgements](#acknowledgements)
 
 
 
@@ -83,16 +82,12 @@ Here's a blank template to get started:
 
 ### Built With
 
-React.js
-Redux
-Express.js
-Node.js
-MongoDB
-react-beautiful-dnd
-* []()
-* []()
-* []()
-
+* React.js
+* Redux
+* Express.js
+* Node.js
+* MongoDB
+* react-beautiful-dnd
 
 
 <!-- GETTING STARTED -->
