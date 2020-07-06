@@ -44,18 +44,13 @@ Create a mongoDB database, for example through https://www.mongodb.com/cloud/atl
 
 Create a .env file with your mongodb url and jwt secret to be exported for use.
 
-* npm
-```sh
-npm install npm@latest -g
-```
-
 ### Installation
  
 1. Clone the repo
 ```sh
 git clone https://github.com/nathanjnile/Productivity-Manager.git
 ```
-2. Install NPM packages
+2. Install NPM packages in both the main and the client directory
 ```sh
 npm install
 ```
