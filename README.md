@@ -2,10 +2,13 @@
 
 ## Description: 
 
-*	A full stack productivity management tool built with React, Express, Node.js and Mongodb.
-*	Features include a Kanban board for tasks, a goals section, and a productivity timer. Built upon the react-beautiful-dnd library.
+*	A full stack productivity management tool built with React, Express, Node.js and MongoDB.
+*   Features include a Kanban board for tasks, a goals section, and a productivity timer.
+*   The Kanban board and goals section is built upon the react-beautiful-dnd library for drag and drop.
+*   The Productivity App has user authentication through the register and login buttons in the nav bar. It also features a guest button for quick access and testing of the app.
+*   The data is stored in a MongoDB database and when the user logs in, the data is fetched through an API call which will then populate the redux store.
 
-    <a href="https://productivity-manager.herokuapp.com/" target="_blank">View the App on Heroku</a>
+<a href="https://productivity-manager.herokuapp.com/">View the App on Heroku</a>
 
 <a href="https://productivity-manager.herokuapp.com/">
   <img src="/Screenshots/example.JPG" alt="Logo">
@@ -40,7 +43,7 @@ Here's a blank template to get started:
 * Express.js
 * Node.js
 * MongoDB
-* react-beautiful-dnd
+* react-beautiful-dnd library
 
 
 <!-- GETTING STARTED -->
