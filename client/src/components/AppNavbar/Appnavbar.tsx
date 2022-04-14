@@ -4,7 +4,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import { connect, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import LoginModal from "./auth/LoginModal";
 import Logout from "./auth/Logout";
 import RegisterModal from "./auth/RegisterModal";
@@ -12,14 +12,12 @@ import RegisterModal from "./auth/RegisterModal";
 import * as actions from "../../store/actions/index";
 import { RootState } from "../..";
 
-interface AppnavbarProps {
-  onAddGuest: () => void;
-}
-
-const Appnavbar = ({ onAddGuest }: AppnavbarProps) => {
+export const Appnavbar = () => {
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated
   );
+
+  const dispatch = useDispatch();
 
   return (
     <AppBar position="static">
@@ -29,7 +27,7 @@ const Appnavbar = ({ onAddGuest }: AppnavbarProps) => {
         </Typography>
         {!isAuthenticated && (
           <Button
-            onClick={onAddGuest}
+            onClick={() => dispatch(actions.addGuest())}
             style={{ backgroundColor: "#3F51B5", color: "#FFFFFF" }}
           >
             Guest Access
@@ -42,13 +40,3 @@ const Appnavbar = ({ onAddGuest }: AppnavbarProps) => {
     </AppBar>
   );
 };
-
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    onGoalAdded: (goal: any, date: any, goals: any) =>
-      dispatch(actions.addGoal(goal, date, goals)),
-    onAddGuest: () => dispatch(actions.addGuest()),
-  };
-};
-
-export default connect(null, mapDispatchToProps)(Appnavbar);
