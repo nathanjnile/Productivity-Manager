@@ -12,10 +12,13 @@ app.use(cors());
 app.use(express.json());
 
 // Connect to Mongo
-mongoose.connect(process.env.mongoURI, {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true});
+mongoose.connect(process.env.mongoURI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 const connection = mongoose.connection;
 connection.once("open", () => {
-    console.log("MongoDB database connection established successfully");
+  console.log("MongoDB database connection established successfully");
 });
 
 // api routes
@@ -30,18 +33,17 @@ app.use("/api/column", columnRouter);
 app.use("/api/goal", goalRouter);
 app.use("/api/user", userRouter);
 
-
 // Serve static assets if in production
 
-if(process.env.NODE_ENV ==="production") {
-    // set static folder
-    app.use(express.static("client/build"));
+if (process.env.NODE_ENV === "production") {
+  // set static folder
+  app.use(express.static("client/build"));
 
-    app.get("*", (req, res) => {
-        res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-    });
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
 }
 
 app.listen(port, () => {
-    console.log(`Server is running on port: ${port}`)
+  console.log(`Server is running on port: ${port}`);
 });
