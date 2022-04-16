@@ -2,7 +2,7 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 
 interface LiveTimerProps {
-  mins: number;
+  mins: string;
   seconds: string;
 }
 

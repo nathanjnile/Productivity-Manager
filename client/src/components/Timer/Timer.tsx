@@ -3,36 +3,30 @@ import React, { useState, useEffect } from "react";
 import { LiveTimer } from "./LiveTimer";
 import TimerButtons from "./TimerButtons";
 import ReactHowler from "react-howler";
+// @ts-ignore
 import alarmSound from "./sounds/soundbible_alarm.mp3";
 
 import Typography from "@material-ui/core/Typography";
 
-const Timer = () => {
+export const Timer: React.FC = () => {
   const [displayTime, setDisplayTime] = useState(25 * 60); // in seconds
   const [timerOn, setTimerOn] = useState(false);
   const [sound, setSound] = useState(false);
   useEffect(() => {
-    if (timerOn) {
-      const timer =
-        displayTime > 0 &&
-        setInterval(() => setDisplayTime(displayTime - 1), 1000);
-      if (displayTime === 0) {
-        setSound(true);
-      }
+    if (displayTime === 0) setSound(true);
+    if (timerOn && displayTime > 0) {
+      const timer = setInterval(() => setDisplayTime(displayTime - 1), 1000);
       return () => {
         clearInterval(timer);
       };
     }
   }, [displayTime, timerOn]);
 
-  let mins = Math.floor(displayTime / 60);
-  let seconds = displayTime % 60;
-  if (mins < 10) {
-    mins = "0" + mins;
-  }
-  if (seconds < 10) {
-    seconds = "0" + seconds;
-  }
+  const mins = Math.floor(displayTime / 60);
+  const seconds = displayTime % 60;
+  const minsString = mins < 10 ? "0" + mins.toString() : mins.toString();
+  const secondsString =
+    seconds < 10 ? "0" + seconds.toString() : seconds.toString();
 
   return (
     <div>
@@ -47,8 +41,8 @@ const Timer = () => {
       >
         Productivity Timer
       </Typography>
-      <LiveTimer mins={mins} seconds={seconds} />
-      {sound ? <ReactHowler src={alarmSound} playing={sound} /> : null}
+      <LiveTimer mins={minsString} seconds={secondsString} />
+      {sound && <ReactHowler src={alarmSound} playing={sound} />}
       <TimerButtons
         setDisplayTime={setDisplayTime}
         setTimerOn={setTimerOn}
@@ -57,5 +51,3 @@ const Timer = () => {
     </div>
   );
 };
-
-export default Timer;
