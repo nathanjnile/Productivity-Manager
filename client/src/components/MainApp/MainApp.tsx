@@ -1,27 +1,35 @@
 import React, { useState, useEffect } from "react";
 import classes from "./MainApp.module.css";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
 
 import Todolist from "../Todolist/Todolist";
 import Timer from "../Timer/Timer";
 import { LongTermGoals } from "../LongTermGoals/LongTermGoals";
 import Typography from "@material-ui/core/Typography";
 import * as actions from "../../store/actions/index";
+import { RootState } from "../..";
 
-const MainApp = (props) => {
-  const { isAuthenticated, error, onClearErrors } = props;
-  const [msg, setMsg] = useState(null);
+export const MainApp: React.FC = () => {
+  const [msg, setMsg] = useState("");
+  const dispatch = useDispatch();
+
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.auth.isAuthenticated
+  );
+
+  const error = useSelector((state: RootState) => state.error);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      dispatch(actions.clearErrors());
+    }
+  }, [isAuthenticated, dispatch]);
 
   useEffect(() => {
     if (error.id === "AUTH_ERROR") {
       setMsg(error.msg.msg);
     }
-
-    if (isAuthenticated) {
-      onClearErrors();
-    }
-  }, [msg, isAuthenticated, onClearErrors, error.id, error.msg.msg]);
+  }, [error]);
 
   return (
     <div className={classes.mainStyles}>
@@ -49,24 +57,3 @@ const MainApp = (props) => {
     </div>
   );
 };
-
-MainApp.propTypes = {
-  isAuthenticated: PropTypes.bool,
-  error: PropTypes.object.isRequired,
-  onClearErrors: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => {
-  return {
-    isAuthenticated: state.auth.isAuthenticated,
-    error: state.error,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onClearErrors: () => dispatch(actions.clearErrors()),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(MainApp);
