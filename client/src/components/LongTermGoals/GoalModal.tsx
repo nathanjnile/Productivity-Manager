@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
 
 import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
@@ -17,29 +16,28 @@ import {
 } from "@material-ui/pickers";
 
 import * as actions from "../../store/actions/index";
+import { RootState } from "../..";
+import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 
-const GoalModal = (props) => {
-  const { onGoalAdded, goals } = props;
+export const GoalModal: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [goalInput, setGoalInput] = useState("");
-  const [dateInput, setDateInput] = useState(Date.now());
+  const [dateInput, setDateInput] = useState<Date>(new Date());
 
-  const handleOpen = () => {
-    setOpen(true);
+  const dispatch = useDispatch();
+  const goals = useSelector((state: RootState) => state.goals.goals);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const handleDateChange = (date: MaterialUiPickersDate) => {
+    if (date) setDateInput(date);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleDateChange = (date) => {
-    setDateInput(date);
-  };
-
-  const submitForm = (event) => {
+  const submitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (goalInput !== "" && dateInput !== "") {
-      onGoalAdded(goalInput, dateInput, goals);
+    if (goalInput !== "") {
+      dispatch(actions.addGoal(goalInput, dateInput.toDateString(), goals));
     }
     handleClose();
     setGoalInput("");
@@ -55,7 +53,11 @@ const GoalModal = (props) => {
       >
         Enter goal information:
       </Typography>
-      <form onSubmit={(event) => submitForm(event)}>
+      <form
+        onSubmit={(event: React.FormEvent<HTMLFormElement>) =>
+          submitForm(event)
+        }
+      >
         <TextField
           id="Goal-field"
           label="Goal"
@@ -138,23 +140,3 @@ const GoalModal = (props) => {
     </div>
   );
 };
-
-GoalModal.propTypes = {
-  goals: PropTypes.array.isRequired,
-  onGoalAdded: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => {
-  return {
-    goals: state.goals.goals,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onGoalAdded: (goal, date, goals) =>
-      dispatch(actions.addGoal(goal, date, goals)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(GoalModal);

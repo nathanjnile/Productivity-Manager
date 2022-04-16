@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import classes from "./LongTermGoals.module.css";
 import Card from "@material-ui/core/Card";
 import * as actions from "../../store/actions/index";
-import GoalModal from "./GoalModal";
+import { GoalModal } from "./GoalModal";
 import { EditDeleteGoalModal } from "./EditDeleteGoalModal";
 
 import Typography from "@material-ui/core/Typography";
