@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import { useDispatch, useSelector } from "react-redux";
 import { LoginModal } from "./auth/LoginModal";
 import { Logout } from "./auth/Logout";
-import RegisterModal from "./auth/RegisterModal";
+import { RegisterModal } from "./auth/RegisterModal";
 
 import * as actions from "../../store/actions/index";
 import { RootState } from "../..";
