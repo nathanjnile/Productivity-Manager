@@ -5,7 +5,7 @@ import Button from "@material-ui/core/Button";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { useDispatch, useSelector } from "react-redux";
-import LoginModal from "./auth/LoginModal";
+import { LoginModal } from "./auth/LoginModal";
 import Logout from "./auth/Logout";
 import RegisterModal from "./auth/RegisterModal";
 
