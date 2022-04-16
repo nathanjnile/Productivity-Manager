@@ -22,7 +22,7 @@ import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 
 interface EditDeleteGoalModalProps {
   cardId: string;
-  cardIndex: string;
+  cardIndex: number;
 }
 
 export const EditDeleteGoalModal: React.FC<EditDeleteGoalModalProps> = ({
