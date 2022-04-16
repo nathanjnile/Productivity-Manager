@@ -12,7 +12,7 @@ import classes from "../../CssModules/Modal.module.css";
 import * as actions from "../../../store/actions/index";
 import { RootState } from "../../..";
 
-export const LoginModal = () => {
+export const LoginModal: React.FunctionComponent = () => {
   const [open, setOpen] = useState(false);
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
@@ -26,23 +26,20 @@ export const LoginModal = () => {
   const error = useSelector((state: RootState) => state.error);
 
   useEffect(() => {
+    if (open && isAuthenticated) {
+      setOpen(false);
+      clearFields();
+    }
+  }, [setOpen, open, isAuthenticated]);
+
+  useEffect(() => {
     if (error.id === "LOGIN_FAIL") {
       setMsg(error.msg.msg);
-      setEmailInput("");
-      setPasswordInput("");
+      clearFields();
     }
+  }, [error, msg]);
 
-    if (open) {
-      if (isAuthenticated) {
-        setOpen(false);
-        clearFields();
-      }
-    }
-  }, [error, msg, setOpen, open, isAuthenticated]);
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
+  const handleOpen = () => setOpen(true);
 
   const handleClose = () => {
     setOpen(false);
