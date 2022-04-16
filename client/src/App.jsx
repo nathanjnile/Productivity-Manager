@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Appnavbar } from "./components/AppNavbar/Appnavbar";
-import MainApp from "./components/MainApp/MainApp";
+import { MainApp } from "./components/MainApp/MainApp";
 import * as actions from "./store/actions/index";
 import { connect } from "react-redux";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
