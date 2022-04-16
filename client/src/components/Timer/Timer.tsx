@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { LiveTimer } from "./LiveTimer";
-import TimerButtons from "./TimerButtons";
+import { TimerButtons } from "./TimerButtons";
 import ReactHowler from "react-howler";
 // @ts-ignore
 import alarmSound from "./sounds/soundbible_alarm.mp3";
