@@ -56,6 +56,7 @@
   "proxy": "http://localhost:5000",
   "devDependencies": {
     "@types/react-beautiful-dnd": "^13.1.2",
+    "@types/react-howler": "^5.2.0",
     "@types/react-redux": "^7.1.24"
   }
 }
