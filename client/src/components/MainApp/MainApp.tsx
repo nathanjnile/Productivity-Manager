@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import classes from "./MainApp.module.css";
 import { useDispatch, useSelector } from "react-redux";
 
-import Todolist from "../Todolist/Todolist";
+import { Todolist } from "../Todolist/Todolist";
 import { Timer } from "../Timer/Timer";
 import { LongTermGoals } from "../LongTermGoals/LongTermGoals";
 import Typography from "@material-ui/core/Typography";
