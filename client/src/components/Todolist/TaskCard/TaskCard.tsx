@@ -1,9 +1,8 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
-import EditDeleteModal from "../Modals/EditDeleteModal";
+import { EditDeleteModal } from "../Modals/EditDeleteModal";
 import classes from "./TaskCard.module.css";
 import { DraggableProvided, DraggableStateSnapshot } from "react-beautiful-dnd";
 

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
 
 import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
@@ -12,26 +11,35 @@ import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 
 import * as actions from "../../../store/actions/index";
+import { RootState } from "../../..";
 
-const EditDeleteModal = (props) => {
-  const { columnId, itemId, itemIndex, columns, onEditTask, onDeleteTask } =
-    props;
+interface EditDeleteModalProps {
+  columnId: string;
+  itemId: string;
+  itemIndex: number;
+}
+
+export const EditDeleteModal: React.FC<EditDeleteModalProps> = ({
+  columnId,
+  itemId,
+  itemIndex,
+}) => {
   const [open, setOpen] = useState(false);
   const [taskInput, setTaskInput] = useState("");
+  const dispatch = useDispatch();
+  const columns = useSelector((state: RootState) => state.tasks.columns);
 
   const handleOpen = () => {
     setOpen(true);
     setTaskInput(columns[columnId].tasks[itemIndex].content);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const handleClose = () => setOpen(false);
 
-  const submitForm = (event) => {
+  const submitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (taskInput !== "") {
-      onEditTask(taskInput, columnId, itemId, itemIndex);
+      dispatch(actions.editTask(taskInput, columnId, itemId, itemIndex));
     }
     handleClose();
     setTaskInput("");
@@ -67,7 +75,9 @@ const EditDeleteModal = (props) => {
             Edit Task
           </Button>
           <Button
-            onClick={() => onDeleteTask(columnId, itemIndex, columns, itemId)}
+            onClick={() =>
+              dispatch(actions.deleteTask(columnId, itemIndex, columns, itemId))
+            }
             style={{
               backgroundColor: "red",
               color: "#FFFFFF",
@@ -109,29 +119,3 @@ const EditDeleteModal = (props) => {
     </div>
   );
 };
-
-EditDeleteModal.propTypes = {
-  columnId: PropTypes.string.isRequired,
-  itemId: PropTypes.string.isRequired,
-  columns: PropTypes.object.isRequired,
-  onEditTask: PropTypes.func.isRequired,
-  onDeleteTask: PropTypes.func.isRequired,
-  itemIndex: PropTypes.number.isRequired,
-};
-
-const mapStateToProps = (state) => {
-  return {
-    columns: state.tasks.columns,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onEditTask: (newTaskName, columnId, itemId, itemIndex) =>
-      dispatch(actions.editTask(newTaskName, columnId, itemId, itemIndex)),
-    onDeleteTask: (columnId, itemIndex, columns, itemId) =>
-      dispatch(actions.deleteTask(columnId, itemIndex, columns, itemId)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(EditDeleteModal);

@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+} from "react-beautiful-dnd";
+import { useDispatch, useSelector } from "react-redux";
 
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
@@ -13,28 +17,28 @@ import { ListColumn } from "./ListColumn/ListColumn";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 
 import * as actions from "../../store/actions/index";
+import { RootState } from "../..";
+import { Column } from "../../store/types";
 
-const Todolist = (props) => {
-  const {
-    columns,
-    onGetTasks,
-    onAddList,
-    onColumnMoved,
-    onTaskMovedColumn,
-    onTaskMoved,
-  } = props;
+export const Todolist: React.FC = () => {
   const [enterAddList, setEnterAddList] = useState(true);
   const [listFieldInput, setListFieldInput] = useState("");
+  const dispatch = useDispatch();
+  const columns: Column[] = useSelector(
+    (state: RootState) => state.tasks.columns
+  );
 
-  useEffect(() => {
-    onGetTasks();
-  }, [onGetTasks]);
+  useEffect(() => dispatch(actions.getTasks()), [dispatch]);
 
-  const submitForm = (event) => {
+  const submitForm = (
+    event:
+      | React.MouseEvent<SVGSVGElement, MouseEvent>
+      | React.FormEvent<HTMLFormElement>
+  ) => {
     event.preventDefault();
     if (listFieldInput !== "") {
       const columnsLength = Object.entries({ ...columns }).length;
-      onAddList(listFieldInput, columnsLength);
+      dispatch(actions.addList(listFieldInput, columnsLength));
     }
     clearAddList();
   };
@@ -74,19 +78,19 @@ const Todolist = (props) => {
     </ClickAwayListener>
   );
 
-  const onDragEnd = (result) => {
+  const onDragEnd = (result: DropResult) => {
     if (!result.destination) return;
     const { source, destination, type } = result;
     if (type === "column") {
       if (source.index !== destination.index) {
-        onColumnMoved(source, destination, columns);
+        dispatch(actions.columnMoved(source, destination, columns));
       } else return;
     } else {
       if (source.droppableId !== destination.droppableId) {
-        onTaskMovedColumn(source, destination, columns);
+        dispatch(actions.taskMovedColumn(source, destination, columns));
       } else {
         if (source.index !== destination.index) {
-          onTaskMoved(source, destination, columns);
+          dispatch(actions.taskMoved(source, destination, columns));
         } else return;
       }
     }
@@ -161,34 +165,3 @@ const Todolist = (props) => {
     </React.Fragment>
   );
 };
-
-Todolist.propTypes = {
-  columns: PropTypes.object.isRequired,
-  onGetTasks: PropTypes.func.isRequired,
-  onAddList: PropTypes.func.isRequired,
-  onColumnMoved: PropTypes.func.isRequired,
-  onTaskMoved: PropTypes.func.isRequired,
-  onTaskMovedColumn: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => {
-  return {
-    columns: state.tasks.columns,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onGetTasks: () => dispatch(actions.getTasks()),
-    onTaskMoved: (source, destination, columns) =>
-      dispatch(actions.taskMoved(source, destination, columns)),
-    onTaskMovedColumn: (source, destination, columns) =>
-      dispatch(actions.taskMovedColumn(source, destination, columns)),
-    onColumnMoved: (source, destination, columns) =>
-      dispatch(actions.columnMoved(source, destination, columns)),
-    onAddList: (newList, columnsLength) =>
-      dispatch(actions.addList(newList, columnsLength)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Todolist);

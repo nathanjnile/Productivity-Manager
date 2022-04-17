@@ -4,8 +4,8 @@ import { Droppable, Draggable, DraggableProvided } from "react-beautiful-dnd";
 import Typography from "@material-ui/core/Typography";
 import classes from "./ListColumn.module.css";
 import { TaskCard } from "../TaskCard/TaskCard";
-import ItemModal from "../Modals/ItemModal";
-import EditDeleteListModal from "../Modals/EditDeleteListModal";
+import { ItemModal } from "../Modals/ItemModal";
+import { EditDeleteListModal } from "../Modals/EditDeleteListModal";
 import { Column, Task } from "../../../store/types";
 
 interface ListColumnProps {
