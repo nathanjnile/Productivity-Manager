@@ -1,3 +1,5 @@
+import { AxiosRequestHeaders } from "axios";
+
 export interface Goal {
   _id: string;
   content: string;
@@ -17,4 +19,22 @@ export interface Column {
   name: string;
   owner: string;
   tasks: Task[];
+}
+
+export interface INewUser extends IUser {
+  name: string;
+}
+
+export interface IUser {
+  email: string;
+  password: string;
+}
+
+export interface IConfig {
+  headers: AxiosRequestHeaders;
+}
+
+interface IHeaders {
+  "Content-type": string;
+  Authorization?: string;
 }
