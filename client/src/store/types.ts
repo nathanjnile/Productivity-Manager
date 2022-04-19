@@ -10,6 +10,8 @@ export interface Goal {
   _id: string;
   content: string;
   date: string;
+  order: number;
+  owner: string;
 }
 
 export interface Task {
@@ -21,6 +23,7 @@ export interface Task {
 }
 
 export interface Column {
+  _id: string;
   columnOrder: number;
   name: string;
   owner: string;
@@ -36,11 +39,33 @@ export interface IUser {
   password: string;
 }
 
+export interface IUserDetails extends IUser {
+  _id: string;
+}
+
 export interface IConfig {
   headers: AxiosRequestHeaders;
 }
 
-interface IHeaders {
-  "Content-type": string;
-  Authorization?: string;
+export interface AuthState {
+  token: string | null;
+  isAuthenticated: boolean | null;
+  isLoading: boolean;
+  user: IUserDetails | null;
+}
+
+export interface ErrorState {
+  msg: { msg: string };
+  status: string | null;
+  id: string | null;
+}
+
+export interface GoalsState {
+  goals: Goal[];
+  isLoading: boolean;
+}
+
+export interface TasksState {
+  columns: { [key: string]: Column };
+  isLoading: boolean;
 }

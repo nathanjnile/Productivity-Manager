@@ -14,7 +14,7 @@ export const addGoal: AppThunk = (goal, date, goals) => {
           content: goal,
           date,
           order: goals.length,
-          owner: getState().auth.user._id,
+          owner: getState().auth?.user?._id,
         },
         tokenConfig(getState)
       )

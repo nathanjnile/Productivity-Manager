@@ -144,7 +144,7 @@ export const addList: AppThunk = (newList, columnsLength) => {
         {
           name: newList,
           columnOrder: columnsLength,
-          owner: getState().auth.user._id,
+          owner: getState().auth?.user?._id,
         },
         tokenConfig(getState)
       )
