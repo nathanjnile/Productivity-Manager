@@ -1,6 +1,9 @@
 import * as actionTypes from "./actionTypes";
 import axios from "axios";
-import changeOrder from "../../shared/reorder";
+import {
+  changeOrderOfColumns,
+  changeOrderOwnColumn,
+} from "../../shared/reorder";
 import { tokenConfig } from "./auth";
 import { AppThunk } from "../types";
 
@@ -34,7 +37,7 @@ export const taskMoved: AppThunk = (source, destination, columns) => {
   const [removed] = copiedTasks.splice(source.index, 1);
   copiedTasks.splice(destination.index, 0, removed);
   //Updating order property of all the tasks in the specific column
-  changeOrder([...copiedTasks], "tasks");
+  changeOrderOwnColumn([...copiedTasks]);
   return (dispatch, getState) => {
     dispatch({
       type: actionTypes.TASK_MOVED,
@@ -68,8 +71,8 @@ export const taskMovedColumn: AppThunk = (source, destination, columns) => {
   destTasks.splice(destination.index, 0, removed);
   destTasks[destination.index].column = destination.droppableId;
   // Reorder all source and dest tasks
-  changeOrder([...sourceTasks], "tasks");
-  changeOrder([...destTasks], "tasks");
+  changeOrderOwnColumn([...sourceTasks]);
+  changeOrderOwnColumn([...destTasks]);
   return (dispatch, getState) => {
     dispatch({
       type: actionTypes.TASK_MOVED_COLUMN,
@@ -103,7 +106,7 @@ export const columnMoved: AppThunk = (source, destination, columns) => {
   const newColumns = Object.entries({ ...columns });
   const [removed] = newColumns.splice(source.index, 1);
   newColumns.splice(destination.index, 0, removed);
-  const copiedColumns = changeOrder({ columns: newColumns }, "moveColumn");
+  const copiedColumns = changeOrderOfColumns({ columns: newColumns });
   const convColumns = Object.fromEntries(copiedColumns);
   return (dispatch, getState) => {
     dispatch({
@@ -187,7 +190,7 @@ export const editList: AppThunk = (newListName, columnId) => {
 export const deleteList: AppThunk = (columnId, columnIndex, columns) => {
   const newColumns = Object.entries({ ...columns });
   newColumns.splice(columnIndex, 1);
-  const copiedColumns = changeOrder({ columns: newColumns }, "moveColumn");
+  const copiedColumns = changeOrderOfColumns({ columns: newColumns });
   const convColumns = Object.fromEntries([...copiedColumns]);
   return (dispatch, getState) => {
     dispatch({ type: actionTypes.TASK_LOADING });
@@ -243,7 +246,7 @@ export const deleteTask: AppThunk = (columnId, itemIndex, columns, itemId) => {
   const sourceColumn = columns[columnId];
   const sourceTasks = [...sourceColumn.tasks];
   sourceTasks.splice(itemIndex, 1);
-  changeOrder(sourceTasks, "tasks");
+  changeOrderOwnColumn(sourceTasks);
   return (dispatch, getState) => {
     dispatch({ type: actionTypes.TASK_LOADING });
     axios

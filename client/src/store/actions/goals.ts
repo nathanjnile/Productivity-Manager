@@ -1,6 +1,6 @@
 import * as actionTypes from "./actionTypes";
 import axios from "axios";
-import changeOrder from "../../shared/reorder";
+import { changeOrderGoals } from "../../shared/reorder";
 import { tokenConfig } from "./auth";
 import { AppThunk } from "../types";
 
@@ -34,7 +34,7 @@ export const goalMoved: AppThunk = (source, destination, goals) => {
   const copiedItems = [...goals];
   const [removed] = copiedItems.splice(source.index, 1);
   copiedItems.splice(destination.index, 0, removed);
-  const copiedItems2 = changeOrder([...copiedItems], "goal");
+  const copiedItems2 = changeOrderGoals([...copiedItems]);
   return (dispatch, getState) => {
     dispatch({
       type: actionTypes.GOAL_MOVED,
@@ -100,7 +100,7 @@ export const editGoal: AppThunk = (
 export const deleteGoal: AppThunk = (cardId, cardIndex, goals) => {
   const copiedGoals = [...goals];
   copiedGoals.splice(cardIndex, 1);
-  const copiedGoals2 = changeOrder([...copiedGoals], "goal");
+  const copiedGoals2 = changeOrderGoals([...copiedGoals]);
 
   return (dispatch, getState) => {
     dispatch({ type: actionTypes.GOAL_LOADING });
