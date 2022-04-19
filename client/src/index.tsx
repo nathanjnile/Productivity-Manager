@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { App } from "./App";
-import { Provider } from "react-redux";
+import { Provider, useDispatch } from "react-redux";
 import { createStore, applyMiddleware, compose, combineReducers } from "redux";
 import thunk from "redux-thunk";
 
@@ -33,6 +33,9 @@ const store = createStore(
   rootReducer,
   composeEnhancers(applyMiddleware(thunk))
 );
+
+export type AppDispatch = typeof store.dispatch;
+export const useAppDispatch = () => useDispatch();
 
 ReactDOM.render(
   <Provider store={store}>

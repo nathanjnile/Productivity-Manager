@@ -16,7 +16,7 @@ export const LoginModal: React.FunctionComponent = () => {
   const [open, setOpen] = useState(false);
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
-  const [msg, setMsg] = useState(null);
+  const [msg, setMsg] = useState("");
   const dispatch = useDispatch();
 
   const isAuthenticated = useSelector(
@@ -45,7 +45,7 @@ export const LoginModal: React.FunctionComponent = () => {
     setOpen(false);
     dispatch(actions.clearErrors());
     clearFields();
-    setMsg(null);
+    setMsg("");
   };
 
   const clearFields = () => {

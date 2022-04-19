@@ -16,9 +16,11 @@ import { EditDeleteGoalModal } from "./EditDeleteGoalModal";
 import Typography from "@material-ui/core/Typography";
 import { RootState } from "../..";
 import { Goal } from "../../store/types";
+import { AnyAction } from "redux";
+import { ThunkDispatch } from "redux-thunk";
 
 export const LongTermGoals: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch: ThunkDispatch<RootState, null, AnyAction> = useDispatch();
   const goals = useSelector((state: RootState) => state.goals.goals);
 
   const onDragEnd = (result: DropResult) => {

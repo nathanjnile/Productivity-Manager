@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Appnavbar } from "./components/AppNavbar/Appnavbar";
 import { MainApp } from "./components/MainApp/MainApp";
 import * as actions from "./store/actions/index";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from ".";
+import { useSelector } from "react-redux";
+import { RootState, useAppDispatch } from ".";
+import { AnyAction } from "redux";
+import { ThunkDispatch } from "redux-thunk";
 
 export const App = () => {
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch: ThunkDispatch<RootState, null, AnyAction> = useAppDispatch();
   const authLoading = useSelector((state: RootState) => state.auth.isLoading);
   const goalLoading = useSelector((state: RootState) => state.goals.isLoading);
   const tasksLoading = useSelector((state: RootState) => state.tasks.isLoading);
