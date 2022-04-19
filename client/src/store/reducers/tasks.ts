@@ -16,7 +16,6 @@ const taskLoading = (state: TasksState) => {
 
 const addTask = (state: TasksState, action: AnyAction) => {
   const { content, order, column, _id, owner } = action.payload;
-  console.log(action.payload);
   const { columns } = state;
   // Take shallow clone of specific tasks array and push on to it
   const copiedTasks = [...columns[column].tasks];

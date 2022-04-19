@@ -1,11 +1,14 @@
 import { AxiosRequestHeaders } from "axios";
-import { Action, ActionCreator } from "redux";
-import { ThunkAction } from "redux-thunk";
+import { Action, ActionCreator, AnyAction } from "redux";
+import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { RootState } from "..";
 
 export type AppThunk = ActionCreator<
   ThunkAction<void, RootState, null, Action<string>>
 >;
+
+export type AppThunkDispatch = ThunkDispatch<{}, void, AnyAction>;
+
 export interface Goal {
   _id: string;
   content: string;

@@ -19,11 +19,13 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import * as actions from "../../store/actions/index";
 import { RootState } from "../..";
 import { Column } from "../../store/types";
+import { ThunkDispatch } from "redux-thunk";
+import { AnyAction } from "redux";
 
 export const Todolist: React.FC = () => {
   const [enterAddList, setEnterAddList] = useState(true);
   const [listFieldInput, setListFieldInput] = useState("");
-  const dispatch = useDispatch();
+  const dispatch: ThunkDispatch<RootState, null, AnyAction> = useDispatch();
   const columns: Column[] = useSelector(
     (state: RootState) => state.tasks.columns
   );
