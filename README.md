@@ -6,7 +6,7 @@
 *   The Productivity App has user authentication through the register and login buttons in the nav bar. It also features a guest button for quick access and testing of the app.
 *   The data is stored in a MongoDB database and when the user logs in, the data is fetched through an API call which will then populate the redux store.
 
-<a href="https://productivity-manager-fe.onrender.com/">View the App on Render (may take 15 seconds for instance to start)</a>
+<a href="https://productivity-manager-fe.onrender.com/">View the App on Render (may take 15 seconds for backend instance to start)</a>
 
 <a href="https://productivity-manager-fe.onrender.com/">
   <img src="/Screenshots/example.JPG" alt="Logo">
